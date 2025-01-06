@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../app/controllers/AuthController.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,13 +8,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $auth = new AuthController();
 
-// If user is already logged in, redirect appropriately
-if($auth->isLoggedIn()) {
-    if($auth->isAdmin()) {
-        header('Location: ' . BASE_URL . 'public/admin/');
-    } else {
-        header('Location: ' . BASE_URL);
-    }
+// If user is already logged in and is admin, redirect to admin panel
+if($auth->isLoggedIn() && $auth->isAdmin()) {
+    header('Location: ' . BASE_URL . 'public/admin/');
     exit();
 }
 
@@ -30,16 +26,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($result['success']) {
         if($auth->isAdmin()) {
             header('Location: ' . BASE_URL . 'public/admin/');
+            exit();
         } else {
-            header('Location: ' . BASE_URL);
+            $error = 'Access denied. Admin privileges required.';
+            $auth->logout(); // Logout non-admin users
         }
-        exit();
     } else {
         $error = $result['message'];
     }
 }
 
-$pageTitle = 'Login';
+$pageTitle = 'Admin Login';
 ?>
 
 <!DOCTYPE html>
@@ -49,8 +46,9 @@ $pageTitle = 'Login';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle . ' - ' . SITE_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/admin.css">
     <style>
-        .auth-form {
+        .admin-login-form {
             max-width: 400px;
             margin: 8rem auto 4rem;
             padding: 2rem;
@@ -58,29 +56,31 @@ $pageTitle = 'Login';
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .admin-login-link {
+        .admin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .admin-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .admin-header p {
+            color: #666;
+        }
+        .back-to-site {
             text-align: center;
             margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
-        }
-        .admin-login-link a {
-            color: #6c757d;
-            text-decoration: none;
-        }
-        .admin-login-link a:hover {
-            color: #343a40;
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../app/views/includes/header.php'; ?>
-
-    <main class="auth-page">
+    <main>
         <div class="container">
-            <div class="auth-form">
-                <h1 class="page-title"><?php echo $pageTitle; ?></h1>
+            <div class="admin-login-form">
+                <div class="admin-header">
+                    <h1><?php echo $pageTitle; ?></h1>
+                    <p>Please enter your credentials to access the admin panel</p>
+                </div>
 
                 <?php if($error): ?>
                     <div class="alert alert-danger">
@@ -100,23 +100,15 @@ $pageTitle = 'Login';
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        <button type="submit" class="btn btn-primary btn-block">Login to Admin Panel</button>
                     </div>
 
-                    <p class="text-center">
-                        Don't have an account? <a href="register.php">Register here</a>
-                    </p>
-
-                    <div class="admin-login-link">
-                        <a href="<?php echo BASE_URL; ?>public/admin/login.php">
-                            <i class="fas fa-lock"></i> Admin Login
-                        </a>
+                    <div class="back-to-site">
+                        <a href="<?php echo BASE_URL; ?>" class="text-muted">← Back to Website</a>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-
-    <?php include __DIR__ . '/../app/views/includes/footer.php'; ?>
 </body>
 </html>

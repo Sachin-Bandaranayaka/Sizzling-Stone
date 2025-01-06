@@ -101,7 +101,12 @@ class MenuItem {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         
-        return $stmt;
+        $categories = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categories[] = $row['category'];
+        }
+        
+        return $categories;
     }
 
     public function getByCategory($category) {

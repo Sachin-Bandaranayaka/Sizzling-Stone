@@ -48,18 +48,16 @@ class Review {
         $query = "UPDATE " . $this->table_name . "
                 SET rating = :rating,
                     comment = :comment
-                WHERE id = :review_id
-                AND user_id = :user_id";
+                WHERE review_id = :review_id";
 
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input
         $comment = htmlspecialchars(strip_tags($comment));
 
+        $stmt->bindParam(":review_id", $reviewId);
         $stmt->bindParam(":rating", $rating);
         $stmt->bindParam(":comment", $comment);
-        $stmt->bindParam(":review_id", $reviewId);
-        $stmt->bindParam(":user_id", $this->user_id);
 
         if($stmt->execute()) {
             return true;
@@ -68,9 +66,8 @@ class Review {
     }
 
     public function delete($reviewId, $userId) {
-        $query = "DELETE FROM " . $this->table_name . "
-                WHERE id = :review_id
-                AND user_id = :user_id";
+        $query = "DELETE FROM " . $this->table_name . " 
+                WHERE review_id = :review_id AND user_id = :user_id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -84,7 +81,7 @@ class Review {
     }
 
     public function getByUserId($userId) {
-        $query = "SELECT * FROM " . $this->table_name . "
+        $query = "SELECT * FROM " . $this->table_name . " 
                 WHERE user_id = :user_id
                 ORDER BY created_at DESC";
 
@@ -95,19 +92,41 @@ class Review {
         return $stmt;
     }
 
-    public function getAverageRating() {
-        $query = "SELECT AVG(rating) as average_rating, 
-                        COUNT(*) as total_reviews
-                 FROM " . $this->table_name;
-
+    public function getReviewStatistics() {
+        $stats = [
+            'total_reviews' => 0,
+            'average_rating' => '0.0',
+            'five_star_percentage' => '0'
+        ];
+        
+        // Get total reviews
+        $query = "SELECT COUNT(*) as total_reviews FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        return [
-            'average_rating' => $result['average_rating'] ? round($result['average_rating'], 1) : 0,
-            'total_reviews' => (int)$result['total_reviews']
-        ];
+        $total_reviews = (int)$result['total_reviews'];
+        $stats['total_reviews'] = $total_reviews;
+
+        if ($total_reviews > 0) {
+            // Get average rating
+            $query = "SELECT AVG(rating) as average_rating FROM " . $this->table_name;
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $average_rating = $result['average_rating'];
+            $stats['average_rating'] = $average_rating ? number_format((float)$average_rating, 1) : '0.0';
+
+            // Get percentage of 5-star reviews
+            $query = "SELECT 
+                        (COUNT(CASE WHEN rating = 5 THEN 1 END) * 100.0 / COUNT(*)) as five_star_percentage 
+                     FROM " . $this->table_name;
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $five_star_percentage = $result['five_star_percentage'];
+            $stats['five_star_percentage'] = $five_star_percentage ? number_format((float)$five_star_percentage, 0) : '0';
+        }
+
+        return $stats;
     }
 }

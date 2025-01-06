@@ -17,7 +17,7 @@ class ReviewController {
     }
 
     public function getReviewStatistics() {
-        return $this->review->getAverageRating();
+        return $this->review->getReviewStatistics();
     }
 
     public function createReview($userId, $rating, $comment) {

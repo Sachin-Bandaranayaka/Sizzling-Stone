@@ -1,15 +1,13 @@
 <?php
-require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/MenuItem.php';
 
 class MenuController {
-    private $db;
     private $menuItem;
 
     public function __construct() {
         $database = new Database();
-        $this->db = $database->getConnection();
-        $this->menuItem = new MenuItem($this->db);
+        $db = $database->getConnection();
+        $this->menuItem = new MenuItem($db);
     }
 
     public function getAllItems() {
@@ -25,74 +23,99 @@ class MenuController {
     }
 
     public function getFeaturedItems() {
-        // Temporary method until we have the featured items set up
-        return false;
+        // Get a selection of items from different categories
+        $items = [];
+        $categories = $this->getAllCategories();
+        
+        // Get one item from each category, up to 6 items
+        foreach ($categories as $category) {
+            $categoryItems = $this->getItemsByCategory($category);
+            if ($categoryItems && $row = $categoryItems->fetch(PDO::FETCH_ASSOC)) {
+                $items[] = $row;
+            }
+            if (count($items) >= 6) {
+                break;
+            }
+        }
+        
+        return $items;
     }
 
-    public function addItem($data) {
-        if(empty($data['name']) || empty($data['price']) || empty($data['category'])) {
-            return ['success' => false, 'message' => 'Required fields are missing'];
-        }
+    public function getItemById($id) {
+        return $this->menuItem->getById($id);
+    }
 
-        $this->menuItem->name = $data['name'];
-        $this->menuItem->description = $data['description'] ?? '';
-        $this->menuItem->price = $data['price'];
-        $this->menuItem->category = $data['category'];
-        $this->menuItem->available = $data['available'] ?? true;
-        $this->menuItem->image_path = $data['image_path'] ?? '';
+    public function createItem($data) {
+        try {
+            // Validate required fields
+            if (empty($data['name']) || empty($data['description']) || !isset($data['price'])) {
+                return ['success' => false, 'message' => 'Required fields are missing'];
+            }
 
-        if($this->menuItem->create()) {
-            return ['success' => true, 'message' => 'Item added successfully'];
+            // Handle new category
+            if (isset($_POST['new_category']) && !empty($_POST['new_category'])) {
+                $data['category'] = $_POST['new_category'];
+            }
+
+            // Set the data
+            $this->menuItem->name = $data['name'];
+            $this->menuItem->description = $data['description'];
+            $this->menuItem->price = $data['price'];
+            $this->menuItem->category = $data['category'];
+            $this->menuItem->available = $data['available'];
+            $this->menuItem->image_path = $data['image_path'];
+
+            if ($this->menuItem->create()) {
+                return ['success' => true, 'message' => 'Menu item created successfully'];
+            }
+            return ['success' => false, 'message' => 'Failed to create menu item'];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()];
         }
-        return ['success' => false, 'message' => 'Failed to add item'];
     }
 
     public function updateItem($id, $data) {
-        $item = $this->menuItem->getById($id);
-        if(!$item) {
-            return ['success' => false, 'message' => 'Item not found'];
-        }
+        try {
+            $this->menuItem->item_id = $id;
+            
+            // Get existing item
+            $existingItem = $this->menuItem->getById($id);
+            if (!$existingItem) {
+                return ['success' => false, 'message' => 'Menu item not found'];
+            }
 
-        $this->menuItem->item_id = $id;
-        $this->menuItem->name = $data['name'] ?? $item['name'];
-        $this->menuItem->description = $data['description'] ?? $item['description'];
-        $this->menuItem->price = $data['price'] ?? $item['price'];
-        $this->menuItem->category = $data['category'] ?? $item['category'];
-        $this->menuItem->available = $data['available'] ?? $item['available'];
-        $this->menuItem->image_path = $data['image_path'] ?? $item['image_path'];
+            // Update fields
+            $this->menuItem->name = $data['name'] ?? $existingItem['name'];
+            $this->menuItem->description = $data['description'] ?? $existingItem['description'];
+            $this->menuItem->price = $data['price'] ?? $existingItem['price'];
+            $this->menuItem->category = $data['category'] ?? $existingItem['category'];
+            $this->menuItem->available = isset($data['available']) ? $data['available'] : $existingItem['available'];
+            $this->menuItem->image_path = !empty($data['image_path']) ? $data['image_path'] : $existingItem['image_path'];
 
-        if($this->menuItem->update()) {
-            return ['success' => true, 'message' => 'Item updated successfully'];
+            if ($this->menuItem->update()) {
+                return ['success' => true, 'message' => 'Menu item updated successfully'];
+            }
+            return ['success' => false, 'message' => 'Failed to update menu item'];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()];
         }
-        return ['success' => false, 'message' => 'Failed to update item'];
     }
 
     public function deleteItem($id) {
-        $this->menuItem->item_id = $id;
-        if($this->menuItem->delete()) {
-            return ['success' => true, 'message' => 'Item deleted successfully'];
-        }
-        return ['success' => false, 'message' => 'Failed to delete item'];
-    }
+        try {
+            $this->menuItem->item_id = $id;
+            
+            // Check if item exists
+            if (!$this->menuItem->getById($id)) {
+                return ['success' => false, 'message' => 'Menu item not found'];
+            }
 
-    public function validateItemData($data) {
-        $errors = [];
-        
-        if(empty($data['name'])) {
-            $errors[] = 'Name is required';
+            if ($this->menuItem->delete()) {
+                return ['success' => true, 'message' => 'Menu item deleted successfully'];
+            }
+            return ['success' => false, 'message' => 'Failed to delete menu item'];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()];
         }
-        
-        if(empty($data['price'])) {
-            $errors[] = 'Price is required';
-        } elseif(!is_numeric($data['price']) || $data['price'] <= 0) {
-            $errors[] = 'Price must be a positive number';
-        }
-        
-        if(empty($data['category'])) {
-            $errors[] = 'Category is required';
-        }
-        
-        return $errors;
     }
 }
-?>
