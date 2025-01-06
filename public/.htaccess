@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /uniProject/sizzling-stone/public/
+
+# Handle front controller pattern
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+# Prevent directory listing
+Options -Indexes
