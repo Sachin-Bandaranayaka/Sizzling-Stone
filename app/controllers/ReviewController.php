@@ -3,39 +3,66 @@ require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/Review.php';
 
 class ReviewController {
-    private $db;
     private $review;
 
     public function __construct() {
         $database = new Database();
-        $this->db = $database->getConnection();
-        $this->review = new Review($this->db);
+        $db = $database->getConnection();
+        $this->review = new Review($db);
     }
 
     public function getAllReviews() {
         return $this->review->getAll();
     }
 
-    public function getReviewStatistics() {
-        return $this->review->getReviewStatistics();
+    public function getReportedReviews() {
+        return $this->review->getReportedReviews();
     }
 
-    public function createReview($userId, $rating, $comment) {
-        $this->review->user_id = $userId;
-        $this->review->rating = $rating;
-        $this->review->comment = $comment;
-        return $this->review->create();
+    public function createReview($data) {
+        $this->review->user_id = $data['user_id'];
+        $this->review->rating = $data['rating'];
+        $this->review->comment = $data['comment'];
+
+        if($this->review->create()) {
+            return ['success' => true, 'message' => 'Review created successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to create review'];
     }
 
-    public function updateReview($reviewId, $rating, $comment) {
-        return $this->review->update($reviewId, $rating, $comment);
+    public function updateReview($reviewId, $data) {
+        if($this->review->update($reviewId, $data['rating'], $data['comment'])) {
+            return ['success' => true, 'message' => 'Review updated successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to update review'];
     }
 
-    public function deleteReview($reviewId, $userId) {
-        return $this->review->delete($reviewId, $userId);
+    public function deleteReview($reviewId) {
+        if($this->review->delete($reviewId)) {
+            return ['success' => true, 'message' => 'Review deleted successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to delete review'];
     }
 
     public function getUserReviews($userId) {
         return $this->review->getByUserId($userId);
+    }
+
+    public function getReviewStatistics() {
+        return $this->review->getReviewStatistics();
+    }
+
+    public function reportReview($reviewId) {
+        if($this->review->reportReview($reviewId)) {
+            return ['success' => true, 'message' => 'Review reported successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to report review'];
+    }
+
+    public function approveReview($reviewId) {
+        if($this->review->approveReview($reviewId)) {
+            return ['success' => true, 'message' => 'Review approved successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to approve review'];
     }
 }

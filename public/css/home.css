@@ -1,204 +1,366 @@
+/* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero-bg.jpg');
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('../images/hero-bg.jpg');
     background-size: cover;
     background-position: center;
-    color: white;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 100px 0;
-    margin-bottom: 50px;
+    color: white;
 }
 
 .hero-content {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+    padding: 2rem;
+    animation: fadeInUp 1s ease;
 }
 
 .hero h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-buttons {
     display: flex;
-    gap: 20px;
+    gap: 1.5rem;
     justify-content: center;
+}
+
+.hero .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.hero .btn-primary {
+    background: #e44d26;
+    color: white;
+    border: 2px solid #e44d26;
+}
+
+.hero .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.hero .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Featured Menu Section */
 .featured-menu {
-    padding: 50px 0;
-    background-color: #f9f9f9;
+    padding: 6rem 0;
+    background: #f8f9fa;
 }
 
 .section-title {
     text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 40px;
-    color: #333;
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #e44d26;
 }
 
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 0 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 2rem;
+    padding: 0 1rem;
 }
 
 .menu-item {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .menu-item:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .menu-item-image {
+    position: relative;
+    padding-top: 75%;
+    overflow: hidden;
+}
+
+.menu-item-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover .menu-item-image img {
+    transform: scale(1.1);
 }
 
 .menu-item-content {
-    padding: 20px;
+    padding: 1.5rem;
 }
 
 .menu-item h3 {
-    font-size: 1.5em;
-    margin: 0 0 10px 0;
-    color: #333;
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
 }
 
 .menu-item-description {
-    color: #666;
-    margin-bottom: 15px;
-    line-height: 1.5;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    line-height: 1.6;
 }
 
 .menu-item-price {
-    font-size: 1.2em;
-    color: #2c3e50;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 1.25rem;
+    color: #e44d26;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 .menu-item-category {
     display: inline-block;
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-    border-radius: 15px;
-    color: #666;
-    font-size: 0.9em;
+    padding: 0.25rem 1rem;
+    background: #f3f4f6;
+    color: #4b5563;
+    border-radius: 20px;
+    font-size: 0.875rem;
 }
 
 .view-all-menu {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 3rem;
 }
 
 /* About Section */
 .about {
-    padding: 50px 0;
+    padding: 6rem 0;
+    background: white;
 }
 
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: 4rem;
+    align-items: center;
 }
 
 .about-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding-right: 2rem;
 }
 
 .about-text h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
 }
 
 .about-text p {
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 15px;
+    color: #4b5563;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.about-image {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .about-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
+    transition: transform 0.3s ease;
 }
 
-/* Review Stats Section */
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+/* Review Statistics Section */
 .review-stats {
-    background-color: #2c3e50;
+    padding: 6rem 0;
+    background: #1f2937;
     color: white;
-    padding: 50px 0;
+}
+
+.review-stats .section-title {
+    color: white;
 }
 
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: 3rem;
     text-align: center;
+    margin: 4rem 0;
 }
 
 .stat-item {
-    padding: 20px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
 }
 
 .stat-number {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin-bottom: 10px;
     display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #e44d26;
+    margin-bottom: 0.5rem;
 }
 
 .stat-label {
-    font-size: 1.1em;
-    opacity: 0.9;
+    font-size: 1.1rem;
+    color: #e5e7eb;
 }
 
 .view-all-reviews {
     text-align: center;
-    margin-top: 30px;
+}
+
+.view-all-reviews .btn {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.view-all-reviews .btn:hover {
+    background: white;
+    color: #1f2937;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon Sizes */
+.btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    margin-right: 8px;
+}
+
+.w-5 {
+    width: 18px;
+    height: 18px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+    
+    .hero p {
+        font-size: 1.25rem;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-text {
+        padding-right: 0;
+    }
+}
+
 @media (max-width: 768px) {
+    .hero {
+        min-height: 500px;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
     .menu-grid {
         grid-template-columns: 1fr;
     }
-
-    .about-content {
+    
+    .stats-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
+}
 
+@media (max-width: 480px) {
     .hero h1 {
-        font-size: 2em;
+        font-size: 2rem;
     }
-
-    .section-title {
-        font-size: 2em;
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .menu-item-content {
+        padding: 1rem;
     }
 }

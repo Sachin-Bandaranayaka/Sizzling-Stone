@@ -1,6 +1,6 @@
 <?php
 // Application configuration
-define('BASE_URL', 'http://localhost/uniProject/sizzling-stone/');
+//define('BASE_URL', 'http://localhost/uniProject/sizzling-stone/');
 define('SITE_NAME', 'The Sizzling Stone');
 
 // Session configuration
@@ -17,4 +17,44 @@ date_default_timezone_set('Asia/Kolkata');
 
 // Security
 define('HASH_COST', 10); // For password hashing
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Site Configuration
+define('SITE_NAME', 'Sizzling Stone');
+
+// Database Configuration
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'sizzling_stone');
+
+// Session Configuration
+define('SESSION_NAME', 'sizzling_stone_session');
+define('SESSION_LIFETIME', 7200); // 2 hours
+
+// Image Upload Configuration
+define('UPLOAD_PATH', __DIR__ . '/../public/uploads/');
+define('MAX_FILE_SIZE', 5000000); // 5MB
+define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif']);
+
+// Email Configuration (if needed)
+define('SMTP_HOST', '');
+define('SMTP_USER', '');
+define('SMTP_PASS', '');
+define('SMTP_PORT', 587);
+
+// Pagination Configuration
+define('ITEMS_PER_PAGE', 10);
+
+// Other Constants
+define('SALT', 'your-secret-salt-string');
+define('TOKEN_EXPIRY', 3600); // 1 hour
+
+// Base URL - Adjust this according to your setup
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/uniProject/sizzling-stone/');
+}
 ?>

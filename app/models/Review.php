@@ -7,6 +7,7 @@ class Review {
     public $user_id;
     public $rating;
     public $comment;
+    public $is_reported;
     public $created_at;
 
     public function __construct($db) {
@@ -14,8 +15,23 @@ class Review {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM " . $this->table_name . " 
-                 ORDER BY created_at DESC";
+        $query = "SELECT r.*, u.username 
+                FROM " . $this->table_name . " r
+                LEFT JOIN users u ON r.user_id = u.user_id
+                ORDER BY r.created_at DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    public function getReportedReviews() {
+        $query = "SELECT r.*, u.username 
+                FROM " . $this->table_name . " r
+                LEFT JOIN users u ON r.user_id = u.user_id
+                WHERE r.is_reported = 1
+                ORDER BY r.created_at DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -25,9 +41,9 @@ class Review {
 
     public function create() {
         $query = "INSERT INTO " . $this->table_name . "
-                (user_id, rating, comment)
+                (user_id, rating, comment, is_reported)
                 VALUES
-                (:user_id, :rating, :comment)";
+                (:user_id, :rating, :comment, 0)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -65,19 +81,35 @@ class Review {
         return false;
     }
 
-    public function delete($reviewId, $userId) {
-        $query = "DELETE FROM " . $this->table_name . " 
-                WHERE review_id = :review_id AND user_id = :user_id";
+    public function updateStatus($reviewId, $isReported) {
+        $query = "UPDATE " . $this->table_name . "
+                SET is_reported = :is_reported
+                WHERE review_id = :review_id";
 
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":review_id", $reviewId);
-        $stmt->bindParam(":user_id", $userId);
+        $stmt->bindParam(":is_reported", $isReported, PDO::PARAM_BOOL);
 
         if($stmt->execute()) {
             return true;
         }
         return false;
+    }
+
+    public function delete($reviewId) {
+        try {
+            $query = "DELETE FROM " . $this->table_name . " 
+                    WHERE review_id = :review_id";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":review_id", $reviewId, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error deleting review: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function getByUserId($userId) {
@@ -128,5 +160,13 @@ class Review {
         }
 
         return $stats;
+    }
+
+    public function reportReview($reviewId) {
+        return $this->updateStatus($reviewId, true);
+    }
+
+    public function approveReview($reviewId) {
+        return $this->updateStatus($reviewId, false);
     }
 }

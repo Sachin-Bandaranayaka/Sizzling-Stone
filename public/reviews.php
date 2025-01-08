@@ -19,8 +19,8 @@ $pageTitle = 'Customer Reviews';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle . ' - ' . SITE_NAME; ?></title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/style.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/reviews.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/reviews.css">
 </head>
 <body>
     <?php include __DIR__ . '/../app/views/includes/header.php'; ?>
@@ -29,68 +29,80 @@ $pageTitle = 'Customer Reviews';
         <div class="container">
             <h1 class="page-title"><?php echo $pageTitle; ?></h1>
 
-            <?php if(isset($_SESSION['user_id'])): ?>
-            <div class="write-review">
-                <button id="writeReviewBtn" class="btn btn-primary">Write a Review</button>
-            </div>
-
-            <!-- Review Form Modal -->
-            <div id="reviewModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Write a Review</h2>
-                    <form id="reviewForm" method="POST" action="<?php echo BASE_URL; ?>reviews/submit.php">
-                        <div class="form-group">
-                            <label>Rating</label>
-                            <div class="rating">
-                                <?php for($i = 5; $i >= 1; $i--): ?>
-                                    <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" />
-                                    <label for="star<?php echo $i; ?>">☆</label>
-                                <?php endfor; ?>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="comment">Your Review</label>
-                            <textarea id="comment" name="comment" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit Review</button>
-                    </form>
+            <!-- Review Statistics -->
+            <div class="review-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Total Reviews</span>
+                    <span class="stat-value"><?php echo $stats['total_reviews']; ?></span>
                 </div>
-            </div>
-            <?php endif; ?>
-
-            <!-- Reviews Statistics -->
-            <div class="reviews-stats">
-                <div class="overall-rating">
-                    <div class="rating-number"><?php echo number_format($stats['average_rating'], 1); ?></div>
-                    <div class="rating-stars">
-                        <?php
-                        $fullStars = floor($stats['average_rating']);
-                        $halfStar = $stats['average_rating'] - $fullStars >= 0.5;
-                        
-                        for($i = 1; $i <= 5; $i++) {
-                            if($i <= $fullStars) {
-                                echo '<span class="star full">★</span>';
-                            } elseif($i == $fullStars + 1 && $halfStar) {
-                                echo '<span class="star half">★</span>';
-                            } else {
-                                echo '<span class="star empty">☆</span>';
+                <div class="stat-item">
+                    <span class="stat-label">Average Rating</span>
+                    <div class="stat-value">
+                        <span class="rating-value"><?php echo $stats['average_rating']; ?></span>
+                        <div class="stars">
+                            <?php
+                            $avgRating = floatval($stats['average_rating']);
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $avgRating) {
+                                    echo '<span class="star filled">★</span>';
+                                } elseif ($i - 0.5 <= $avgRating) {
+                                    echo '<span class="star half">★</span>';
+                                } else {
+                                    echo '<span class="star">☆</span>';
+                                }
                             }
-                        }
-                        ?>
+                            ?>
+                        </div>
                     </div>
-                    <div class="total-reviews"><?php echo $stats['total_reviews']; ?> reviews</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">5-Star Reviews</span>
+                    <span class="stat-value"><?php echo $stats['five_star_percentage']; ?>%</span>
                 </div>
             </div>
+
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <div class="write-review">
+                    <button id="writeReviewBtn" class="btn btn-primary">Write a Review</button>
+                </div>
+
+                <!-- Review Form Modal -->
+                <div id="reviewModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Write a Review</h2>
+                        <form id="reviewForm" method="POST" action="<?php echo BASE_URL; ?>public/reviews/process.php">
+                            <div class="form-group">
+                                <label>Rating</label>
+                                <div class="rating">
+                                    <?php for($i = 5; $i >= 1; $i--): ?>
+                                        <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" required />
+                                        <label for="star<?php echo $i; ?>">☆</label>
+                                    <?php endfor; ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Your Review</label>
+                                <textarea id="comment" name="comment" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <!-- Reviews List -->
             <div class="reviews-list">
-                <?php if($reviews): while($review = $reviews->fetch(PDO::FETCH_ASSOC)): ?>
+                <?php 
+                $hasReviews = false;
+                while ($review = $reviews->fetch(PDO::FETCH_ASSOC)):
+                    $hasReviews = true;
+                ?>
                     <div class="review-item">
                         <div class="review-header">
                             <div class="review-rating">
                                 <?php for($i = 1; $i <= 5; $i++): ?>
-                                    <span class="star <?php echo $i <= $review['rating'] ? 'full' : 'empty'; ?>">
+                                    <span class="star <?php echo $i <= $review['rating'] ? 'filled' : ''; ?>">
                                         <?php echo $i <= $review['rating'] ? '★' : '☆'; ?>
                                     </span>
                                 <?php endfor; ?>
@@ -104,16 +116,14 @@ $pageTitle = 'Customer Reviews';
                         </div>
                         <?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $review['user_id']): ?>
                             <div class="review-actions">
-                                <button class="btn btn-secondary edit-review" data-review-id="<?php echo $review['id']; ?>">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger delete-review" data-review-id="<?php echo $review['id']; ?>">
-                                    Delete
-                                </button>
+                                <button class="btn btn-edit" onclick="editReview(<?php echo $review['review_id']; ?>)">Edit</button>
+                                <button class="btn btn-delete" onclick="deleteReview(<?php echo $review['review_id']; ?>)">Delete</button>
                             </div>
                         <?php endif; ?>
                     </div>
-                <?php endwhile; else: ?>
+                <?php endwhile; ?>
+
+                <?php if(!$hasReviews): ?>
                     <p class="no-reviews">No reviews yet. Be the first to write a review!</p>
                 <?php endif; ?>
             </div>
@@ -146,21 +156,58 @@ $pageTitle = 'Customer Reviews';
             }
         }
 
-        // Star rating functionality
-        const ratingInputs = document.querySelectorAll('.rating input');
-        ratingInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                const rating = this.value;
-                for (let i = 1; i <= 5; i++) {
-                    const label = document.querySelector(`label[for="star${i}"]`);
-                    if (i <= rating) {
-                        label.textContent = '★';
-                    } else {
-                        label.textContent = '☆';
-                    }
+        // Review form validation
+        const reviewForm = document.getElementById('reviewForm');
+        if (reviewForm) {
+            reviewForm.onsubmit = function(e) {
+                const rating = document.querySelector('input[name="rating"]:checked');
+                const comment = document.getElementById('comment').value.trim();
+
+                if (!rating) {
+                    e.preventDefault();
+                    alert('Please select a rating');
+                    return false;
                 }
-            });
-        });
+
+                if (!comment) {
+                    e.preventDefault();
+                    alert('Please write a review comment');
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        // Review actions
+        function deleteReview(reviewId) {
+            if (confirm('Are you sure you want to delete this review?')) {
+                fetch(`${BASE_URL}public/reviews/process.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=delete&review_id=${reviewId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error deleting review: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the review');
+                });
+            }
+        }
+
+        function editReview(reviewId) {
+            // Implement edit functionality
+            alert('Edit functionality coming soon!');
+        }
     </script>
 </body>
 </html>

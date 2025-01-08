@@ -3,12 +3,10 @@ class Reservation {
     private $conn;
     private $table_name = "reservations";
 
-    public $id;
+    public $reservation_id;
     public $user_id;
-    public $date;
-    public $time;
+    public $reservation_time;
     public $guests;
-    public $special_requests;
     public $status;
     public $created_at;
 
@@ -18,21 +16,16 @@ class Reservation {
 
     public function create() {
         $query = "INSERT INTO " . $this->table_name . "
-                (user_id, date, time, guests, special_requests, status)
+                (user_id, reservation_time, guests, status)
                 VALUES
-                (:user_id, :date, :time, :guests, :special_requests, 'pending')";
+                (:user_id, :reservation_time, :guests, 'pending')";
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize input
-        $this->special_requests = htmlspecialchars(strip_tags($this->special_requests));
-
         // Bind values
         $stmt->bindParam(":user_id", $this->user_id);
-        $stmt->bindParam(":date", $this->date);
-        $stmt->bindParam(":time", $this->time);
+        $stmt->bindParam(":reservation_time", $this->reservation_time);
         $stmt->bindParam(":guests", $this->guests);
-        $stmt->bindParam(":special_requests", $this->special_requests);
 
         if($stmt->execute()) {
             return true;
@@ -43,10 +36,24 @@ class Reservation {
     public function getAll() {
         $query = "SELECT r.*, u.username 
                 FROM " . $this->table_name . " r
-                LEFT JOIN users u ON r.user_id = u.id
-                ORDER BY r.date ASC, r.time ASC";
+                LEFT JOIN users u ON r.user_id = u.user_id
+                ORDER BY r.reservation_time DESC";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    public function getByStatus($status) {
+        $query = "SELECT r.*, u.username 
+                FROM " . $this->table_name . " r
+                LEFT JOIN users u ON r.user_id = u.user_id
+                WHERE r.status = :status
+                ORDER BY r.reservation_time DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":status", $status);
         $stmt->execute();
 
         return $stmt;
@@ -55,7 +62,7 @@ class Reservation {
     public function getByUserId($userId) {
         $query = "SELECT * FROM " . $this->table_name . "
                 WHERE user_id = :user_id
-                ORDER BY date ASC, time ASC";
+                ORDER BY reservation_time DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $userId);
@@ -64,42 +71,28 @@ class Reservation {
         return $stmt;
     }
 
-    public function update($id, $data) {
-        $updateFields = [];
-        $params = [":id" => $id];
-
-        // Build dynamic update query based on provided data
-        foreach($data as $key => $value) {
-            if(in_array($key, ['date', 'time', 'guests', 'special_requests', 'status'])) {
-                $updateFields[] = "$key = :$key";
-                $params[":$key"] = $value;
-            }
-        }
-
-        if(empty($updateFields)) {
-            return false;
-        }
-
+    public function updateStatus($id, $status) {
         $query = "UPDATE " . $this->table_name . "
-                SET " . implode(", ", $updateFields) . "
-                WHERE id = :id";
+                SET status = :status
+                WHERE reservation_id = :id";
 
         $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":status", $status);
 
-        if($stmt->execute($params)) {
+        if($stmt->execute()) {
             return true;
         }
         return false;
     }
 
-    public function delete($id, $userId) {
+    public function delete($id) {
         $query = "DELETE FROM " . $this->table_name . "
-                WHERE id = :id AND user_id = :user_id";
+                WHERE reservation_id = :id";
 
         $stmt = $this->conn->prepare($query);
-
         $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":user_id", $userId);
 
         if($stmt->execute()) {
             return true;
@@ -110,8 +103,8 @@ class Reservation {
     public function checkAvailability($date, $time) {
         $query = "SELECT COUNT(*) as count 
                 FROM " . $this->table_name . "
-                WHERE date = :date 
-                AND time = :time
+                WHERE DATE(reservation_time) = :date 
+                AND TIME(reservation_time) = :time
                 AND status != 'cancelled'";
 
         $stmt = $this->conn->prepare($query);
@@ -127,12 +120,11 @@ class Reservation {
     }
 
     public function getBookedTimeSlots($date) {
-        $query = "SELECT time, COUNT(*) as count 
+        $query = "SELECT TIME(reservation_time) as time, COUNT(*) as count 
                 FROM " . $this->table_name . "
-                WHERE date = :date 
+                WHERE DATE(reservation_time) = :date
                 AND status != 'cancelled'
-                GROUP BY time
-                HAVING count >= 10";
+                GROUP BY TIME(reservation_time)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":date", $date);

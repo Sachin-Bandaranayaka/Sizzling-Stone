@@ -3,21 +3,26 @@ require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/Reservation.php';
 
 class ReservationController {
-    private $db;
     private $reservation;
 
     public function __construct() {
         $database = new Database();
-        $this->db = $database->getConnection();
-        $this->reservation = new Reservation($this->db);
+        $db = $database->getConnection();
+        $this->reservation = new Reservation($db);
+    }
+
+    public function getAllReservations() {
+        return $this->reservation->getAll();
+    }
+
+    public function getReservationsByStatus($status) {
+        return $this->reservation->getByStatus($status);
     }
 
     public function createReservation($data) {
         $this->reservation->user_id = $data['user_id'];
-        $this->reservation->date = $data['date'];
-        $this->reservation->time = $data['time'];
+        $this->reservation->reservation_time = $data['reservation_time'];
         $this->reservation->guests = $data['guests'];
-        $this->reservation->special_requests = $data['special_requests'] ?? '';
 
         if($this->reservation->create()) {
             return ['success' => true, 'message' => 'Reservation created successfully'];
@@ -25,20 +30,26 @@ class ReservationController {
         return ['success' => false, 'message' => 'Unable to create reservation'];
     }
 
+    public function updateReservationStatus($id, $status) {
+        if (!in_array($status, ['pending', 'confirmed', 'cancelled'])) {
+            return ['success' => false, 'message' => 'Invalid status'];
+        }
+
+        if($this->reservation->updateStatus($id, $status)) {
+            return ['success' => true, 'message' => 'Reservation status updated successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to update reservation status'];
+    }
+
+    public function deleteReservation($id) {
+        if($this->reservation->delete($id)) {
+            return ['success' => true, 'message' => 'Reservation deleted successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to delete reservation'];
+    }
+
     public function getUserReservations($userId) {
         return $this->reservation->getByUserId($userId);
-    }
-
-    public function getAllReservations() {
-        return $this->reservation->getAll();
-    }
-
-    public function updateReservation($id, $data) {
-        return $this->reservation->update($id, $data);
-    }
-
-    public function deleteReservation($id, $userId) {
-        return $this->reservation->delete($id, $userId);
     }
 
     public function isTimeSlotAvailable($date, $time) {
@@ -50,24 +61,29 @@ class ReservationController {
         $openTime = strtotime('11:00');
         $closeTime = strtotime('22:00');
         $interval = 30 * 60; // 30 minutes in seconds
-        
         $availableSlots = [];
+
+        // Get booked time slots
         $bookedSlots = $this->reservation->getBookedTimeSlots($date);
+        $bookedSlotsCount = [];
         
-        // Convert booked slots to easier to check format
-        $bookedTimes = [];
-        while($slot = $bookedSlots->fetch(PDO::FETCH_ASSOC)) {
-            $bookedTimes[] = $slot['time'];
+        while ($row = $bookedSlots->fetch(PDO::FETCH_ASSOC)) {
+            $bookedSlotsCount[$row['time']] = $row['count'];
         }
-        
-        // Check each possible time slot
-        for($time = $openTime; $time <= $closeTime; $time += $interval) {
+
+        // Generate all possible time slots
+        for ($time = $openTime; $time <= $closeTime; $time += $interval) {
             $timeStr = date('H:i', $time);
-            if(!in_array($timeStr, $bookedTimes)) {
-                $availableSlots[] = $timeStr;
+            $count = $bookedSlotsCount[$timeStr] ?? 0;
+            
+            if ($count < 10) { // Less than 10 reservations for this time slot
+                $availableSlots[] = [
+                    'time' => $timeStr,
+                    'available_tables' => 10 - $count
+                ];
             }
         }
-        
+
         return $availableSlots;
     }
 }

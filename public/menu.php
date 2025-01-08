@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/controllers/MenuController.php';
+require_once __DIR__ . '/../app/controllers/OrderController.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,11 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $menuController = new MenuController();
 $menuItems = $menuController->getAllItems();
-$categoriesStmt = $menuController->getAllCategories();
-$categories = [];
-while ($row = $categoriesStmt->fetch(PDO::FETCH_ASSOC)) {
-    $categories[] = $row['category'];
-}
+$categories = $menuController->getAllCategories();
 
 $pageTitle = 'Our Menu';
 ?>
@@ -36,45 +33,71 @@ $pageTitle = 'Our Menu';
             <!-- Category Filter -->
             <div class="category-filter">
                 <button class="filter-btn active" data-category="all">All</button>
-                <?php foreach($categories as $category): ?>
+                <?php foreach ($categories as $category): ?>
                     <button class="filter-btn" data-category="<?php echo htmlspecialchars($category); ?>">
                         <?php echo htmlspecialchars($category); ?>
                     </button>
                 <?php endforeach; ?>
             </div>
 
-            <!-- Menu Items Grid -->
+            <!-- Menu Grid -->
             <div class="menu-grid">
-                <?php 
-                $hasItems = false;
-                while($item = $menuItems->fetch(PDO::FETCH_ASSOC)): 
-                    $hasItems = true;
-                ?>
-                    <div class="menu-item" data-category="<?php echo htmlspecialchars($item['category']); ?>">
-                        <?php if($item['image_path']): ?>
-                            <div class="item-image">
-                                <img src="<?php echo BASE_URL . 'images/menu/' . $item['image_path']; ?>" 
-                                     alt="<?php echo htmlspecialchars($item['name']); ?>">
-                            </div>
-                        <?php endif; ?>
-                        <div class="item-details">
-                            <h3><?php echo htmlspecialchars($item['name']); ?></h3>
-                            <p><?php echo htmlspecialchars($item['description']); ?></p>
-                            <div class="item-footer">
-                                <span class="price">$<?php echo number_format($item['price'], 2); ?></span>
-                                <?php if(isset($_SESSION['user_id'])): ?>
-                                    <button class="btn btn-primary order-btn" data-item-id="<?php echo $item['item_id']; ?>">
-                                        Order Now
-                                    </button>
+                <?php if ($menuItems): ?>
+                    <?php foreach ($menuItems as $item): ?>
+                        <div class="menu-item" data-category="<?php echo htmlspecialchars($item['category']); ?>">
+                            <div class="menu-item-image">
+                                <div class="image-placeholder">
+                                    <span>Image Coming Soon</span>
+                                </div>
+                                <?php if ($item['available']): ?>
+                                    <span class="status-badge available">Available</span>
+                                <?php else: ?>
+                                    <span class="status-badge unavailable">Sold Out</span>
                                 <?php endif; ?>
                             </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-header">
+                                    <h3 class="menu-item-name"><?php echo htmlspecialchars($item['name']); ?></h3>
+                                    <span class="menu-item-price">$<?php echo number_format($item['price'], 2); ?></span>
+                                </div>
+                                <p class="menu-item-description"><?php echo htmlspecialchars($item['description']); ?></p>
+                                <div class="menu-item-footer">
+                                    <span class="menu-item-category"><?php echo htmlspecialchars($item['category']); ?></span>
+                                    <?php if ($item['available']): ?>
+                                        <button class="add-to-cart-btn" 
+                                                onclick="addToCart(<?php echo $item['item_id']; ?>, '<?php echo htmlspecialchars($item['name']); ?>', <?php echo $item['price']; ?>)">
+                                            Add to Cart
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="add-to-cart-btn disabled" disabled>Sold Out</button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="no-items">No menu items available.</p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Cart Section -->
+            <div class="cart-section">
+                <h2>Your Cart</h2>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <div class="login-notice">
+                        <p>Please <a href="<?php echo BASE_URL; ?>login.php">log in</a> to place an order.</p>
                     </div>
-                <?php endwhile; ?>
-                <?php if (!$hasItems): ?>
-                    <div class="no-items">
-                        <p>No menu items available at the moment.</p>
+                <?php else: ?>
+                    <div class="cart-items" id="cart-items">
+                        <!-- Cart items will be populated here -->
                     </div>
+                    <div class="cart-total">
+                        Total: $<span id="cart-total">0.00</span>
+                    </div>
+                    <textarea id="special-instructions" 
+                             class="special-instructions" 
+                             placeholder="Any special instructions? (optional)"></textarea>
+                    <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
                 <?php endif; ?>
             </div>
         </div>
@@ -83,40 +106,130 @@ $pageTitle = 'Our Menu';
     <?php include __DIR__ . '/../app/views/includes/footer.php'; ?>
 
     <script>
-        // Category filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const menuItems = document.querySelectorAll('.menu-item');
+        const BASE_URL = '<?php echo rtrim(BASE_URL, "/"); ?>';
+        let cart = {
+            items: {},
+            total: 0
+        };
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    // Add active class to clicked button
-                    btn.classList.add('active');
-
-                    const category = btn.dataset.category;
-
-                    menuItems.forEach(item => {
-                        if (category === 'all' || item.dataset.category === category) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
+        // Filter menu items by category
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.dataset.category;
+                
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
                 });
-            });
-
-            // Order button functionality
-            const orderBtns = document.querySelectorAll('.order-btn');
-            orderBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const itemId = btn.dataset.itemId;
-                    // Add your order functionality here
-                    alert('Order functionality coming soon!');
+                button.classList.add('active');
+                
+                // Show/hide menu items
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
                 });
             });
         });
+
+        function addToCart(itemId, itemName, itemPrice) {
+            if (!cart.items[itemId]) {
+                cart.items[itemId] = {
+                    id: itemId,
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 0
+                };
+            }
+            cart.items[itemId].quantity++;
+            updateCart();
+        }
+
+        function removeFromCart(itemId) {
+            if (cart.items[itemId] && cart.items[itemId].quantity > 0) {
+                cart.items[itemId].quantity--;
+                if (cart.items[itemId].quantity === 0) {
+                    delete cart.items[itemId];
+                }
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            cartItems.innerHTML = '';
+            
+            let total = 0;
+            
+            Object.values(cart.items).forEach(item => {
+                if (item.quantity > 0) {
+                    total += item.price * item.quantity;
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'cart-item';
+                    itemElement.innerHTML = `
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn" onclick="removeFromCart(${item.id})">-</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="addToCart(${item.id}, '${item.name}', ${item.price})">+</button>
+                        </div>
+                    `;
+                    cartItems.appendChild(itemElement);
+                }
+            });
+            
+            cart.total = total;
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        function placeOrder() {
+            if (Object.keys(cart.items).length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const orderData = {
+                items: Object.values(cart.items).map(item => ({
+                    id: item.id,
+                    quantity: item.quantity,
+                    price: item.price
+                })),
+                total_amount: cart.total,
+                special_instructions: document.getElementById('special-instructions')?.value || '',
+                order_type: 'dine_in'
+            };
+
+            fetch(`${BASE_URL}process_order.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    cart.items = {};
+                    cart.total = 0;
+                    updateCart();
+                    alert('Order placed successfully!');
+                    window.location.href = `${BASE_URL}orders.php`;
+                } else {
+                    alert(data.message || 'An error occurred while placing the order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while placing the order. Please try again.');
+            });
+        }
     </script>
 </body>
 </html>
