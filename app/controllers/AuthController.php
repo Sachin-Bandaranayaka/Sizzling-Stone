@@ -36,7 +36,11 @@ class AuthController {
             $_SESSION['user_id'] = $result['user_id'];
             $_SESSION['username'] = $result['username'];
             $_SESSION['role'] = $result['role'];
-            return ['success' => true, 'message' => 'Login successful'];
+            return [
+                'success' => true,
+                'message' => 'Login successful',
+                'user' => $result
+            ];
         }
         return ['success' => false, 'message' => 'Invalid credentials'];
     }

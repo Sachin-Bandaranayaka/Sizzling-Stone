@@ -34,7 +34,13 @@ class Reservation {
     }
 
     public function getAll() {
-        $query = "SELECT r.*, u.username 
+        $query = "SELECT 
+                    r.*,
+                    u.username as customer_name,
+                    DATE(r.reservation_time) as reservation_date,
+                    TIME(r.reservation_time) as reservation_time,
+                    r.guests as party_size,
+                    r.status
                 FROM " . $this->table_name . " r
                 LEFT JOIN users u ON r.user_id = u.user_id
                 ORDER BY r.reservation_time DESC";
@@ -42,33 +48,44 @@ class Reservation {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        return $stmt;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getByStatus($status) {
-        $query = "SELECT r.*, u.username 
+        $query = "SELECT 
+                    r.*,
+                    u.username as customer_name,
+                    DATE(r.reservation_time) as reservation_date,
+                    TIME(r.reservation_time) as reservation_time,
+                    r.guests as party_size
                 FROM " . $this->table_name . " r
                 LEFT JOIN users u ON r.user_id = u.user_id
                 WHERE r.status = :status
                 ORDER BY r.reservation_time DESC";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(':status', $status);
         $stmt->execute();
 
-        return $stmt;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getByUserId($userId) {
-        $query = "SELECT * FROM " . $this->table_name . "
-                WHERE user_id = :user_id
-                ORDER BY reservation_time DESC";
+    public function getById($id) {
+        $query = "SELECT 
+                    r.*,
+                    u.username as customer_name,
+                    DATE(r.reservation_time) as reservation_date,
+                    TIME(r.reservation_time) as reservation_time,
+                    r.guests as party_size
+                FROM " . $this->table_name . " r
+                LEFT JOIN users u ON r.user_id = u.user_id
+                WHERE r.reservation_id = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $userId);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
 
-        return $stmt;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function updateStatus($id, $status) {
@@ -77,14 +94,10 @@ class Reservation {
                 WHERE reservation_id = :id";
 
         $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':status', $status);
 
-        if($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     public function delete($id) {
@@ -92,12 +105,26 @@ class Reservation {
                 WHERE reservation_id = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(':id', $id);
 
-        if($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
+    }
+
+    public function getByUserId($userId) {
+        $query = "SELECT 
+                    r.*,
+                    DATE(r.reservation_time) as reservation_date,
+                    TIME(r.reservation_time) as reservation_time,
+                    r.guests as party_size
+                FROM " . $this->table_name . " r
+                WHERE r.user_id = :user_id
+                ORDER BY r.reservation_time DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function checkAvailability($date, $time) {

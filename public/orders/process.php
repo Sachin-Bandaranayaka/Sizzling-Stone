@@ -31,9 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($action) {
         case 'create':
-            // Log incoming data
-            error_log('Creating order. POST data: ' . print_r($_POST, true));
-
             // Validate cart data
             if (!isset($_POST['cart']) || empty($_POST['cart'])) {
                 $response = ['success' => false, 'message' => 'Cart is empty'];
@@ -46,9 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
-            // Log cart data
-            error_log('Cart data: ' . print_r($cart, true));
-
             // Create order data
             $orderData = [
                 'user_id' => $_SESSION['user_id'],
@@ -58,12 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'items' => $cart['items']
             ];
 
-            // Log order data
-            error_log('Order data: ' . print_r($orderData, true));
-
             try {
                 $response = $orderController->createOrder($orderData);
-                error_log('Order creation response: ' . print_r($response, true));
             } catch (Exception $e) {
                 error_log('Error creating order: ' . $e->getMessage());
                 $response = ['success' => false, 'message' => 'Error creating order: ' . $e->getMessage()];
@@ -71,12 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         case 'update_status':
-            // Check if user is admin
-            if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-                $response = ['success' => false, 'message' => 'Unauthorized access'];
-                break;
-            }
-
             if (!isset($_POST['order_id']) || !isset($_POST['status'])) {
                 $response = ['success' => false, 'message' => 'Missing required parameters'];
                 break;
@@ -84,6 +68,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $orderId = (int)$_POST['order_id'];
             $status = $_POST['status'];
+
+            // Get the order details to verify ownership
+            $order = $orderController->getOrder($orderId);
+            
+            // Check if order exists and belongs to the user
+            if (!$order || $order['user_id'] != $_SESSION['user_id']) {
+                $response = ['success' => false, 'message' => 'Order not found or unauthorized'];
+                break;
+            }
+
+            // Users can only cancel their orders, admins can update to any status
+            if ($_SESSION['role'] !== 'admin' && $status !== 'cancelled') {
+                $response = ['success' => false, 'message' => 'Unauthorized status update'];
+                break;
+            }
 
             // Validate status
             $validStatuses = ['confirmed', 'preparing', 'ready', 'completed', 'cancelled'];

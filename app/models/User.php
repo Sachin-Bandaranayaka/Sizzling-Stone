@@ -45,19 +45,32 @@ class User {
     }
 
     public function login($username, $password) {
+        // First try username or email
         $query = "SELECT user_id, username, password, role FROM " . $this->table_name . " 
-                 WHERE username = :username LIMIT 1";
+                 WHERE username = :identifier OR email = :identifier LIMIT 1";
         
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":username", $username);
-        $stmt->execute();
-
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            if(password_verify($password, $row['password'])) {
-                return $row;
+        $identifier = htmlspecialchars(strip_tags($username));
+        $stmt->bindParam(":identifier", $identifier);
+        
+        try {
+            $stmt->execute();
+            if($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if(password_verify($password, $row['password'])) {
+                    error_log("User found - ID: " . $row['user_id'] . ", Role: " . $row['role']); // Debug log
+                    return [
+                        'user_id' => $row['user_id'],
+                        'username' => $row['username'],
+                        'role' => $row['role']
+                    ];
+                }
             }
+            error_log("Login failed for username: " . $username); // Debug log
+            return false;
+        } catch (PDOException $e) {
+            error_log("Database error during login: " . $e->getMessage()); // Debug log
+            return false;
         }
-        return false;
     }
 
     public function getUserById($id) {
@@ -132,6 +145,20 @@ class User {
         $stmt->bindParam(":password", $hashedPassword);
         $stmt->bindParam(":user_id", $userId);
 
+        return $stmt->execute();
+    }
+
+    public function getAllUsers() {
+        $query = "SELECT user_id, username, email, role, created_at FROM " . $this->table_name . " ORDER BY created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function delete($userId) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $userId);
         return $stmt->execute();
     }
 }

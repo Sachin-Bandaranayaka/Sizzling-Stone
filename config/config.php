@@ -1,7 +1,11 @@
 <?php
 // Application configuration
-//define('BASE_URL', 'http://localhost/uniProject/sizzling-stone/');
-define('SITE_NAME', 'The Sizzling Stone');
+define('BASE_URL', 'http://localhost/uniProject/sizzling-stone/');
+
+// Only define SITE_NAME if not already defined
+if (!defined('SITE_NAME')) {
+    define('SITE_NAME', 'The Sizzling Stone');
+}
 
 // Session configuration
 ini_set('session.cookie_httponly', 1);
@@ -23,7 +27,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Site Configuration
-define('SITE_NAME', 'Sizzling Stone');
+if (!defined('SITE_NAME')) {
+    define('SITE_NAME', 'Sizzling Stone');
+}
 
 // Database Configuration
 define('DB_HOST', 'localhost');
@@ -54,7 +60,5 @@ define('SALT', 'your-secret-salt-string');
 define('TOKEN_EXPIRY', 3600); // 1 hour
 
 // Base URL - Adjust this according to your setup
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/uniProject/sizzling-stone/');
-}
+// Removed the if condition as BASE_URL is already defined
 ?>

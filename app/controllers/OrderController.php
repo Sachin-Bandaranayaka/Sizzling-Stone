@@ -6,12 +6,21 @@ require_once __DIR__ . '/../models/Notification.php';
 class OrderController {
     private $order;
     private $notification;
+    private $db;
 
     public function __construct() {
         $database = new Database();
-        $db = $database->getConnection();
-        $this->order = new Order($db);
-        $this->notification = new Notification($db);
+        $this->db = $database->getConnection();
+        $this->order = new Order($this->db);
+        $this->notification = new Notification($this->db);
+    }
+
+    public function getAllOrders() {
+        return $this->order->getAll();
+    }
+
+    public function getOrderById($id) {
+        return $this->order->getById($id);
     }
 
     public function createOrder($data) {
@@ -44,45 +53,21 @@ class OrderController {
     }
 
     public function updateOrderStatus($orderId, $status) {
-        // Get order details first
-        $result = $this->order->getById($orderId);
-        $order = $result->fetch(PDO::FETCH_ASSOC);
-        
-        if(!$order) {
-            return ['success' => false, 'message' => 'Order not found'];
+        if (!in_array($status, ['pending', 'confirmed', 'cancelled', 'completed'])) {
+            return ['success' => false, 'message' => 'Invalid status'];
         }
 
-        // Update the status
         if($this->order->updateStatus($orderId, $status)) {
-            // Create notification for customer
-            $this->notification->user_id = $order['user_id'];
-            $this->notification->type = "order";
-            $this->notification->reference_id = $orderId;
-
-            switch($status) {
-                case 'confirmed':
-                    $this->notification->title = "Order Confirmed";
-                    $this->notification->message = "Your order (#$orderId) has been confirmed and is being prepared.";
-                    break;
-                case 'preparing':
-                    $this->notification->title = "Order Being Prepared";
-                    $this->notification->message = "Your order (#$orderId) is now being prepared in our kitchen.";
-                    break;
-                case 'ready':
-                    $this->notification->title = "Order Ready";
-                    $this->notification->message = "Your order (#$orderId) is ready for pickup/delivery.";
-                    break;
-                case 'completed':
-                    $this->notification->title = "Order Completed";
-                    $this->notification->message = "Your order (#$orderId) has been completed. Enjoy your meal!";
-                    break;
-                case 'cancelled':
-                    $this->notification->title = "Order Cancelled";
-                    $this->notification->message = "Your order (#$orderId) has been cancelled. Please contact us if you have any questions.";
-                    break;
+            // Create notification for user
+            $order = $this->getOrderById($orderId);
+            if ($order) {
+                $this->notification->user_id = $order['user_id'];
+                $this->notification->title = "Order Status Updated";
+                $this->notification->message = "Your order (#" . $orderId . ") has been " . $status;
+                $this->notification->type = "order";
+                $this->notification->reference_id = $orderId;
+                $this->notification->create();
             }
-
-            $this->notification->create();
 
             return [
                 'success' => true,
@@ -92,23 +77,61 @@ class OrderController {
         return ['success' => false, 'message' => 'Unable to update order status'];
     }
 
-    public function getAllOrders() {
-        return $this->order->getAll();
-    }
+    public function updatePaymentStatus($orderId, $status) {
+        if (!in_array($status, ['paid', 'unpaid', 'refunded'])) {
+            return ['success' => false, 'message' => 'Invalid payment status'];
+        }
 
-    public function getPendingOrders() {
-        return $this->order->getPendingOrders();
-    }
-
-    public function getOrderById($orderId) {
-        return $this->order->getById($orderId);
-    }
-
-    public function getOrderItems($orderId) {
-        return $this->order->getOrderItems($orderId);
+        if($this->order->updatePaymentStatus($orderId, $status)) {
+            return [
+                'success' => true,
+                'message' => 'Payment status updated successfully'
+            ];
+        }
+        return ['success' => false, 'message' => 'Unable to update payment status'];
     }
 
     public function getUserOrders($userId) {
-        return $this->order->getUserOrders($userId);
+        try {
+            $query = "SELECT 
+                        o.*,
+                        GROUP_CONCAT(CONCAT(oi.quantity, 'x ', mi.name) SEPARATOR ', ') as items
+                    FROM orders o
+                    LEFT JOIN order_items oi ON o.order_id = oi.order_id
+                    LEFT JOIN menu_items mi ON oi.item_id = mi.item_id
+                    WHERE o.user_id = :user_id
+                    GROUP BY o.order_id
+                    ORDER BY o.order_date DESC";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':user_id', $userId);
+            $stmt->execute();
+            
+            return $stmt;
+        } catch (PDOException $e) {
+            error_log("Error in getUserOrders: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getOrderItems($orderId) {
+        try {
+            $query = "SELECT 
+                        oi.*,
+                        mi.name,
+                        mi.description
+                    FROM order_items oi
+                    LEFT JOIN menu_items mi ON oi.item_id = mi.item_id
+                    WHERE oi.order_id = :order_id";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':order_id', $orderId);
+            $stmt->execute();
+            
+            return $stmt;
+        } catch (PDOException $e) {
+            error_log("Error in getOrderItems: " . $e->getMessage());
+            return false;
+        }
     }
 }

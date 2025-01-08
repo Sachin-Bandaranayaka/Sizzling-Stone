@@ -72,9 +72,10 @@
                 <a href="<?php echo BASE_URL; ?>public/reservation/create.php">Reservations</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a href="<?php echo BASE_URL; ?>public/orders">My Orders</a>
+                    <a href="<?php echo BASE_URL; ?>public/reviews/create.php">Write Review</a>
                     <a href="<?php echo BASE_URL; ?>public/profile.php">Profile</a>
-                    <?php if ($_SESSION['role'] === 'admin'): ?>
-                        <a href="<?php echo BASE_URL; ?>admin/dashboard.php">Admin</a>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a href="<?php echo BASE_URL; ?>admin/dashboard.php">Admin Panel</a>
                     <?php endif; ?>
                     <a href="<?php echo BASE_URL; ?>public/auth/logout.php" class="logout-link">Logout</a>
                 <?php else: ?>

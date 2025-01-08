@@ -11,6 +11,10 @@ class UserController {
         $this->user = new User($db);
     }
 
+    public function getAllUsers() {
+        return $this->user->getAllUsers();
+    }
+
     public function getUserById($userId) {
         return $this->user->getById($userId);
     }
@@ -30,6 +34,19 @@ class UserController {
         return [
             'success' => false,
             'message' => 'Failed to update profile'
+        ];
+    }
+
+    public function deleteUser($userId) {
+        if ($this->user->delete($userId)) {
+            return [
+                'success' => true,
+                'message' => 'User deleted successfully'
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => 'Failed to delete user'
         ];
     }
 

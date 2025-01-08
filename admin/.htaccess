@@ -1,0 +1,11 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# Ensure PHP files are handled properly
+AddHandler application/x-httpd-php .php
+
+# Allow access to all files in this directory
+<FilesMatch "\.(php|css|js|jpg|jpeg|png|gif)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

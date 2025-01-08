@@ -48,6 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $response = $reviewController->createReview($reviewData);
+            
+            if ($response['success']) {
+                $_SESSION['success_message'] = 'Thank you for your review!';
+                header('Location: ' . BASE_URL);
+                exit();
+            }
             break;
 
         case 'update_status':
@@ -110,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
-// If someone tries to access this file directly without POST data
-header('Location: ' . BASE_URL . 'public/reviews.php');
+// If we reach here, there was an error
+$_SESSION['error_message'] = $response['message'];
+header('Location: ' . BASE_URL . 'public/reviews/create.php');
 exit();
