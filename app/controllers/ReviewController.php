@@ -30,8 +30,8 @@ class ReviewController {
         return ['success' => false, 'message' => 'Unable to create review'];
     }
 
-    public function updateReview($reviewId, $data) {
-        if($this->review->update($reviewId, $data['rating'], $data['comment'])) {
+    public function updateReview($reviewId, $rating, $comment) {
+        if($this->review->update($reviewId, $rating, $comment)) {
             return ['success' => true, 'message' => 'Review updated successfully'];
         }
         return ['success' => false, 'message' => 'Unable to update review'];
@@ -64,5 +64,9 @@ class ReviewController {
             return ['success' => true, 'message' => 'Review approved successfully'];
         }
         return ['success' => false, 'message' => 'Unable to approve review'];
+    }
+
+    public function getReviewById($reviewId) {
+        return $this->review->getReviewById($reviewId);
     }
 }

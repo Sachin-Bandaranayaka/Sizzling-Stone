@@ -242,3 +242,89 @@
 [09-Jan-2025 14:00:25 Asia/Kolkata] Login successful. User ID: 7, Role: customer
 [09-Jan-2025 14:00:38 Asia/Kolkata] User found - ID: 7, Role: customer
 [09-Jan-2025 14:00:38 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[09-Jan-2025 15:24:04 Asia/Kolkata] User found - ID: 1, Role: admin
+[09-Jan-2025 15:24:04 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[09-Jan-2025 15:24:08 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 15:24:08 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 15:24:08 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 15:24:13 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 15:24:13 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 15:24:13 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 15:24:16 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 15:24:16 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 15:24:16 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 15:24:37 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 15:24:37 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 15:24:37 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 15:25:09 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 15:25:09 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 15:25:09 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 15:25:26 Asia/Kolkata] === New Order Request ===
+[09-Jan-2025 15:25:26 Asia/Kolkata] Session data: Array
+(
+    [user_id] => 1
+    [username] => admin
+    [role] => admin
+)
+
+[09-Jan-2025 15:25:26 Asia/Kolkata] Order request received. Session user_id: 1
+[09-Jan-2025 15:25:26 Asia/Kolkata] Raw request data: {"items":[{"id":9,"quantity":1,"price":19.99}],"total_amount":19.99,"special_instructions":"","order_type":"dine-in"}
+[09-Jan-2025 15:25:26 Asia/Kolkata] Decoded data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 9
+                    [quantity] => 1
+                    [price] => 19.99
+                )
+
+        )
+
+    [total_amount] => 19.99
+    [special_instructions] => 
+    [order_type] => dine-in
+)
+
+[09-Jan-2025 15:25:26 Asia/Kolkata] Processed order data: Array
+(
+    [user_id] => 1
+    [total_amount] => 19.99
+    [special_instructions] => 
+    [order_type] => dine-in
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 9
+                    [quantity] => 1
+                    [unit_price] => 19.99
+                )
+
+        )
+
+)
+
+[09-Jan-2025 15:25:26 Asia/Kolkata] Order creation result: Array
+(
+    [success] => 1
+    [message] => Order created successfully
+    [order_id] => 8
+)
+
+[09-Jan-2025 15:25:26 Asia/Kolkata] Order created successfully, cart cleared
+[09-Jan-2025 15:25:31 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 15:25:31 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 15:25:31 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 00:48:08 Asia/Kolkata] User found - ID: 7, Role: customer
+[10-Jan-2025 00:48:08 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[10-Jan-2025 00:48:08 Asia/Kolkata] User found - ID: 7, Role: customer
+[10-Jan-2025 00:48:08 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[10-Jan-2025 00:53:34 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined method ReviewController::getReviewById() in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php:118
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 118
+[10-Jan-2025 00:55:28 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type int in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReviewController.php on line 34
+[10-Jan-2025 00:55:28 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type int in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReviewController.php on line 34
+[10-Jan-2025 00:55:28 Asia/Kolkata] PHP Deprecated:  strip_tags(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\app\models\Review.php on line 72

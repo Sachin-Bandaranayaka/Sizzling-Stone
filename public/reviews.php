@@ -12,7 +12,6 @@ $stats = $reviewController->getReviewStatistics();
 
 $pageTitle = 'Customer Reviews';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,63 +20,54 @@ $pageTitle = 'Customer Reviews';
     <title><?php echo $pageTitle . ' - ' . SITE_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/style.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/reviews.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 </head>
 <body>
     <?php include __DIR__ . '/../app/views/includes/header.php'; ?>
-
     <main class="reviews-page">
         <div class="container">
             <h1 class="page-title"><?php echo $pageTitle; ?></h1>
 
             <!-- Review Statistics -->
             <div class="review-stats">
-                <div class="stat-item">
-                    <span class="stat-label">Total Reviews</span>
-                    <span class="stat-value"><?php echo $stats['total_reviews']; ?></span>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value"><?php echo $stats['total_reviews']; ?></div>
+                    <div class="stat-label">Total Reviews</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-label">Average Rating</span>
-                    <div class="stat-value">
-                        <span class="rating-value"><?php echo $stats['average_rating']; ?></span>
-                        <div class="stars">
-                            <?php
-                            $avgRating = floatval($stats['average_rating']);
-                            for ($i = 1; $i <= 5; $i++) {
-                                if ($i <= $avgRating) {
-                                    echo '<span class="star filled">★</span>';
-                                } elseif ($i - 0.5 <= $avgRating) {
-                                    echo '<span class="star half">★</span>';
-                                } else {
-                                    echo '<span class="star">☆</span>';
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value"><?php echo number_format($stats['average_rating'], 1); ?></div>
+                    <div class="stat-label">Average Rating</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-label">5-Star Reviews</span>
-                    <span class="stat-value"><?php echo $stats['five_star_percentage']; ?>%</span>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value"><?php echo $stats['five_star_percentage']; ?>%</div>
+                    <div class="stat-label">5-Star Reviews</div>
                 </div>
             </div>
 
             <?php if(isset($_SESSION['user_id'])): ?>
                 <div class="write-review">
-                    <button id="writeReviewBtn" class="btn btn-primary">Write a Review</button>
+                    <button id="writeReviewBtn" class="btn btn-primary">
+                        <i class="fas fa-pencil-alt"></i> Write a Review
+                    </button>
                 </div>
 
                 <!-- Review Form Modal -->
                 <div id="reviewModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
-                        <h2>Write a Review</h2>
-                        <form id="reviewForm" method="POST" action="<?php echo BASE_URL; ?>public/reviews/process.php">
+                        <h2 id="modalTitle">Write a Review</h2>
+                        <form id="reviewForm">
+                            <input type="hidden" name="action" value="create">
+                            <input type="hidden" name="review_id" id="editReviewId">
                             <div class="form-group">
                                 <label>Rating</label>
                                 <div class="rating">
                                     <?php for($i = 5; $i >= 1; $i--): ?>
                                         <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" required />
-                                        <label for="star<?php echo $i; ?>">☆</label>
+                                        <label for="star<?php echo $i; ?>" class="star-label">☆</label>
                                     <?php endfor; ?>
                                 </div>
                             </div>
@@ -116,8 +106,12 @@ $pageTitle = 'Customer Reviews';
                         </div>
                         <?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $review['user_id']): ?>
                             <div class="review-actions">
-                                <button class="btn btn-edit" onclick="editReview(<?php echo $review['review_id']; ?>)">Edit</button>
-                                <button class="btn btn-delete" onclick="deleteReview(<?php echo $review['review_id']; ?>)">Delete</button>
+                                <button class="btn btn-edit" onclick="editReview(<?php echo $review['review_id']; ?>, <?php echo $review['rating']; ?>, '<?php echo addslashes(htmlspecialchars($review['comment'])); ?>')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-delete" onclick="deleteReview(<?php echo $review['review_id']; ?>)">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -131,15 +125,23 @@ $pageTitle = 'Customer Reviews';
     </main>
 
     <?php include __DIR__ . '/../app/views/includes/footer.php'; ?>
-
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
     <script>
+        // Add BASE_URL constant
+        const BASE_URL = '<?php echo BASE_URL; ?>';
+        
         // Modal functionality
         const modal = document.getElementById('reviewModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const reviewForm = document.getElementById('reviewForm');
+        const editReviewId = document.getElementById('editReviewId');
         const btn = document.getElementById('writeReviewBtn');
         const span = document.getElementsByClassName('close')[0];
 
         if (btn) {
             btn.onclick = function() {
+                resetForm();
                 modal.style.display = 'block';
             }
         }
@@ -156,30 +158,83 @@ $pageTitle = 'Customer Reviews';
             }
         }
 
-        // Review form validation
-        const reviewForm = document.getElementById('reviewForm');
+        function resetForm() {
+            modalTitle.textContent = 'Write a Review';
+            reviewForm.action.value = 'create';
+            editReviewId.value = '';
+            reviewForm.reset();
+        }
+
+        // Form submission handler
         if (reviewForm) {
             reviewForm.onsubmit = function(e) {
+                e.preventDefault();
                 const rating = document.querySelector('input[name="rating"]:checked');
                 const comment = document.getElementById('comment').value.trim();
 
                 if (!rating) {
-                    e.preventDefault();
-                    alert('Please select a rating');
+                    Swal.fire('Error!', 'Please select a rating', 'error');
                     return false;
                 }
 
                 if (!comment) {
-                    e.preventDefault();
-                    alert('Please write a review comment');
+                    Swal.fire('Error!', 'Please write a review comment', 'error');
                     return false;
                 }
 
-                return true;
+                const formData = new FormData(reviewForm);
+                const data = {};
+                formData.forEach((value, key) => data[key] = value);
+
+                fetch(`${BASE_URL}public/reviews/process.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data).toString()
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            document.getElementById('reviewModal').style.display = 'none';
+                            window.location.href = `${BASE_URL}public/reviews.php`;
+                        });
+                    } else {
+                        Swal.fire('Error!', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error!', 'An error occurred while submitting the review', 'error');
+                });
+
+                return false;
             }
         }
 
-        // Review actions
+        // Edit review function
+        function editReview(reviewId, rating, comment) {
+            modalTitle.textContent = 'Edit Review';
+            reviewForm.action.value = 'edit';
+            editReviewId.value = reviewId;
+            
+            // Set rating
+            document.querySelector(`input[name="rating"][value="${rating}"]`).checked = true;
+            
+            // Set comment
+            document.getElementById('comment').value = comment;
+            
+            modal.style.display = 'block';
+        }
+
+        // Delete review function
         function deleteReview(reviewId) {
             if (confirm('Are you sure you want to delete this review?')) {
                 fetch(`${BASE_URL}public/reviews/process.php`, {
@@ -192,21 +247,24 @@ $pageTitle = 'Customer Reviews';
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        location.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = `${BASE_URL}public/reviews.php`;
+                        });
                     } else {
-                        alert('Error deleting review: ' + data.message);
+                        Swal.fire('Error!', data.message, 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while deleting the review');
+                    Swal.fire('Error!', 'An error occurred while deleting the review', 'error');
                 });
             }
-        }
-
-        function editReview(reviewId) {
-            // Implement edit functionality
-            alert('Edit functionality coming soon!');
         }
     </script>
 </body>

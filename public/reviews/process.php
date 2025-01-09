@@ -81,19 +81,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         case 'delete':
-            // Check if user is admin
-            if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-                $response = ['success' => false, 'message' => 'Unauthorized access'];
-                break;
-            }
-
             if (!isset($_POST['review_id'])) {
                 $response = ['success' => false, 'message' => 'Missing review ID'];
                 break;
             }
 
             $reviewId = (int)$_POST['review_id'];
+            
+            // Check if user owns the review or is admin
+            $review = $reviewController->getReviewById($reviewId);
+            if (!$review || ($review['user_id'] !== $_SESSION['user_id'] && (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin'))) {
+                $response = ['success' => false, 'message' => 'Unauthorized access'];
+                break;
+            }
+
             $response = $reviewController->deleteReview($reviewId);
+            break;
+
+        case 'edit':
+            if (!isset($_POST['review_id']) || !isset($_POST['rating']) || !isset($_POST['comment'])) {
+                $response = ['success' => false, 'message' => 'Missing required fields'];
+                break;
+            }
+
+            $reviewId = (int)$_POST['review_id'];
+            $rating = (int)$_POST['rating'];
+            $comment = $_POST['comment'];
+
+            // Validate rating
+            if ($rating < 1 || $rating > 5) {
+                $response = ['success' => false, 'message' => 'Invalid rating value'];
+                break;
+            }
+
+            // Check if user owns the review
+            $review = $reviewController->getReviewById($reviewId);
+            if (!$review || $review['user_id'] !== $_SESSION['user_id']) {
+                $response = ['success' => false, 'message' => 'Unauthorized access'];
+                break;
+            }
+
+            $response = $reviewController->updateReview($reviewId, $rating, $comment);
             break;
 
         case 'report':

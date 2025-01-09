@@ -69,7 +69,7 @@ class Review {
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input
-        $comment = htmlspecialchars(strip_tags($comment));
+        $comment = is_null($comment) ? '' : htmlspecialchars(strip_tags($comment));
 
         $stmt->bindParam(":review_id", $reviewId);
         $stmt->bindParam(":rating", $rating);
@@ -168,5 +168,19 @@ class Review {
 
     public function approveReview($reviewId) {
         return $this->updateStatus($reviewId, false);
+    }
+
+    public function getReviewById($reviewId) {
+        $query = "SELECT r.*, u.username 
+                FROM " . $this->table_name . " r
+                LEFT JOIN users u ON r.user_id = u.user_id
+                WHERE r.review_id = :review_id
+                LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":review_id", $reviewId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
