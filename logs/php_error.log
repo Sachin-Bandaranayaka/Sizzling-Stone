@@ -1,0 +1,244 @@
+[09-Jan-2025 13:50:59 Asia/Kolkata] === New Order Request ===
+[09-Jan-2025 13:50:59 Asia/Kolkata] Session data: Array
+(
+    [user_id] => 7
+    [username] => sachin1104
+    [role] => customer
+)
+
+[09-Jan-2025 13:50:59 Asia/Kolkata] Order request received. Session user_id: 7
+[09-Jan-2025 13:50:59 Asia/Kolkata] Raw request data: {"items":[{"id":5,"quantity":1,"price":39.99}],"total_amount":39.99,"special_instructions":"","order_type":"dine_in"}
+[09-Jan-2025 13:50:59 Asia/Kolkata] Decoded data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 5
+                    [quantity] => 1
+                    [price] => 39.99
+                )
+
+        )
+
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine_in
+)
+
+[09-Jan-2025 13:50:59 Asia/Kolkata] Processed order data: Array
+(
+    [user_id] => 7
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine_in
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 5
+                    [quantity] => 1
+                    [unit_price] => 39.99
+                )
+
+        )
+
+)
+
+[09-Jan-2025 13:50:59 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[09-Jan-2025 13:50:59 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[09-Jan-2025 13:50:59 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\process_order.php(86): OrderController->createOrder(Array)
+#3 {main}
+[09-Jan-2025 13:50:59 Asia/Kolkata] Order creation result: Array
+(
+    [success] => 
+    [message] => An error occurred while creating your order. Please try again.
+    [debug] => SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+)
+
+[09-Jan-2025 13:50:59 Asia/Kolkata] Order creation failed: An error occurred while creating your order. Please try again.
+[09-Jan-2025 13:51:09 Asia/Kolkata] === New Order Request ===
+[09-Jan-2025 13:51:09 Asia/Kolkata] Session data: Array
+(
+    [user_id] => 7
+    [username] => sachin1104
+    [role] => customer
+)
+
+[09-Jan-2025 13:51:09 Asia/Kolkata] Order request received. Session user_id: 7
+[09-Jan-2025 13:51:09 Asia/Kolkata] Raw request data: {"items":[{"id":5,"quantity":1,"price":39.99}],"total_amount":39.99,"special_instructions":"","order_type":"dine_in"}
+[09-Jan-2025 13:51:09 Asia/Kolkata] Decoded data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 5
+                    [quantity] => 1
+                    [price] => 39.99
+                )
+
+        )
+
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine_in
+)
+
+[09-Jan-2025 13:51:09 Asia/Kolkata] Processed order data: Array
+(
+    [user_id] => 7
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine_in
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 5
+                    [quantity] => 1
+                    [unit_price] => 39.99
+                )
+
+        )
+
+)
+
+[09-Jan-2025 13:51:09 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[09-Jan-2025 13:51:09 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[09-Jan-2025 13:51:09 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\process_order.php(86): OrderController->createOrder(Array)
+#3 {main}
+[09-Jan-2025 13:51:09 Asia/Kolkata] Order creation result: Array
+(
+    [success] => 
+    [message] => An error occurred while creating your order. Please try again.
+    [debug] => SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+)
+
+[09-Jan-2025 13:51:09 Asia/Kolkata] Order creation failed: An error occurred while creating your order. Please try again.
+[09-Jan-2025 13:54:35 Asia/Kolkata] === New Order Request ===
+[09-Jan-2025 13:54:35 Asia/Kolkata] Session data: Array
+(
+    [user_id] => 7
+    [username] => sachin1104
+    [role] => customer
+)
+
+[09-Jan-2025 13:54:35 Asia/Kolkata] Order request received. Session user_id: 7
+[09-Jan-2025 13:54:35 Asia/Kolkata] Raw request data: {"items":[{"id":5,"quantity":1,"price":39.99}],"total_amount":39.99,"special_instructions":"","order_type":"dine-in"}
+[09-Jan-2025 13:54:35 Asia/Kolkata] Decoded data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 5
+                    [quantity] => 1
+                    [price] => 39.99
+                )
+
+        )
+
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine-in
+)
+
+[09-Jan-2025 13:54:35 Asia/Kolkata] Processed order data: Array
+(
+    [user_id] => 7
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine-in
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 5
+                    [quantity] => 1
+                    [unit_price] => 39.99
+                )
+
+        )
+
+)
+
+[09-Jan-2025 13:54:35 Asia/Kolkata] Order creation result: Array
+(
+    [success] => 1
+    [message] => Order created successfully
+    [order_id] => 6
+)
+
+[09-Jan-2025 13:54:35 Asia/Kolkata] Order created successfully, cart cleared
+[09-Jan-2025 13:58:35 Asia/Kolkata] === New Order Request ===
+[09-Jan-2025 13:58:35 Asia/Kolkata] Session data: Array
+(
+    [user_id] => 7
+    [username] => sachin1104
+    [role] => customer
+)
+
+[09-Jan-2025 13:58:35 Asia/Kolkata] Order request received. Session user_id: 7
+[09-Jan-2025 13:58:35 Asia/Kolkata] Raw request data: {"items":[{"id":5,"quantity":1,"price":39.99}],"total_amount":39.99,"special_instructions":"","order_type":"dine-in"}
+[09-Jan-2025 13:58:35 Asia/Kolkata] Decoded data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 5
+                    [quantity] => 1
+                    [price] => 39.99
+                )
+
+        )
+
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine-in
+)
+
+[09-Jan-2025 13:58:35 Asia/Kolkata] Processed order data: Array
+(
+    [user_id] => 7
+    [total_amount] => 39.99
+    [special_instructions] => 
+    [order_type] => dine-in
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 5
+                    [quantity] => 1
+                    [unit_price] => 39.99
+                )
+
+        )
+
+)
+
+[09-Jan-2025 13:58:35 Asia/Kolkata] Order creation result: Array
+(
+    [success] => 1
+    [message] => Order created successfully
+    [order_id] => 7
+)
+
+[09-Jan-2025 13:58:35 Asia/Kolkata] Order created successfully, cart cleared
+[09-Jan-2025 13:59:05 Asia/Kolkata] User found - ID: 1, Role: admin
+[09-Jan-2025 13:59:05 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[09-Jan-2025 13:59:07 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 13:59:07 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 13:59:07 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 13:59:16 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[09-Jan-2025 13:59:16 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[09-Jan-2025 13:59:16 Asia/Kolkata] Admin access granted for user: admin
+[09-Jan-2025 14:00:25 Asia/Kolkata] User found - ID: 7, Role: customer
+[09-Jan-2025 14:00:25 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[09-Jan-2025 14:00:38 Asia/Kolkata] User found - ID: 7, Role: customer
+[09-Jan-2025 14:00:38 Asia/Kolkata] Login successful. User ID: 7, Role: customer

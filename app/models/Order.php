@@ -11,6 +11,7 @@ class Order {
     public $order_type;
     public $order_date;
     public $payment_status;
+    public $items; // Add this property to store order items
 
     public function __construct($db) {
         $this->conn = $db;
@@ -40,6 +41,25 @@ class Order {
             }
 
             $this->order_id = $this->conn->lastInsertId();
+            
+            // Add order items within the same transaction
+            $items_query = "INSERT INTO order_items 
+                          (order_id, item_id, quantity, unit_price)
+                          VALUES 
+                          (:order_id, :item_id, :quantity, :unit_price)";
+            
+            $items_stmt = $this->conn->prepare($items_query);
+            
+            foreach ($this->items as $item) {
+                $items_stmt->bindParam(':order_id', $this->order_id);
+                $items_stmt->bindParam(':item_id', $item['item_id']);
+                $items_stmt->bindParam(':quantity', $item['quantity']);
+                $items_stmt->bindParam(':unit_price', $item['unit_price']);
+                
+                if (!$items_stmt->execute()) {
+                    throw new PDOException("Failed to add order item");
+                }
+            }
 
             // Commit transaction
             $this->conn->commit();
@@ -47,7 +67,7 @@ class Order {
         } catch(PDOException $e) {
             $this->conn->rollBack();
             error_log("Error creating order: " . $e->getMessage());
-            return false;
+            throw $e; // Re-throw to be caught by the controller
         }
     }
 

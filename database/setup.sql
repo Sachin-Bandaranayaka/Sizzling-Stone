@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS orders (
     user_id INT,
     total_amount DECIMAL(10,2),
     status ENUM('pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled') DEFAULT 'pending',
-    order_type ENUM('dine_in', 'takeaway') DEFAULT 'dine_in',
+    order_type ENUM('dine-in', 'take-away') DEFAULT 'dine-in',
     special_instructions TEXT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     payment_status VARCHAR(20) DEFAULT 'unpaid',

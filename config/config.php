@@ -1,10 +1,22 @@
 <?php
 // Application configuration
-define('BASE_URL', 'http://localhost/uniProject/sizzling-stone/');
+define('BASE_URL', 'http://localhost/sizzling-stone/');
+define('PUBLIC_URL', BASE_URL . 'public/');
 
 // Only define SITE_NAME if not already defined
 if (!defined('SITE_NAME')) {
     define('SITE_NAME', 'The Sizzling Stone');
+}
+
+// Error reporting configuration
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../logs/php_error.log');
+
+// Create logs directory if it doesn't exist
+if (!file_exists(__DIR__ . '/../logs')) {
+    mkdir(__DIR__ . '/../logs', 0777, true);
 }
 
 // Session configuration
@@ -12,19 +24,11 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 session_start();
 
-// Error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Time zone
 date_default_timezone_set('Asia/Kolkata');
 
 // Security
 define('HASH_COST', 10); // For password hashing
-
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 // Site Configuration
 if (!defined('SITE_NAME')) {

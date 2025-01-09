@@ -13,7 +13,6 @@ $categories = $menuController->getAllCategories();
 
 $pageTitle = 'Our Menu';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,6 @@ $pageTitle = 'Our Menu';
 </head>
 <body>
     <?php include __DIR__ . '/../app/views/includes/header.php'; ?>
-
     <main class="menu-page">
         <div class="container">
             <h1 class="page-title"><?php echo $pageTitle; ?></h1>
@@ -104,9 +102,9 @@ $pageTitle = 'Our Menu';
     </main>
 
     <?php include __DIR__ . '/../app/views/includes/footer.php'; ?>
-
     <script>
-        const BASE_URL = '<?php echo rtrim(BASE_URL, "/"); ?>';
+        const BASE_URL = '<?php echo rtrim(BASE_URL, "/"); ?>/';
+        const PUBLIC_URL = '<?php echo rtrim(PUBLIC_URL, "/"); ?>/';
         let cart = {
             items: {},
             total: 0
@@ -203,24 +201,30 @@ $pageTitle = 'Our Menu';
                 })),
                 total_amount: cart.total,
                 special_instructions: document.getElementById('special-instructions')?.value || '',
-                order_type: 'dine_in'
+                order_type: 'dine-in'
             };
 
-            fetch(`${BASE_URL}process_order.php`, {
+            console.log('Sending order data:', orderData);
+
+            fetch(`${PUBLIC_URL}process_order.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(orderData)
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log('Response data:', data);
                 if (data.success) {
                     cart.items = {};
                     cart.total = 0;
                     updateCart();
                     alert('Order placed successfully!');
-                    window.location.href = `${BASE_URL}orders.php`;
+                    window.location.href = `${BASE_URL}public/orders/index.php`;
                 } else {
                     alert(data.message || 'An error occurred while placing the order');
                 }

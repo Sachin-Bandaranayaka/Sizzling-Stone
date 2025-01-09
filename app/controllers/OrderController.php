@@ -24,16 +24,16 @@ class OrderController {
     }
 
     public function createOrder($data) {
-        // Set order properties
-        $this->order->user_id = $data['user_id'];
-        $this->order->total_amount = $data['total_amount'];
-        $this->order->special_instructions = $data['special_instructions'] ?? '';
-        $this->order->order_type = $data['order_type'];
+        try {
+            // Set order properties
+            $this->order->user_id = $data['user_id'];
+            $this->order->total_amount = $data['total_amount'];
+            $this->order->special_instructions = $data['special_instructions'] ?? '';
+            $this->order->order_type = $data['order_type'];
+            $this->order->items = $data['items']; // Add the items to the order object
 
-        // Create the order
-        if($this->order->create()) {
-            // Add order items
-            if($this->order->addOrderItems($data['items'])) {
+            // Create the order (this will also create order items in the same transaction)
+            if($this->order->create()) {
                 // Create notification for admin
                 $this->notification->user_id = 1; // Admin user ID
                 $this->notification->title = "New Order Received";
@@ -48,8 +48,16 @@ class OrderController {
                     'order_id' => $this->order->order_id
                 ];
             }
+            return ['success' => false, 'message' => 'Unable to create order'];
+        } catch (PDOException $e) {
+            error_log("Error in OrderController::createOrder: " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
+            return [
+                'success' => false,
+                'message' => 'An error occurred while creating your order. Please try again.',
+                'debug' => $e->getMessage()
+            ];
         }
-        return ['success' => false, 'message' => 'Unable to create order'];
     }
 
     public function updateOrderStatus($orderId, $status) {
