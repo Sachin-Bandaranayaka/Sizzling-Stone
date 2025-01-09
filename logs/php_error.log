@@ -328,3 +328,16 @@ Stack trace:
 [10-Jan-2025 00:55:28 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type int in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReviewController.php on line 34
 [10-Jan-2025 00:55:28 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type int in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReviewController.php on line 34
 [10-Jan-2025 00:55:28 Asia/Kolkata] PHP Deprecated:  strip_tags(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\app\models\Review.php on line 72
+[10-Jan-2025 01:16:15 Asia/Kolkata] User found - ID: 7, Role: customer
+[10-Jan-2025 01:16:15 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[10-Jan-2025 01:16:26 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 01:16:26 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 01:16:28 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 01:16:28 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 01:16:28 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 01:16:33 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 01:16:33 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 01:16:33 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 01:16:41 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 01:16:41 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 01:16:41 Asia/Kolkata] Admin access granted for user: admin

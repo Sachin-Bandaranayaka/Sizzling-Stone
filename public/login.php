@@ -41,7 +41,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $pageTitle = 'Login';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,8 +48,9 @@ $pageTitle = 'Login';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle . ' - ' . SITE_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/auth.css">
     <style>
-        .auth-form {
+        .auth-container {
             max-width: 400px;
             margin: 8rem auto 4rem;
             padding: 2rem;
@@ -58,17 +58,17 @@ $pageTitle = 'Login';
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .admin-login-link {
+        .auth-links {
             text-align: center;
             margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid #eee;
         }
-        .admin-login-link a {
+        .auth-links a {
             color: #6c757d;
             text-decoration: none;
         }
-        .admin-login-link a:hover {
+        .auth-links a:hover {
             color: #343a40;
             text-decoration: underline;
         }
@@ -76,18 +76,18 @@ $pageTitle = 'Login';
 </head>
 <body>
     <?php include __DIR__ . '/../app/views/includes/header.php'; ?>
-
+    
     <main class="auth-page">
-        <div class="container">
+        <div class="auth-container">
             <div class="auth-form">
-                <h1 class="page-title"><?php echo $pageTitle; ?></h1>
+                <h1><?php echo $pageTitle; ?></h1>
 
                 <?php if($error): ?>
                     <div class="alert alert-danger">
                         <?php echo htmlspecialchars($error); ?>
                     </div>
                 <?php endif; ?>
-
+                
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -99,18 +99,10 @@ $pageTitle = 'Login';
                         <input type="password" id="password" name="password" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    </div>
+                    <button type="submit" class="btn">Login</button>
 
-                    <p class="text-center">
-                        Don't have an account? <a href="register.php">Register here</a>
-                    </p>
-
-                    <div class="admin-login-link">
-                        <a href="<?php echo BASE_URL; ?>public/admin/login.php">
-                            <i class="fas fa-lock"></i> Admin Login
-                        </a>
+                    <div class="auth-links">
+                        <p>Don't have an account? <a href="<?php echo BASE_URL; ?>public/register.php">Register here</a></p>
                     </div>
                 </form>
             </div>
