@@ -195,149 +195,149 @@
 }
 
 /* Admin Dashboard Styles */
-.admin-dashboard {
-    padding: 6rem 0 4rem;
-}
-
-.page-title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
-    color: #333;
-}
-
-/* Admin Grid */
-.admin-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem 0;
-}
-
-.admin-card {
-    background: #fff;
-    border-radius: 8px;
+.admin-container {
     padding: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.admin-card h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.card-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-/* Admin Tables */
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
-
-.admin-table th,
-.admin-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-.admin-table th {
-    background: #f8f9fa;
-    font-weight: 600;
-}
-
-.admin-table tr:hover {
-    background: #f8f9fa;
-}
-
-/* Form Styles */
-.admin-form {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
+.admin-header {
+    margin-bottom: 2rem;
 }
 
-.form-group label {
-    display: block;
+.admin-header h1 {
+    color: #1f2937;
+    font-size: 2.5rem;
     margin-bottom: 0.5rem;
-    color: #333;
-    font-weight: 500;
 }
 
-.form-control {
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: #e44d26;
+    margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+    color: #4b5563;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .number {
+    color: #1f2937;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.admin-tables {
+    margin-bottom: 2rem;
+}
+
+.table-section {
+    margin-bottom: 2rem;
+}
+
+.table-section h2 {
+    color: #1f2937;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.table-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+table {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-collapse: collapse;
 }
 
-.form-control:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-/* Status Badges */
-.badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.875rem;
+th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
     font-weight: 500;
 }
 
-.badge-success {
-    background: #28a745;
-    color: #fff;
+.status-pending {
+    background: #fff7ed;
+    color: #c2410c;
 }
 
-.badge-warning {
-    background: #ffc107;
-    color: #000;
+.status-processing {
+    background: #f0f9ff;
+    color: #0369a1;
 }
 
-.badge-danger {
-    background: #dc3545;
-    color: #fff;
+.status-completed {
+    background: #f0fdf4;
+    color: #15803d;
 }
 
-/* Action Buttons */
-.btn-group {
-    display: flex;
-    gap: 0.5rem;
+.status-cancelled {
+    background: #fef2f2;
+    color: #b91c1c;
 }
 
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+.text-warning {
+    color: #f59e0b;
 }
 
-/* Responsive Design */
+.text-muted {
+    color: #d1d5db;
+}
+
 @media (max-width: 768px) {
-    .admin-grid {
+    .admin-stats {
         grid-template-columns: 1fr;
     }
 
-    .card-actions {
-        flex-direction: column;
+    .table-container {
+        margin: 0 -1rem;
+        border-radius: 0;
     }
 
-    .card-actions .btn {
-        width: 100%;
-        text-align: center;
-    }
-
-    .admin-table {
-        display: block;
-        overflow-x: auto;
+    th, td {
+        padding: 0.75rem;
     }
 }

@@ -37,7 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     error_log("Login successful. User ID: " . $_SESSION['user_id'] . ", Role: " . $_SESSION['role']);
                     
                     $_SESSION['success_message'] = 'Welcome back!';
-                    header('Location: ' . BASE_URL);
+                    
+                    // Redirect based on user role
+                    if ($_SESSION['role'] === 'admin') {
+                        header('Location: ' . BASE_URL . 'admin/dashboard.php');
+                    } else {
+                        header('Location: ' . BASE_URL);
+                    }
                 } else {
                     $_SESSION['error_message'] = $result['message'];
                     header('Location: ' . BASE_URL . 'public/auth/login.php');

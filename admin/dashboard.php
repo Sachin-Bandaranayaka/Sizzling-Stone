@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../app/controllers/DashboardController.php';
+require_once __DIR__ . '/../app/middleware/admin_auth.php';
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
@@ -28,6 +30,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
 // If we get here, the user is an admin
 error_log("Admin access granted for user: " . $_SESSION['username']);
+
+$dashboardController = new DashboardController();
+$stats = $dashboardController->getDashboardStats();
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +41,9 @@ error_log("Admin access granted for user: " . $_SESSION['username']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Sizzling Stone</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .admin-container {
             padding: 2rem;
@@ -80,66 +87,59 @@ error_log("Admin access granted for user: " . $_SESSION['username']);
             font-weight: 600;
         }
 
-        .admin-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+        .admin-tables {
             margin-bottom: 2rem;
         }
 
-        .action-btn {
-            background: #e44d26;
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        .table-section {
+            margin-bottom: 2rem;
         }
 
-        .action-btn:hover {
-            background: #d13a1c;
-            transform: translateY(-2px);
-        }
-
-        .recent-section {
+        .table-container {
             background: white;
             padding: 1.5rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
         }
 
-        .recent-section h2 {
-            color: #1f2937;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .recent-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .recent-item {
+        th, td {
             padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            border: 1px solid #e5e7eb;
         }
 
-        .recent-item:last-child {
-            border-bottom: none;
+        th {
+            background: #f7f7f7;
         }
 
-        .recent-item .date {
-            color: #6b7280;
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             font-size: 0.9rem;
         }
 
-        @media (max-width: 768px) {
-            .admin-stats {
-                grid-template-columns: 1fr;
-            }
+        .status-pending {
+            background: #f7d2c4;
+            color: #e76f51;
+        }
+
+        .status-processing {
+            background: #87ceeb;
+            color: #4682b4;
+        }
+
+        .status-completed {
+            background: #c6efce;
+            color: #3e8e41;
+        }
+
+        .status-cancelled {
+            background: #ffc5c5;
+            color: #ff3737;
         }
     </style>
 </head>
@@ -148,50 +148,130 @@ error_log("Admin access granted for user: " . $_SESSION['username']);
 
     <main class="admin-container">
         <div class="admin-header">
-            <h1>Admin Dashboard</h1>
+            <h1>Dashboard</h1>
             <p>Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
         </div>
 
         <div class="admin-stats">
             <div class="stat-card">
+                <i class="fas fa-shopping-cart"></i>
                 <h3>Total Orders</h3>
-                <div class="number">0</div>
+                <div class="number"><?php echo number_format($stats['total_orders']); ?></div>
             </div>
+
             <div class="stat-card">
-                <h3>Today's Orders</h3>
-                <div class="number">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Total Users</h3>
-                <div class="number">0</div>
-            </div>
-            <div class="stat-card">
+                <i class="fas fa-dollar-sign"></i>
                 <h3>Total Revenue</h3>
-                <div class="number">$0</div>
+                <div class="number">₹<?php echo number_format($stats['total_revenue'], 2); ?></div>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Today's Orders</h3>
+                <div class="number"><?php echo number_format($stats['todays_orders']); ?></div>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-coins"></i>
+                <h3>Today's Revenue</h3>
+                <div class="number">₹<?php echo number_format($stats['todays_revenue'], 2); ?></div>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Total Users</h3>
+                <div class="number"><?php echo number_format($stats['total_users']); ?></div>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-calendar-check"></i>
+                <h3>Pending Reservations</h3>
+                <div class="number"><?php echo number_format($stats['pending_reservations']); ?></div>
             </div>
         </div>
 
-        <div class="admin-actions">
-            <a href="<?php echo BASE_URL; ?>admin/orders.php" class="action-btn">Manage Orders</a>
-            <a href="<?php echo BASE_URL; ?>admin/users.php" class="action-btn">Manage Users</a>
-            <a href="<?php echo BASE_URL; ?>admin/menu.php" class="action-btn">Manage Menu</a>
-            <a href="<?php echo BASE_URL; ?>admin/reservations.php" class="action-btn">Manage Reservations</a>
-        </div>
-
-        <div class="recent-section">
-            <h2>Recent Orders</h2>
-            <div class="recent-list">
-                <div class="recent-item">
-                    <p>No recent orders found.</p>
+        <div class="admin-tables">
+            <div class="table-section">
+                <h2>Recent Orders</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($stats['recent_orders'] as $order): ?>
+                            <tr>
+                                <td>#<?php echo $order['order_id']; ?></td>
+                                <td><?php echo htmlspecialchars($order['username']); ?></td>
+                                <td>₹<?php echo number_format($order['total_amount'], 2); ?></td>
+                                <td><span class="status-badge status-<?php echo strtolower($order['status']); ?>"><?php echo ucfirst($order['status']); ?></span></td>
+                                <td><?php echo date('M d, Y', strtotime($order['order_date'])); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <div class="recent-section">
-            <h2>Recent Users</h2>
-            <div class="recent-list">
-                <div class="recent-item">
-                    <p>No recent users found.</p>
+            <div class="table-section">
+                <h2>Recent Users</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Joined Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($stats['recent_users'] as $user): ?>
+                            <tr>
+                                <td>#<?php echo $user['user_id']; ?></td>
+                                <td><?php echo htmlspecialchars($user['username']); ?></td>
+                                <td><?php echo htmlspecialchars($user['email']); ?></td>
+                                <td><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <h2>Recent Reviews</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($stats['recent_reviews'] as $review): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($review['username']); ?></td>
+                                <td>
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <i class="fas fa-star<?php echo $i <= $review['rating'] ? ' text-warning' : ' text-muted'; ?>"></i>
+                                    <?php endfor; ?>
+                                </td>
+                                <td><?php echo htmlspecialchars(substr($review['comment'], 0, 100)) . (strlen($review['comment']) > 100 ? '...' : ''); ?></td>
+                                <td><?php echo date('M d, Y', strtotime($review['created_at'])); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

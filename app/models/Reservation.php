@@ -88,6 +88,19 @@ class Reservation {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getByIdJoin($id) {
+        $query = "SELECT r.*, u.username as customer_name 
+                 FROM " . $this->table_name . " r
+                 JOIN users u ON r.user_id = u.user_id
+                 WHERE r.reservation_id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function updateStatus($id, $status) {
         $query = "UPDATE " . $this->table_name . "
                 SET status = :status
@@ -158,5 +171,37 @@ class Reservation {
         $stmt->execute();
 
         return $stmt;
+    }
+
+    public function getPendingReservationsCount() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE status = 'pending'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getTotalReservationsCount() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getCancelledReservationsCount() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE status = 'cancelled'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getCompletedReservationsCount() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE status = 'completed'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
     }
 }

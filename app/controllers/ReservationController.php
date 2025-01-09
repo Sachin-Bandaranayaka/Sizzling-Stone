@@ -1,14 +1,18 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/Reservation.php';
+require_once __DIR__ . '/../models/Notification.php';
 
 class ReservationController {
     private $reservation;
+    private $notification;
+    private $db;
 
     public function __construct() {
         $database = new Database();
-        $db = $database->getConnection();
-        $this->reservation = new Reservation($db);
+        $this->db = $database->getConnection();
+        $this->reservation = new Reservation($this->db);
+        $this->notification = new Notification($this->db);
     }
 
     public function getAllReservations() {
@@ -21,10 +25,20 @@ class ReservationController {
 
     public function createReservation($data) {
         $this->reservation->user_id = $data['user_id'];
+        $this->reservation->reservation_date = $data['reservation_date'];
         $this->reservation->reservation_time = $data['reservation_time'];
-        $this->reservation->guests = $data['guests'];
+        $this->reservation->party_size = $data['party_size'];
+        $this->reservation->special_requests = $data['special_requests'] ?? '';
 
         if($this->reservation->create()) {
+            // Send notification for new reservation
+            $this->createNotification(
+                $data['user_id'],
+                'Reservation Received',
+                'Your reservation request has been received and is pending confirmation.',
+                'reservation',
+                $this->reservation->reservation_id
+            );
             return ['success' => true, 'message' => 'Reservation created successfully'];
         }
         return ['success' => false, 'message' => 'Unable to create reservation'];
@@ -35,14 +49,71 @@ class ReservationController {
             return ['success' => false, 'message' => 'Invalid status'];
         }
 
+        // Get reservation details before update
+        $reservation = $this->reservation->getById($id);
+        if (!$reservation) {
+            return ['success' => false, 'message' => 'Reservation not found'];
+        }
+
         if($this->reservation->updateStatus($id, $status)) {
+            // Send notification based on status
+            $title = '';
+            $message = '';
+            
+            switch ($status) {
+                case 'confirmed':
+                    $title = 'Reservation Confirmed';
+                    $message = 'Your reservation for ' . date('M d, Y', strtotime($reservation['reservation_date'])) . 
+                              ' at ' . date('h:i A', strtotime($reservation['reservation_time'])) . 
+                              ' has been confirmed.';
+                    break;
+                case 'cancelled':
+                    $title = 'Reservation Cancelled';
+                    $message = 'Your reservation for ' . date('M d, Y', strtotime($reservation['reservation_date'])) . 
+                              ' has been cancelled.';
+                    break;
+            }
+
+            if ($title && $message) {
+                $this->createNotification(
+                    $reservation['user_id'],
+                    $title,
+                    $message,
+                    'reservation',
+                    $id
+                );
+            }
+
             return ['success' => true, 'message' => 'Reservation status updated successfully'];
         }
         return ['success' => false, 'message' => 'Unable to update reservation status'];
     }
 
+    private function createNotification($userId, $title, $message, $type, $referenceId) {
+        $this->notification->user_id = $userId;
+        $this->notification->title = $title;
+        $this->notification->message = $message;
+        $this->notification->type = $type;
+        $this->notification->reference_id = $referenceId;
+        return $this->notification->create();
+    }
+
     public function deleteReservation($id) {
+        // Get reservation details before deletion
+        $reservation = $this->reservation->getById($id);
+        if (!$reservation) {
+            return ['success' => false, 'message' => 'Reservation not found'];
+        }
+
         if($this->reservation->delete($id)) {
+            // Send notification for deletion
+            $this->createNotification(
+                $reservation['user_id'],
+                'Reservation Deleted',
+                'Your reservation has been deleted.',
+                'reservation',
+                $id
+            );
             return ['success' => true, 'message' => 'Reservation deleted successfully'];
         }
         return ['success' => false, 'message' => 'Unable to delete reservation'];

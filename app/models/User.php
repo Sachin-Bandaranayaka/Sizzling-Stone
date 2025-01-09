@@ -161,5 +161,26 @@ class User {
         $stmt->bindParam(":user_id", $userId);
         return $stmt->execute();
     }
+
+    public function getTotalUsers() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getRecentUsers($limit = 5) {
+        $query = "SELECT user_id, username, email, created_at 
+                 FROM " . $this->table_name . " 
+                 ORDER BY created_at DESC 
+                 LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

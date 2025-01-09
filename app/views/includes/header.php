@@ -65,24 +65,34 @@
 
     <div class="container">
         <nav class="navbar">
-            <a href="<?php echo BASE_URL; ?>" class="logo">Sizzling Stone</a>
-            <div class="nav-links">
-                <a href="<?php echo BASE_URL; ?>">Home</a>
-                <a href="<?php echo BASE_URL; ?>public/menu.php">Menu</a>
-                <a href="<?php echo BASE_URL; ?>public/reservation/create.php">Reservations</a>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="<?php echo BASE_URL; ?>public/orders">My Orders</a>
-                    <a href="<?php echo BASE_URL; ?>public/reviews/create.php">Write Review</a>
-                    <a href="<?php echo BASE_URL; ?>public/profile.php">Profile</a>
-                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <a href="<?php echo BASE_URL; ?>admin/dashboard.php">Admin Panel</a>
-                    <?php endif; ?>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <a href="<?php echo BASE_URL; ?>admin/dashboard.php" class="logo">Admin Dashboard</a>
+                <div class="nav-links">
+                    <a href="<?php echo BASE_URL; ?>admin/dashboard.php">Dashboard</a>
+                    <a href="<?php echo BASE_URL; ?>admin/orders.php">Orders</a>
+                    <a href="<?php echo BASE_URL; ?>admin/reservations.php">Reservations</a>
+                    <a href="<?php echo BASE_URL; ?>admin/menu.php">Menu</a>
+                    <a href="<?php echo BASE_URL; ?>admin/users.php">Users</a>
+                    <a href="<?php echo BASE_URL; ?>admin/reviews.php">Reviews</a>
                     <a href="<?php echo BASE_URL; ?>public/auth/logout.php" class="logout-link">Logout</a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>public/auth/login.php">Login</a>
-                    <a href="<?php echo BASE_URL; ?>public/auth/register.php">Register</a>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php else: ?>
+                <a href="<?php echo BASE_URL; ?>" class="logo">Sizzling Stone</a>
+                <div class="nav-links">
+                    <a href="<?php echo BASE_URL; ?>">Home</a>
+                    <a href="<?php echo BASE_URL; ?>public/menu.php">Menu</a>
+                    <a href="<?php echo BASE_URL; ?>public/reservation/create.php">Reservations</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="<?php echo BASE_URL; ?>public/orders">My Orders</a>
+                        <a href="<?php echo BASE_URL; ?>public/reviews/create.php">Write Review</a>
+                        <a href="<?php echo BASE_URL; ?>public/profile.php">Profile</a>
+                        <a href="<?php echo BASE_URL; ?>public/auth/logout.php" class="logout-link">Logout</a>
+                    <?php else: ?>
+                        <a href="<?php echo BASE_URL; ?>public/auth/login.php">Login</a>
+                        <a href="<?php echo BASE_URL; ?>public/auth/register.php">Register</a>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </nav>
     </div>
 </header>
@@ -98,7 +108,7 @@
             </div>
         </div>
     <?php endif; ?>
-
+    
     <?php if (isset($_SESSION['error_message'])): ?>
         <div class="container">
             <div class="alert alert-danger">
@@ -109,7 +119,7 @@
             </div>
         </div>
     <?php endif; ?>
-
+    
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Add click event listener to logout link

@@ -2,18 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/ReservationController.php';
-
-// Start session if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Check if user is logged in and is an admin
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    $_SESSION['error_message'] = 'Access denied. Admin privileges required.';
-    header('Location: ' . BASE_URL);
-    exit();
-}
+require_once __DIR__ . '/../app/middleware/admin_auth.php';
 
 $reservationController = new ReservationController();
 $reservations = $reservationController->getAllReservations();
@@ -26,6 +15,7 @@ $reservations = $reservationController->getAllReservations();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Reservations - Admin Dashboard</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/admin.css">
     <style>
         .admin-container {
             padding: 2rem;
@@ -50,6 +40,7 @@ $reservations = $reservationController->getAllReservations();
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             border-radius: 8px;
             overflow: hidden;
+            margin-top: 1rem;
         }
 
         .reservations-table th,
@@ -74,6 +65,7 @@ $reservations = $reservationController->getAllReservations();
             border-radius: 9999px;
             font-size: 0.875rem;
             font-weight: 500;
+            display: inline-block;
         }
 
         .status-pending {
@@ -91,6 +83,11 @@ $reservations = $reservationController->getAllReservations();
             color: #991b1b;
         }
 
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
         .action-btn {
             padding: 0.5rem 1rem;
             border-radius: 6px;
@@ -99,7 +96,8 @@ $reservations = $reservationController->getAllReservations();
             cursor: pointer;
             border: none;
             transition: all 0.3s ease;
-            margin-right: 0.5rem;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-confirm {
@@ -120,12 +118,6 @@ $reservations = $reservationController->getAllReservations();
             background: #b91c1c;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: #6b7280;
-        }
-
         .date-filter {
             margin-bottom: 2rem;
             display: flex;
@@ -142,11 +134,10 @@ $reservations = $reservationController->getAllReservations();
         .filter-btn {
             background: #2563eb;
             color: white;
-            border: none;
             padding: 0.5rem 1rem;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            border: none;
         }
 
         .filter-btn:hover {
@@ -158,10 +149,14 @@ $reservations = $reservationController->getAllReservations();
                 display: block;
                 overflow-x: auto;
             }
-
-            .date-filter {
+            
+            .action-buttons {
                 flex-direction: column;
-                align-items: stretch;
+            }
+            
+            .action-btn {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
@@ -178,7 +173,7 @@ $reservations = $reservationController->getAllReservations();
         <div class="date-filter">
             <input type="date" id="start-date" name="start-date">
             <input type="date" id="end-date" name="end-date">
-            <button class="filter-btn" onclick="filterReservations()">Filter</button>
+            <button class="filter-btn">Filter</button>
         </div>
 
         <?php if (isset($_SESSION['success_message'])): ?>
@@ -209,6 +204,7 @@ $reservations = $reservationController->getAllReservations();
                         <th>Time</th>
                         <th>Party Size</th>
                         <th>Status</th>
+                        <th>Special Requests</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -222,22 +218,28 @@ $reservations = $reservationController->getAllReservations();
                             <td><?php echo htmlspecialchars($reservation['party_size']); ?></td>
                             <td>
                                 <span class="status-badge status-<?php echo strtolower($reservation['status']); ?>">
-                                    <?php echo htmlspecialchars($reservation['status']); ?>
+                                    <?php echo ucfirst($reservation['status']); ?>
                                 </span>
                             </td>
-                            <td>
-                                <?php if ($reservation['status'] === 'Pending'): ?>
+                            <td><?php echo htmlspecialchars($reservation['special_requests'] ?? ''); ?></td>
+                            <td class="action-buttons">
+                                <?php if (strtolower($reservation['status']) === 'pending'): ?>
                                     <form action="process_reservation.php" method="POST" style="display: inline;">
                                         <input type="hidden" name="reservation_id" value="<?php echo $reservation['reservation_id']; ?>">
                                         <input type="hidden" name="action" value="confirm">
-                                        <button type="submit" class="action-btn btn-confirm">Confirm</button>
+                                        <button type="submit" class="action-btn btn-confirm" onclick="return confirm('Are you sure you want to confirm this reservation?')">
+                                            Confirm
+                                        </button>
                                     </form>
                                 <?php endif; ?>
-                                <?php if ($reservation['status'] !== 'Cancelled'): ?>
+                                
+                                <?php if (strtolower($reservation['status']) !== 'cancelled'): ?>
                                     <form action="process_reservation.php" method="POST" style="display: inline;">
                                         <input type="hidden" name="reservation_id" value="<?php echo $reservation['reservation_id']; ?>">
                                         <input type="hidden" name="action" value="cancel">
-                                        <button type="submit" class="action-btn btn-cancel">Cancel</button>
+                                        <button type="submit" class="action-btn btn-cancel" onclick="return confirm('Are you sure you want to cancel this reservation?')">
+                                            Cancel
+                                        </button>
                                     </form>
                                 <?php endif; ?>
                             </td>
@@ -255,14 +257,16 @@ $reservations = $reservationController->getAllReservations();
     <?php include __DIR__ . '/../app/views/includes/footer.php'; ?>
 
     <script>
-        function filterReservations() {
+        document.querySelector('.filter-btn').addEventListener('click', function() {
             const startDate = document.getElementById('start-date').value;
             const endDate = document.getElementById('end-date').value;
             
             if (startDate && endDate) {
                 window.location.href = `?start=${startDate}&end=${endDate}`;
+            } else {
+                alert('Please select both start and end dates');
             }
-        }
+        });
     </script>
 </body>
 </html>

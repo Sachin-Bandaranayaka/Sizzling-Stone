@@ -193,4 +193,51 @@ class Order {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getTotalOrders() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getTotalRevenue() {
+        $query = "SELECT SUM(total_amount) as total FROM " . $this->table_name . " WHERE status = 'completed'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'] ?? 0;
+    }
+
+    public function getTodaysOrders() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE DATE(order_date) = CURDATE()";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getTodaysRevenue() {
+        $query = "SELECT SUM(total_amount) as total FROM " . $this->table_name . " 
+                 WHERE DATE(order_date) = CURDATE() AND status = 'completed'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'] ?? 0;
+    }
+
+    public function getRecentOrders($limit = 5) {
+        $query = "SELECT o.*, u.username 
+                FROM " . $this->table_name . " o 
+                JOIN users u ON o.user_id = u.user_id 
+                ORDER BY o.order_date DESC 
+                LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
