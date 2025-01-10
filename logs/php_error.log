@@ -387,3 +387,115 @@ Stack trace:
 [10-Jan-2025 01:39:40 Asia/Kolkata] Admin Dashboard Access - User ID: 1
 [10-Jan-2025 01:39:40 Asia/Kolkata] Admin Dashboard Access - Role: admin
 [10-Jan-2025 01:39:40 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 01:45:28 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 01:45:28 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 01:45:28 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 01:45:30 Asia/Kolkata] Error in MenuItem::getAll(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'm.category_id' in 'on clause'
+[10-Jan-2025 01:45:52 Asia/Kolkata] Error in MenuItem::create(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'category_id' in 'field list'
+[10-Jan-2025 01:46:36 Asia/Kolkata] Error in MenuItem::create(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'category_id' in 'field list'
+[10-Jan-2025 01:46:46 Asia/Kolkata] Error in MenuItem::getFeaturedItems(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'm.category_id' in 'on clause'
+[10-Jan-2025 01:46:46 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to a member function fetchAll() on array in C:\xampp\htdocs\Sizzling-Stone\public\index.php:16
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\index.php on line 16
+[10-Jan-2025 01:46:59 Asia/Kolkata] PHP Warning:  Undefined array key "five_star_percentage" in C:\xampp\htdocs\Sizzling-Stone\public\index.php on line 138
+[10-Jan-2025 01:47:05 Asia/Kolkata] User found - ID: 7, Role: customer
+[10-Jan-2025 01:47:05 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[10-Jan-2025 01:47:05 Asia/Kolkata] PHP Warning:  Undefined array key "five_star_percentage" in C:\xampp\htdocs\Sizzling-Stone\public\index.php on line 138
+[10-Jan-2025 01:47:22 Asia/Kolkata] PHP Warning:  Undefined array key "five_star_percentage" in C:\xampp\htdocs\Sizzling-Stone\public\index.php on line 138
+[10-Jan-2025 01:47:33 Asia/Kolkata] PHP Warning:  Undefined array key "five_star_percentage" in C:\xampp\htdocs\Sizzling-Stone\public\index.php on line 138
+[10-Jan-2025 01:47:39 Asia/Kolkata] PHP Warning:  Undefined array key "five_star_percentage" in C:\xampp\htdocs\Sizzling-Stone\public\reviews.php on line 45
+[10-Jan-2025 01:47:39 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on array in C:\xampp\htdocs\Sizzling-Stone\public\reviews.php:88
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews.php on line 88
+[10-Jan-2025 01:50:23 Asia/Kolkata] PHP Warning:  Undefined array key "five_star_percentage" in C:\xampp\htdocs\Sizzling-Stone\public\reviews.php on line 45
+[10-Jan-2025 01:52:05 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Cannot use object of type PDOStatement as array in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php:93
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 93
+[10-Jan-2025 08:41:43 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Cannot use object of type PDOStatement as array in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php:93
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 93
+[10-Jan-2025 08:45:10 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Cannot use object of type PDOStatement as array in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php:93
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 93
+[10-Jan-2025 08:45:14 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Cannot use object of type PDOStatement as array in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php:119
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 119
+[10-Jan-2025 08:45:23 Asia/Kolkata] User found - ID: 7, Role: customer
+[10-Jan-2025 08:45:23 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[10-Jan-2025 08:52:52 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Cannot use object of type PDOStatement as array in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php:99
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 99
+[10-Jan-2025 08:57:17 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 08:57:17 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 08:57:17 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 08:57:17 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 08:57:17 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:01:21 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:156
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 156
+[10-Jan-2025 09:01:28 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:156
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 156
+[10-Jan-2025 09:01:49 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:156
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 156
+[10-Jan-2025 09:07:08 Asia/Kolkata] PHP Warning:  Undefined array key "review_text" in C:\xampp\htdocs\Sizzling-Stone\admin\reviews.php on line 228
+[10-Jan-2025 09:07:08 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\reviews.php on line 228
+[10-Jan-2025 09:07:08 Asia/Kolkata] PHP Warning:  Undefined array key "review_text" in C:\xampp\htdocs\Sizzling-Stone\admin\reviews.php on line 228
+[10-Jan-2025 09:07:08 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\reviews.php on line 228
+[10-Jan-2025 09:07:17 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 09:07:17 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 09:07:17 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:07:17 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 09:07:17 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 09:07:17 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:07:24 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 09:07:24 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 09:07:24 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 09:07:24 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 09:07:24 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:08:12 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 09:08:12 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 09:08:12 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 09:08:12 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 09:08:12 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:08:22 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 09:08:22 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 09:08:22 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:20:18 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:156
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 156
+[10-Jan-2025 09:21:42 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:201
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 201
+[10-Jan-2025 09:22:06 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:201
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 201
+[10-Jan-2025 09:22:16 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:201
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 201
+[10-Jan-2025 09:22:24 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php:201
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\admin\add_menu_item.php on line 201
+[10-Jan-2025 09:25:07 Asia/Kolkata] User found - ID: 7, Role: customer
+[10-Jan-2025 09:25:07 Asia/Kolkata] Login successful. User ID: 7, Role: customer
+[10-Jan-2025 09:25:11 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: htmlspecialchars(): Argument #1 ($string) must be of type string, array given in C:\xampp\htdocs\Sizzling-Stone\public\menu.php:35
+Stack trace:
+#0 C:\xampp\htdocs\Sizzling-Stone\public\menu.php(35): htmlspecialchars(Array)
+#1 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\public\menu.php on line 35

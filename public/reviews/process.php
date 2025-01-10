@@ -6,17 +6,15 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Set JSON response header
+header('Content-Type: application/json');
+
 // Initialize response array
 $response = ['success' => false, 'message' => 'Invalid request'];
 
 // Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo json_encode(['success' => false, 'message' => 'Please login to perform this action']);
-        exit();
-    }
-    $_SESSION['error'] = 'Please login to perform this action';
-    header('Location: ' . BASE_URL . 'login.php');
+    echo json_encode(['success' => false, 'message' => 'Please login to perform this action']);
     exit();
 }
 
@@ -80,24 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
 
-        case 'delete':
-            if (!isset($_POST['review_id'])) {
-                $response = ['success' => false, 'message' => 'Missing review ID'];
-                break;
-            }
-
-            $reviewId = (int)$_POST['review_id'];
-            
-            // Check if user owns the review or is admin
-            $review = $reviewController->getReviewById($reviewId);
-            if (!$review || ($review['user_id'] !== $_SESSION['user_id'] && (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin'))) {
-                $response = ['success' => false, 'message' => 'Unauthorized access'];
-                break;
-            }
-
-            $response = $reviewController->deleteReview($reviewId);
-            break;
-
         case 'edit':
             if (!isset($_POST['review_id']) || !isset($_POST['rating']) || !isset($_POST['comment'])) {
                 $response = ['success' => false, 'message' => 'Missing required fields'];
@@ -124,6 +104,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response = $reviewController->updateReview($reviewId, $rating, $comment);
             break;
 
+        case 'delete':
+            if (!isset($_POST['review_id'])) {
+                $response = ['success' => false, 'message' => 'Missing review ID'];
+                break;
+            }
+
+            $reviewId = (int)$_POST['review_id'];
+            
+            // Check if user owns the review or is admin
+            $review = $reviewController->getReviewById($reviewId);
+            if (!$review || ($review['user_id'] !== $_SESSION['user_id'] && (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin'))) {
+                $response = ['success' => false, 'message' => 'Unauthorized access'];
+                break;
+            }
+
+            $response = $reviewController->deleteReview($reviewId);
+            break;
+
         case 'report':
             if (!isset($_POST['review_id'])) {
                 $response = ['success' => false, 'message' => 'Missing review ID'];
@@ -139,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
     }
 
-    // Return JSON response for AJAX requests
+    // Return JSON response
     echo json_encode($response);
     exit();
 }

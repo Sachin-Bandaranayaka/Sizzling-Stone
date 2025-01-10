@@ -43,15 +43,16 @@ class MenuController {
             $this->menuItem->description = $data['description'] ?? '';
             $this->menuItem->price = $data['price'];
             $this->menuItem->category = $data['category'];
-            $this->menuItem->image = $data['image'] ?? '';
+            $this->menuItem->image_path = $data['image_path'] ?? '';
             $this->menuItem->is_featured = $data['is_featured'] ?? 0;
+            $this->menuItem->available = 1; // Set default availability to true
 
             // Create the menu item
             if ($this->menuItem->create()) {
                 return [
                     'success' => true,
                     'message' => 'Menu item created successfully',
-                    'id' => $this->menuItem->id
+                    'id' => $this->menuItem->item_id
                 ];
             }
             return ['success' => false, 'message' => 'Unable to create menu item'];
@@ -61,22 +62,23 @@ class MenuController {
         }
     }
 
-    public function updateItem($id, $data) {
+    public function updateItem($data) {
         try {
             // Get existing item
-            $item = $this->getItemById($id);
+            $item = $this->getItemById($data['item_id']);
             if (!$item) {
                 return ['success' => false, 'message' => 'Menu item not found'];
             }
 
             // Update menu item properties
-            $this->menuItem->id = $id;
+            $this->menuItem->item_id = $data['item_id'];
             $this->menuItem->name = $data['name'] ?? $item['name'];
             $this->menuItem->description = $data['description'] ?? $item['description'];
             $this->menuItem->price = $data['price'] ?? $item['price'];
             $this->menuItem->category = $data['category'] ?? $item['category'];
-            $this->menuItem->image = $data['image'] ?? $item['image'];
+            $this->menuItem->image_path = $data['image_path'] ?? $item['image_path'];
             $this->menuItem->is_featured = $data['is_featured'] ?? $item['is_featured'];
+            $this->menuItem->available = $item['available']; // Preserve existing availability
 
             // Update the menu item
             if ($this->menuItem->update()) {
@@ -94,8 +96,21 @@ class MenuController {
 
     public function deleteItem($id) {
         try {
-            $this->menuItem->id = $id;
+            // Get the item first to get the image path
+            $item = $this->getItemById($id);
+            if (!$item) {
+                return ['success' => false, 'message' => 'Menu item not found'];
+            }
+
+            $this->menuItem->item_id = $id;
             if ($this->menuItem->delete()) {
+                // Delete the image file if it exists
+                if (!empty($item['image_path'])) {
+                    $imagePath = __DIR__ . '/../../public/images/menu/' . $item['image_path'];
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                }
                 return [
                     'success' => true,
                     'message' => 'Menu item deleted successfully'

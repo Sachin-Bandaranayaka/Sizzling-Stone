@@ -49,44 +49,36 @@ $pageTitle = 'Customer Reviews';
 
             <?php if(isset($_SESSION['user_id'])): ?>
                 <div class="write-review">
-                    <button id="writeReviewBtn" class="btn btn-primary">
-                        <i class="fas fa-pencil-alt"></i> Write a Review
-                    </button>
-                </div>
-
-                <!-- Review Form Modal -->
-                <div id="reviewModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <h2 id="modalTitle">Write a Review</h2>
-                        <form id="reviewForm">
-                            <input type="hidden" name="action" value="create">
-                            <input type="hidden" name="review_id" id="editReviewId">
-                            <div class="form-group">
-                                <label>Rating</label>
-                                <div class="rating">
-                                    <?php for($i = 5; $i >= 1; $i--): ?>
-                                        <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" required />
-                                        <label for="star<?php echo $i; ?>" class="star-label">☆</label>
-                                    <?php endfor; ?>
-                                </div>
+                    <h2>Write a Review</h2>
+                    <form id="reviewForm" action="<?php echo BASE_URL; ?>public/reviews/process.php" method="POST">
+                        <input type="hidden" name="action" value="create">
+                        <div class="rating-input">
+                            <label>Rating:</label>
+                            <div class="star-rating">
+                                <?php for($i = 5; $i >= 1; $i--): ?>
+                                    <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" required>
+                                    <label for="star<?php echo $i; ?>">☆</label>
+                                <?php endfor; ?>
                             </div>
-                            <div class="form-group">
-                                <label for="comment">Your Review</label>
-                                <textarea id="comment" name="comment" rows="4" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="review-input">
+                            <label for="comment">Your Review:</label>
+                            <textarea id="comment" name="comment" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Submit Review</button>
+                    </form>
                 </div>
             <?php endif; ?>
 
             <!-- Reviews List -->
             <div class="reviews-list">
                 <?php 
-                $hasReviews = false;
-                while ($review = $reviews->fetch(PDO::FETCH_ASSOC)):
-                    $hasReviews = true;
+                if (!$reviews || !($reviews instanceof PDOStatement)): ?>
+                    <p class="no-reviews">Error loading reviews. Please try again later.</p>
+                <?php else:
+                    $hasReviews = false;
+                    while ($review = $reviews->fetch(PDO::FETCH_ASSOC)):
+                        $hasReviews = true;
                 ?>
                     <div class="review-item">
                         <div class="review-header">
@@ -102,24 +94,34 @@ $pageTitle = 'Customer Reviews';
                             </div>
                         </div>
                         <div class="review-content">
-                            <p><?php echo htmlspecialchars($review['comment']); ?></p>
-                        </div>
-                        <?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $review['user_id']): ?>
-                            <div class="review-actions">
-                                <button class="btn btn-edit" onclick="editReview(<?php echo $review['review_id']; ?>, <?php echo $review['rating']; ?>, '<?php echo addslashes(htmlspecialchars($review['comment'])); ?>')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-delete" onclick="deleteReview(<?php echo $review['review_id']; ?>)">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
+                            <div class="review-author">
+                                <?php echo htmlspecialchars($review['customer_name'] ?? 'Anonymous'); ?>
                             </div>
-                        <?php endif; ?>
+                            <div class="review-text">
+                                <?php echo htmlspecialchars($review['comment']); ?>
+                            </div>
+                            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $review['user_id']): ?>
+                                <div class="review-actions">
+                                    <button class="btn-edit edit-review" 
+                                            data-review-id="<?php echo $review['review_id']; ?>"
+                                            data-rating="<?php echo $review['rating']; ?>"
+                                            data-comment="<?php echo htmlspecialchars($review['comment']); ?>">
+                                        Edit
+                                    </button>
+                                    <button class="btn-delete delete-review" 
+                                            data-review-id="<?php echo $review['review_id']; ?>">
+                                        Delete
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                <?php endwhile; ?>
-
-                <?php if(!$hasReviews): ?>
-                    <p class="no-reviews">No reviews yet. Be the first to write a review!</p>
-                <?php endif; ?>
+                <?php 
+                    endwhile;
+                    if (!$hasReviews): ?>
+                        <p class="no-reviews">No reviews yet. Be the first to write a review!</p>
+                    <?php endif;
+                endif; ?>
             </div>
         </div>
     </main>
@@ -131,141 +133,120 @@ $pageTitle = 'Customer Reviews';
         // Add BASE_URL constant
         const BASE_URL = '<?php echo BASE_URL; ?>';
         
-        // Modal functionality
-        const modal = document.getElementById('reviewModal');
-        const modalTitle = document.getElementById('modalTitle');
+        // Star rating functionality
+        const starRating = document.querySelector('.star-rating');
+        if (starRating) {
+            const stars = starRating.querySelectorAll('input');
+            const labels = starRating.querySelectorAll('label');
+
+            stars.forEach((star, index) => {
+                star.addEventListener('change', () => {
+                    labels.forEach((label, i) => {
+                        if (i <= index) {
+                            label.textContent = '★';
+                        } else {
+                            label.textContent = '☆';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Form submission
         const reviewForm = document.getElementById('reviewForm');
-        const editReviewId = document.getElementById('editReviewId');
-        const btn = document.getElementById('writeReviewBtn');
-        const span = document.getElementsByClassName('close')[0];
-
-        if (btn) {
-            btn.onclick = function() {
-                resetForm();
-                modal.style.display = 'block';
-            }
-        }
-
-        if (span) {
-            span.onclick = function() {
-                modal.style.display = 'none';
-            }
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        function resetForm() {
-            modalTitle.textContent = 'Write a Review';
-            reviewForm.action.value = 'create';
-            editReviewId.value = '';
-            reviewForm.reset();
-        }
-
-        // Form submission handler
         if (reviewForm) {
-            reviewForm.onsubmit = function(e) {
+            reviewForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const rating = document.querySelector('input[name="rating"]:checked');
-                const comment = document.getElementById('comment').value.trim();
-
-                if (!rating) {
-                    Swal.fire('Error!', 'Please select a rating', 'error');
-                    return false;
-                }
-
-                if (!comment) {
-                    Swal.fire('Error!', 'Please write a review comment', 'error');
-                    return false;
-                }
-
+                
                 const formData = new FormData(reviewForm);
-                const data = {};
-                formData.forEach((value, key) => data[key] = value);
-
-                fetch(`${BASE_URL}public/reviews/process.php`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(data).toString()
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+                
+                try {
+                    const response = await fetch(reviewForm.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
                         Swal.fire({
-                            icon: 'success',
                             title: 'Success!',
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 1500
+                            text: 'Your review has been submitted.',
+                            icon: 'success'
                         }).then(() => {
-                            document.getElementById('reviewModal').style.display = 'none';
-                            window.location.href = `${BASE_URL}public/reviews.php`;
+                            location.reload();
                         });
                     } else {
-                        Swal.fire('Error!', data.message, 'error');
+                        Swal.fire({
+                            title: 'Error!',
+                            text: result.message || 'Failed to submit review.',
+                            icon: 'error'
+                        });
                     }
-                })
-                .catch(error => {
+                } catch (error) {
                     console.error('Error:', error);
-                    Swal.fire('Error!', 'An error occurred while submitting the review', 'error');
-                });
-
-                return false;
-            }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred. Please try again.',
+                        icon: 'error'
+                    });
+                }
+            });
         }
 
-        // Edit review function
-        function editReview(reviewId, rating, comment) {
-            modalTitle.textContent = 'Edit Review';
-            reviewForm.action.value = 'edit';
-            editReviewId.value = reviewId;
-            
-            // Set rating
-            document.querySelector(`input[name="rating"][value="${rating}"]`).checked = true;
-            
-            // Set comment
-            document.getElementById('comment').value = comment;
-            
-            modal.style.display = 'block';
+        function editReview(reviewId) {
+            // Implement edit functionality
+            console.log('Edit review:', reviewId);
         }
 
-        // Delete review function
         function deleteReview(reviewId) {
-            if (confirm('Are you sure you want to delete this review?')) {
-                fetch(`${BASE_URL}public/reviews/process.php`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `action=delete&review_id=${reviewId}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = `${BASE_URL}public/reviews.php`;
-                        });
-                    } else {
-                        Swal.fire('Error!', data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire('Error!', 'An error occurred while deleting the review', 'error');
-                });
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`${BASE_URL}public/reviews/process.php`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `action=delete&review_id=${reviewId}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your review has been deleted.',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                data.message || 'Failed to delete review.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred while deleting the review.',
+                            'error'
+                        );
+                    });
+                }
+            });
         }
     </script>
+    <script src="<?php echo BASE_URL; ?>js/reviews.js"></script>
 </body>
 </html>

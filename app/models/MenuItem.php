@@ -2,6 +2,7 @@
 class MenuItem {
     private $conn;
     private $table_name = "menu_items";
+    private $categories_table = "menu_categories";
 
     public $item_id;
     public $name;
@@ -109,10 +110,10 @@ class MenuItem {
     }
 
     public function getAllCategories() {
-        $query = "SELECT DISTINCT category FROM " . $this->table_name . " ORDER BY category";
+        $query = "SELECT * FROM " . $this->categories_table . " ORDER BY name";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function search($query) {

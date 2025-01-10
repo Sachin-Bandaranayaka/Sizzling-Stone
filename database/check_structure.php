@@ -18,7 +18,8 @@ try {
             review_id INT PRIMARY KEY AUTO_INCREMENT,
             user_id INT NOT NULL,
             rating INT NOT NULL,
-            review_text TEXT,
+            comment TEXT,
+            is_reported BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(user_id)
         )";

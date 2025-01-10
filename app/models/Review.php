@@ -24,23 +24,10 @@ class Review {
         try {
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            
-            $reviews = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $reviews[] = [
-                    'review_id' => $row['review_id'],
-                    'user_id' => $row['user_id'],
-                    'customer_name' => $row['customer_name'] ?? 'Anonymous',
-                    'rating' => $row['rating'],
-                    'review_text' => $row['comment'] ?? '', // Map comment to review_text for frontend
-                    'created_at' => $row['created_at']
-                ];
-            }
-            return $reviews;
-            
+            return $stmt; 
         } catch (PDOException $e) {
             error_log("Error in Review::getAll(): " . $e->getMessage());
-            return [];
+            return false;
         }
     }
 
@@ -117,40 +104,40 @@ class Review {
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":user_id", $userId);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt;
             
         } catch (PDOException $e) {
             error_log("Error in Review::getByUserId(): " . $e->getMessage());
-            return [];
+            return false;
         }
     }
 
     public function getReviewStatistics() {
-        $query = "SELECT 
-                    COUNT(*) as total_reviews,
-                    AVG(rating) as average_rating,
-                    COUNT(CASE WHEN rating = 5 THEN 1 END) as five_star,
-                    COUNT(CASE WHEN rating = 4 THEN 1 END) as four_star,
-                    COUNT(CASE WHEN rating = 3 THEN 1 END) as three_star,
-                    COUNT(CASE WHEN rating = 2 THEN 1 END) as two_star,
-                    COUNT(CASE WHEN rating = 1 THEN 1 END) as one_star
-                FROM " . $this->table_name;
-
         try {
-            $stmt = $this->conn->prepare($query);
+            // Get total reviews
+            $totalQuery = "SELECT COUNT(*) as total_reviews, 
+                                 AVG(rating) as average_rating,
+                                 (SELECT COUNT(*) * 100.0 / NULLIF(COUNT(*), 0) 
+                                  FROM " . $this->table_name . " 
+                                  WHERE rating = 5) as five_star_percentage
+                          FROM " . $this->table_name;
+            
+            $stmt = $this->conn->prepare($totalQuery);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return [
+                'total_reviews' => (int)$result['total_reviews'],
+                'average_rating' => $result['total_reviews'] > 0 ? round($result['average_rating'], 1) : 0,
+                'five_star_percentage' => $result['total_reviews'] > 0 ? round($result['five_star_percentage'], 0) : 0
+            ];
             
         } catch (PDOException $e) {
             error_log("Error in Review::getReviewStatistics(): " . $e->getMessage());
             return [
                 'total_reviews' => 0,
                 'average_rating' => 0,
-                'five_star' => 0,
-                'four_star' => 0,
-                'three_star' => 0,
-                'two_star' => 0,
-                'one_star' => 0
+                'five_star_percentage' => 0
             ];
         }
     }
@@ -203,7 +190,7 @@ class Review {
         $stmt->bindParam(":review_id", $reviewId, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt;
     }
 
     public function getTotalReviews() {
@@ -225,6 +212,6 @@ class Review {
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt;
     }
 }

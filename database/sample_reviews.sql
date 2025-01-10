@@ -1,5 +1,5 @@
 -- Insert sample reviews
-INSERT INTO reviews (user_id, rating, review_text, created_at) VALUES 
+INSERT INTO reviews (user_id, rating, comment, created_at) VALUES 
 (1, 5, 'Amazing food and great service! The ambiance was perfect for our anniversary dinner.', NOW()),
 (2, 4, 'Really enjoyed the pasta dishes. The garlic bread was exceptional!', NOW()),
 (3, 5, 'Best Italian restaurant in town! The pizza was authentic and delicious.', NOW()),
