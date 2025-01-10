@@ -23,7 +23,6 @@ $orders = $orderController->getUserOrders($_SESSION['user_id']);
 // Get unread notifications count
 $unreadCount = $notificationController->getUnreadCount($_SESSION['user_id']);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +34,6 @@ $unreadCount = $notificationController->getUnreadCount($_SESSION['user_id']);
 </head>
 <body>
     <?php include __DIR__ . '/../../app/views/includes/header.php'; ?>
-
     <main class="orders-page">
         <div class="container">
             <h1 class="page-title"><?php echo $pageTitle; ?></h1>
@@ -59,7 +57,12 @@ $unreadCount = $notificationController->getUnreadCount($_SESSION['user_id']);
                         <div class="order-card">
                             <div class="order-header">
                                 <h3>Order #<?php echo $order['order_id']; ?></h3>
-                                <span class="order-status status-<?php echo strtolower($order['status']); ?>"><?php echo ucfirst($order['status']); ?></span>
+                                <div class="order-status-group">
+                                    <span class="order-status status-<?php echo strtolower($order['status']); ?>"><?php echo ucfirst($order['status']); ?></span>
+                                    <?php if ($order['payment_status']): ?>
+                                        <span class="payment-status status-<?php echo strtolower($order['payment_status']); ?>"><?php echo ucfirst($order['payment_status']); ?></span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                             <div class="order-content">
                                 <div class="order-details">
@@ -76,6 +79,11 @@ $unreadCount = $notificationController->getUnreadCount($_SESSION['user_id']);
                                             <span class="info-label">Total Amount</span>
                                             <span class="info-value">$<?php echo number_format($order['total_amount'], 2); ?></span>
                                         </div>
+                                        <?php if ($order['status'] === 'confirmed' && (!$order['payment_status'] || $order['payment_status'] === 'unpaid')): ?>
+                                            <div class="payment-action">
+                                                <a href="<?php echo BASE_URL; ?>public/orders/pay.php?order_id=<?php echo $order['order_id']; ?>" class="btn btn-primary">Pay Now</a>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="order-items">
                                         <h4>Order Items</h4>

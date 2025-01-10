@@ -291,75 +291,106 @@ $pageTitle = 'Our Menu';
         function addToCart(itemId, itemName, price) {
             if (cart.items[itemId]) {
                 cart.items[itemId].quantity++;
+                cart.items[itemId].total = cart.items[itemId].quantity * cart.items[itemId].unit_price;
             } else {
                 cart.items[itemId] = {
                     name: itemName,
-                    price: price,
-                    quantity: 1
+                    unit_price: price,
+                    price: price, // Keep this for display purposes
+                    quantity: 1,
+                    item_id: itemId,
+                    total: price
                 };
             }
-            cart.total += price;
             updateCartDisplay();
-        }
-
-        function removeFromCart(itemId) {
-            if (cart.items[itemId]) {
-                cart.total -= cart.items[itemId].price * cart.items[itemId].quantity;
-                delete cart.items[itemId];
-                updateCartDisplay();
-            }
         }
 
         function updateCartDisplay() {
             const cartItemsDiv = document.getElementById('cart-items');
             const cartTotalSpan = document.getElementById('cart-total');
-            
+            let total = 0;
+
             cartItemsDiv.innerHTML = '';
-            for (const [itemId, item] of Object.entries(cart.items)) {
-                cartItemsDiv.innerHTML += `
-                    <div class="cart-item">
-                        <span>${item.name} x ${item.quantity}</span>
-                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                        <button onclick="removeFromCart(${itemId})">Remove</button>
+            
+            Object.values(cart.items).forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <span class="cart-item-name">${item.name}</span>
+                    <div class="cart-item-controls">
+                        <button onclick="updateQuantity(${item.item_id}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.item_id}, 1)">+</button>
                     </div>
+                    <span class="cart-item-price">$${(item.unit_price * item.quantity).toFixed(2)}</span>
+                    <button class="remove-item" onclick="removeFromCart(${item.item_id})">×</button>
                 `;
+                cartItemsDiv.appendChild(itemDiv);
+                total += item.unit_price * item.quantity;
+            });
+
+            cartTotalSpan.textContent = total.toFixed(2);
+        }
+
+        function updateQuantity(itemId, change) {
+            const item = cart.items[itemId];
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(itemId);
+                } else {
+                    item.total = item.quantity * item.unit_price;
+                    updateCartDisplay();
+                }
             }
-            cartTotalSpan.textContent = cart.total.toFixed(2);
+        }
+
+        function removeFromCart(itemId) {
+            delete cart.items[itemId];
+            updateCartDisplay();
         }
 
         function placeOrder() {
-            if (Object.keys(cart.items).length === 0) {
+            if (!Object.keys(cart.items).length) {
                 alert('Your cart is empty!');
                 return;
             }
 
-            const orderData = {
-                items: cart.items,
-                special_instructions: document.getElementById('special-instructions').value
-            };
+            const orderData = new FormData();
+            orderData.append('action', 'create');
+            
+            // Format items for the server
+            const formattedItems = Object.values(cart.items).map(item => ({
+                item_id: parseInt(item.item_id),
+                quantity: item.quantity,
+                unit_price: item.unit_price
+            }));
+            
+            orderData.append('cart', JSON.stringify({
+                items: formattedItems,
+                total: Object.values(cart.items).reduce((total, item) => total + (item.unit_price * item.quantity), 0)
+            }));
+            orderData.append('special_instructions', document.getElementById('special-instructions').value);
+            orderData.append('order_type', 'take-away'); // Fixed the enum value to match database
 
-            fetch(BASE_URL + 'api/place_order.php', {
+            fetch(BASE_URL + 'public/orders/process.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(orderData)
+                body: orderData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Order placed successfully!');
                     cart.items = {};
-                    cart.total = 0;
                     updateCartDisplay();
-                    document.getElementById('special-instructions').value = '';
+                    alert('Order placed successfully!');
+                    window.location.href = BASE_URL + 'orders/';
                 } else {
                     alert('Error placing order: ' + data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error placing order. Please try again.');
+                alert('Error placing order: ' + error.message);
             });
         }
     </script>

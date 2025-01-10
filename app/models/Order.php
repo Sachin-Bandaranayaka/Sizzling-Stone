@@ -19,6 +19,14 @@ class Order {
 
     public function create() {
         try {
+            error_log("Starting order creation with data: " . print_r([
+                'user_id' => $this->user_id,
+                'total_amount' => $this->total_amount,
+                'special_instructions' => $this->special_instructions,
+                'order_type' => $this->order_type,
+                'items' => $this->items
+            ], true));
+
             // Start transaction
             $this->conn->beginTransaction();
 
@@ -28,6 +36,7 @@ class Order {
                     VALUES
                     (:user_id, :total_amount, :special_instructions, 'pending', :order_type, 'unpaid')";
 
+            error_log("Executing order query: " . $query);
             $stmt = $this->conn->prepare($query);
 
             // Bind values
@@ -36,11 +45,20 @@ class Order {
             $stmt->bindParam(":special_instructions", $this->special_instructions);
             $stmt->bindParam(":order_type", $this->order_type);
 
+            error_log("Bound parameters: " . print_r([
+                'user_id' => $this->user_id,
+                'total_amount' => $this->total_amount,
+                'special_instructions' => $this->special_instructions,
+                'order_type' => $this->order_type
+            ], true));
+
             if(!$stmt->execute()) {
+                error_log("Failed to execute order insert: " . print_r($stmt->errorInfo(), true));
                 throw new PDOException("Failed to create order");
             }
 
             $this->order_id = $this->conn->lastInsertId();
+            error_log("Created order with ID: " . $this->order_id);
             
             // Add order items within the same transaction
             $items_query = "INSERT INTO order_items 
@@ -48,25 +66,33 @@ class Order {
                           VALUES 
                           (:order_id, :item_id, :quantity, :unit_price)";
             
+            error_log("Preparing order items query: " . $items_query);
             $items_stmt = $this->conn->prepare($items_query);
             
             foreach ($this->items as $item) {
+                error_log("Processing item: " . print_r($item, true));
+                
                 $items_stmt->bindParam(':order_id', $this->order_id);
                 $items_stmt->bindParam(':item_id', $item['item_id']);
                 $items_stmt->bindParam(':quantity', $item['quantity']);
                 $items_stmt->bindParam(':unit_price', $item['unit_price']);
                 
                 if (!$items_stmt->execute()) {
+                    error_log("Failed to execute item insert: " . print_r($items_stmt->errorInfo(), true));
                     throw new PDOException("Failed to add order item");
                 }
             }
 
+            error_log("Successfully added all items to order");
+
             // Commit transaction
             $this->conn->commit();
+            error_log("Transaction committed successfully");
             return true;
         } catch(PDOException $e) {
             $this->conn->rollBack();
             error_log("Error creating order: " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
             throw $e; // Re-throw to be caught by the controller
         }
     }

@@ -61,7 +61,7 @@ class OrderController {
     }
 
     public function updateOrderStatus($orderId, $status) {
-        if (!in_array($status, ['pending', 'confirmed', 'cancelled', 'completed'])) {
+        if (!in_array($status, ['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'])) {
             return ['success' => false, 'message' => 'Invalid status'];
         }
 
@@ -69,9 +69,20 @@ class OrderController {
             // Create notification for user
             $order = $this->getOrderById($orderId);
             if ($order) {
+                $notificationTitle = "Order Status Updated";
+                $notificationMessage = "Your order (#" . $orderId . ") has been " . $status;
+                
+                // If order is confirmed, add payment information
+                if ($status === 'confirmed') {
+                    $notificationMessage .= ". Please proceed with the payment.";
+                    $paymentUrl = BASE_URL . "orders/pay.php?order_id=" . $orderId;
+                    $notificationMessage .= "\nClick here to pay: " . $paymentUrl;
+                }
+                
+                // Set notification properties
                 $this->notification->user_id = $order['user_id'];
-                $this->notification->title = "Order Status Updated";
-                $this->notification->message = "Your order (#" . $orderId . ") has been " . $status;
+                $this->notification->title = $notificationTitle;
+                $this->notification->message = $notificationMessage;
                 $this->notification->type = "order";
                 $this->notification->reference_id = $orderId;
                 $this->notification->create();

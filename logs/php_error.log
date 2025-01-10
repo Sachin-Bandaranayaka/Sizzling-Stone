@@ -747,3 +747,445 @@ Stack trace:
 [10-Jan-2025 12:17:24 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
 [10-Jan-2025 18:04:02 Asia/Kolkata] User found - ID: 7, Role: user
 [10-Jan-2025 18:04:02 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 18:08:01 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 18:08:01 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 18:08:01 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 18:08:01 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 18:08:01 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 18:08:13 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 18:08:13 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 18:08:13 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 18:14:35 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 18:14:35 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 18:14:35 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 18:14:36 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 18:14:36 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 18:14:36 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 18:14:36 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 18:14:36 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 18:14:36 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 18:14:41 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined method Notification::createNotification() in C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php:82
+Stack trace:
+#0 C:\xampp\htdocs\Sizzling-Stone\admin\process_order.php(32): OrderController->updateOrderStatus('1', 'confirmed')
+#1 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php on line 82
+[10-Jan-2025 18:16:29 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 18:16:29 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 18:22:27 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined method NotificationController::createNotification() in C:\xampp\htdocs\Sizzling-Stone\app\controllers\PaymentController.php:99
+Stack trace:
+#0 C:\xampp\htdocs\Sizzling-Stone\public\orders\process_payment.php(36): PaymentController->processPayment('1', Array)
+#1 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\app\controllers\PaymentController.php on line 99
+[10-Jan-2025 18:26:04 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:26:04 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:26:04 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(56): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:26:22 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:26:22 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:26:22 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(56): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:27:32 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:27:32 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:27:32 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(56): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:27:38 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:27:38 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:27:38 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(56): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:29:20 Asia/Kolkata] Raw POST data: Array
+(
+    [action] => create
+    [cart] => {"items":[{"item_id":16,"quantity":1,"unit_price":12.99},{"item_id":17,"quantity":1,"unit_price":10.99}],"total":23.98}
+    [special_instructions] => 
+    [order_type] => takeaway
+)
+
+[10-Jan-2025 18:29:20 Asia/Kolkata] Cart data before decode: {"items":[{"item_id":16,"quantity":1,"unit_price":12.99},{"item_id":17,"quantity":1,"unit_price":10.99}],"total":23.98}
+[10-Jan-2025 18:29:20 Asia/Kolkata] Decoded cart data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 17
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+        )
+
+    [total] => 23.98
+)
+
+[10-Jan-2025 18:29:20 Asia/Kolkata] Order data being sent to controller: Array
+(
+    [user_id] => 7
+    [total_amount] => 23.98
+    [special_instructions] => 
+    [order_type] => takeaway
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 17
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 18:29:20 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:29:20 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:29:20 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(73): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:29:20 Asia/Kolkata] Controller response: Array
+(
+    [success] => 
+    [message] => An error occurred while creating your order. Please try again.
+    [debug] => SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+)
+
+[10-Jan-2025 18:30:17 Asia/Kolkata] Raw POST data: Array
+(
+    [action] => create
+    [cart] => {"items":[{"item_id":3,"quantity":1,"unit_price":10.99},{"item_id":16,"quantity":1,"unit_price":12.99}],"total":23.98}
+    [special_instructions] => 
+    [order_type] => takeaway
+)
+
+[10-Jan-2025 18:30:17 Asia/Kolkata] Cart data before decode: {"items":[{"item_id":3,"quantity":1,"unit_price":10.99},{"item_id":16,"quantity":1,"unit_price":12.99}],"total":23.98}
+[10-Jan-2025 18:30:17 Asia/Kolkata] Decoded cart data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+        )
+
+    [total] => 23.98
+)
+
+[10-Jan-2025 18:30:17 Asia/Kolkata] Order data being sent to controller: Array
+(
+    [user_id] => 7
+    [total_amount] => 23.98
+    [special_instructions] => 
+    [order_type] => takeaway
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 18:30:17 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:30:17 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:30:17 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(73): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:30:17 Asia/Kolkata] Controller response: Array
+(
+    [success] => 
+    [message] => An error occurred while creating your order. Please try again.
+    [debug] => SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+)
+
+[10-Jan-2025 18:30:23 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 18:30:23 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 18:30:27 Asia/Kolkata] Raw POST data: Array
+(
+    [action] => create
+    [cart] => {"items":[{"item_id":3,"quantity":1,"unit_price":10.99},{"item_id":16,"quantity":1,"unit_price":12.99}],"total":23.98}
+    [special_instructions] => 
+    [order_type] => takeaway
+)
+
+[10-Jan-2025 18:30:27 Asia/Kolkata] Cart data before decode: {"items":[{"item_id":3,"quantity":1,"unit_price":10.99},{"item_id":16,"quantity":1,"unit_price":12.99}],"total":23.98}
+[10-Jan-2025 18:30:27 Asia/Kolkata] Decoded cart data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+        )
+
+    [total] => 23.98
+)
+
+[10-Jan-2025 18:30:27 Asia/Kolkata] Order data being sent to controller: Array
+(
+    [user_id] => 7
+    [total_amount] => 23.98
+    [special_instructions] => 
+    [order_type] => takeaway
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 18:30:27 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:30:27 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:30:27 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(73): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:30:27 Asia/Kolkata] Controller response: Array
+(
+    [success] => 
+    [message] => An error occurred while creating your order. Please try again.
+    [debug] => SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+)
+
+[10-Jan-2025 18:30:41 Asia/Kolkata] Raw POST data: Array
+(
+    [action] => create
+    [cart] => {"items":[{"item_id":3,"quantity":1,"unit_price":10.99},{"item_id":16,"quantity":1,"unit_price":12.99}],"total":23.98}
+    [special_instructions] => 
+    [order_type] => takeaway
+)
+
+[10-Jan-2025 18:30:41 Asia/Kolkata] Cart data before decode: {"items":[{"item_id":3,"quantity":1,"unit_price":10.99},{"item_id":16,"quantity":1,"unit_price":12.99}],"total":23.98}
+[10-Jan-2025 18:30:41 Asia/Kolkata] Decoded cart data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+        )
+
+    [total] => 23.98
+)
+
+[10-Jan-2025 18:30:41 Asia/Kolkata] Order data being sent to controller: Array
+(
+    [user_id] => 7
+    [total_amount] => 23.98
+    [special_instructions] => 
+    [order_type] => takeaway
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+            [1] => Array
+                (
+                    [item_id] => 16
+                    [quantity] => 1
+                    [unit_price] => 12.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 18:30:41 Asia/Kolkata] Error creating order: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:30:41 Asia/Kolkata] Error in OrderController::createOrder: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+[10-Jan-2025 18:30:41 Asia/Kolkata] Stack trace: #0 C:\xampp\htdocs\Sizzling-Stone\app\models\Order.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\Sizzling-Stone\app\controllers\OrderController.php(36): Order->create()
+#2 C:\xampp\htdocs\Sizzling-Stone\public\orders\process.php(73): OrderController->createOrder(Array)
+#3 {main}
+[10-Jan-2025 18:30:41 Asia/Kolkata] Controller response: Array
+(
+    [success] => 
+    [message] => An error occurred while creating your order. Please try again.
+    [debug] => SQLSTATE[01000]: Warning: 1265 Data truncated for column 'order_type' at row 1
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Raw POST data: Array
+(
+    [action] => create
+    [cart] => {"items":[{"item_id":3,"quantity":1,"unit_price":10.99}],"total":10.99}
+    [special_instructions] => 
+    [order_type] => take-away
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Cart data before decode: {"items":[{"item_id":3,"quantity":1,"unit_price":10.99}],"total":10.99}
+[10-Jan-2025 18:31:55 Asia/Kolkata] Decoded cart data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+        )
+
+    [total] => 10.99
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Order data being sent to controller: Array
+(
+    [user_id] => 7
+    [total_amount] => 10.99
+    [special_instructions] => 
+    [order_type] => take-away
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Starting order creation with data: Array
+(
+    [user_id] => 7
+    [total_amount] => 10.99
+    [special_instructions] => 
+    [order_type] => take-away
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 3
+                    [quantity] => 1
+                    [unit_price] => 10.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Executing order query: INSERT INTO orders
+                    (user_id, total_amount, special_instructions, status, order_type, payment_status)
+                    VALUES
+                    (:user_id, :total_amount, :special_instructions, 'pending', :order_type, 'unpaid')
+[10-Jan-2025 18:31:55 Asia/Kolkata] Bound parameters: Array
+(
+    [user_id] => 7
+    [total_amount] => 10.99
+    [special_instructions] => 
+    [order_type] => take-away
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Created order with ID: 9
+[10-Jan-2025 18:31:55 Asia/Kolkata] Preparing order items query: INSERT INTO order_items 
+                          (order_id, item_id, quantity, unit_price)
+                          VALUES 
+                          (:order_id, :item_id, :quantity, :unit_price)
+[10-Jan-2025 18:31:55 Asia/Kolkata] Processing item: Array
+(
+    [item_id] => 3
+    [quantity] => 1
+    [unit_price] => 10.99
+)
+
+[10-Jan-2025 18:31:55 Asia/Kolkata] Successfully added all items to order
+[10-Jan-2025 18:31:55 Asia/Kolkata] Transaction committed successfully
+[10-Jan-2025 18:31:55 Asia/Kolkata] Controller response: Array
+(
+    [success] => 1
+    [message] => Order created successfully
+    [order_id] => 9
+)
+
+[10-Jan-2025 18:32:06 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 18:32:06 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 18:32:06 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 18:32:06 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 18:32:06 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 18:32:19 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 18:32:19 Asia/Kolkata] Login successful. User ID: 7, Role: user

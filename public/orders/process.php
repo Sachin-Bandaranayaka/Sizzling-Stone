@@ -27,6 +27,9 @@ if (!isset($_SESSION['user_id'])) {
 $orderController = new OrderController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debug: Log the raw POST data
+    error_log("Raw POST data: " . print_r($_POST, true));
+
     $action = $_POST['action'] ?? '';
 
     switch ($action) {
@@ -37,7 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
+            // Debug: Log the cart data
+            error_log("Cart data before decode: " . $_POST['cart']);
+
             $cart = json_decode($_POST['cart'], true);
+
+            // Debug: Log any JSON decode errors
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("JSON decode error: " . json_last_error_msg());
+            }
+
+            error_log("Decoded cart data: " . print_r($cart, true));
+
             if (!$cart || empty($cart['items'])) {
                 $response = ['success' => false, 'message' => 'Invalid cart data: ' . json_last_error_msg()];
                 break;
@@ -52,10 +66,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'items' => $cart['items']
             ];
 
+            // Debug: Log the order data
+            error_log("Order data being sent to controller: " . print_r($orderData, true));
+
             try {
                 $response = $orderController->createOrder($orderData);
+                // Debug: Log the response
+                error_log("Controller response: " . print_r($response, true));
             } catch (Exception $e) {
                 error_log('Error creating order: ' . $e->getMessage());
+                error_log('Stack trace: ' . $e->getTraceAsString());
                 $response = ['success' => false, 'message' => 'Error creating order: ' . $e->getMessage()];
             }
             break;
@@ -71,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Get the order details to verify ownership
             $order = $orderController->getOrder($orderId);
-            
+
             // Check if order exists and belongs to the user
             if (!$order || $order['user_id'] != $_SESSION['user_id']) {
                 $response = ['success' => false, 'message' => 'Order not found or unauthorized'];
