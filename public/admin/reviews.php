@@ -21,7 +21,6 @@ $stats = $reviewController->getReviewStatistics();
 
 $pageTitle = $status === 'reported' ? 'Reported Reviews' : 'All Reviews';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,7 +123,7 @@ $pageTitle = $status === 'reported' ? 'Reported Reviews' : 'All Reviews';
                         ?>
                             <tr>
                                 <td><?php echo $review['review_id']; ?></td>
-                                <td><?php echo htmlspecialchars($review['username']); ?></td>
+                                <td><?php echo htmlspecialchars($review['username'] ?? 'Anonymous'); ?></td>
                                 <td>
                                     <div class="rating-display">
                                         <?php for($i = 1; $i <= 5; $i++): ?>
@@ -134,7 +133,7 @@ $pageTitle = $status === 'reported' ? 'Reported Reviews' : 'All Reviews';
                                         <?php endfor; ?>
                                     </div>
                                 </td>
-                                <td><?php echo htmlspecialchars($review['comment']); ?></td>
+                                <td><?php echo htmlspecialchars($review['review_text'] ?? ''); ?></td>
                                 <td><?php echo date('M d, Y', strtotime($review['created_at'])); ?></td>
                                 <td>
                                     <?php if($review['is_reported']): ?>

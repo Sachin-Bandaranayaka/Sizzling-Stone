@@ -6,143 +6,75 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Set JSON response header
 header('Content-Type: application/json');
 
-// Initialize response array
-$response = ['success' => false, 'message' => 'Invalid request'];
-
-// Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Please login to perform this action']);
-    exit();
+    echo json_encode(['success' => false, 'message' => 'Please log in to submit a review']);
+    exit;
 }
 
 $reviewController = new ReviewController();
+$action = $_POST['action'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Handle different actions
-    $action = $_POST['action'] ?? '';
-
+try {
     switch ($action) {
         case 'create':
-            // Validate required fields
-            if (!isset($_POST['rating']) || !isset($_POST['comment'])) {
-                $response = ['success' => false, 'message' => 'Missing required fields'];
-                break;
-            }
-
-            // Create review data array
-            $reviewData = [
-                'user_id' => $_SESSION['user_id'],
-                'rating' => (int)$_POST['rating'],
-                'comment' => $_POST['comment']
-            ];
-
-            // Validate rating
-            if ($reviewData['rating'] < 1 || $reviewData['rating'] > 5) {
-                $response = ['success' => false, 'message' => 'Invalid rating value'];
-                break;
-            }
-
-            $response = $reviewController->createReview($reviewData);
+            $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT);
+            $reviewText = isset($_POST['review_text']) ? htmlspecialchars(trim($_POST['review_text']), ENT_QUOTES, 'UTF-8') : '';
             
-            if ($response['success']) {
-                $_SESSION['success_message'] = 'Thank you for your review!';
-                header('Location: ' . BASE_URL);
-                exit();
+            if (!$rating || $rating < 1 || $rating > 5) {
+                echo json_encode(['success' => false, 'message' => 'Invalid rating']);
+                exit;
             }
-            break;
-
-        case 'update_status':
-            // Check if user is admin
-            if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-                $response = ['success' => false, 'message' => 'Unauthorized access'];
-                break;
+            
+            if (empty($reviewText)) {
+                echo json_encode(['success' => false, 'message' => 'Review text is required']);
+                exit;
             }
-
-            if (!isset($_POST['review_id']) || !isset($_POST['status'])) {
-                $response = ['success' => false, 'message' => 'Missing required parameters'];
-                break;
-            }
-
-            $reviewId = (int)$_POST['review_id'];
-            $status = $_POST['status'];
-
-            if ($status === 'approve') {
-                $response = $reviewController->approveReview($reviewId);
-            } elseif ($status === 'report') {
-                $response = $reviewController->reportReview($reviewId);
+            
+            if ($reviewController->createReview($_SESSION['user_id'], $rating, $reviewText)) {
+                echo json_encode(['success' => true, 'message' => 'Your review has been submitted and is pending approval']);
             } else {
-                $response = ['success' => false, 'message' => 'Invalid status'];
+                echo json_encode(['success' => false, 'message' => 'Failed to submit review']);
             }
             break;
-
-        case 'edit':
-            if (!isset($_POST['review_id']) || !isset($_POST['rating']) || !isset($_POST['comment'])) {
-                $response = ['success' => false, 'message' => 'Missing required fields'];
-                break;
-            }
-
-            $reviewId = (int)$_POST['review_id'];
-            $rating = (int)$_POST['rating'];
-            $comment = $_POST['comment'];
-
-            // Validate rating
-            if ($rating < 1 || $rating > 5) {
-                $response = ['success' => false, 'message' => 'Invalid rating value'];
-                break;
-            }
-
-            // Check if user owns the review
-            $review = $reviewController->getReviewById($reviewId);
-            if (!$review || $review['user_id'] !== $_SESSION['user_id']) {
-                $response = ['success' => false, 'message' => 'Unauthorized access'];
-                break;
-            }
-
-            $response = $reviewController->updateReview($reviewId, $rating, $comment);
-            break;
-
-        case 'delete':
-            if (!isset($_POST['review_id'])) {
-                $response = ['success' => false, 'message' => 'Missing review ID'];
-                break;
-            }
-
-            $reviewId = (int)$_POST['review_id'];
             
-            // Check if user owns the review or is admin
-            $review = $reviewController->getReviewById($reviewId);
-            if (!$review || ($review['user_id'] !== $_SESSION['user_id'] && (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin'))) {
-                $response = ['success' => false, 'message' => 'Unauthorized access'];
-                break;
+        case 'update':
+            $reviewId = filter_input(INPUT_POST, 'review_id', FILTER_VALIDATE_INT);
+            $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT);
+            $reviewText = isset($_POST['review_text']) ? htmlspecialchars(trim($_POST['review_text']), ENT_QUOTES, 'UTF-8') : '';
+            
+            if (!$reviewId || !$rating || empty($reviewText)) {
+                echo json_encode(['success' => false, 'message' => 'Invalid input']);
+                exit;
             }
-
-            $response = $reviewController->deleteReview($reviewId);
-            break;
-
-        case 'report':
-            if (!isset($_POST['review_id'])) {
-                $response = ['success' => false, 'message' => 'Missing review ID'];
-                break;
+            
+            if ($reviewController->updateReview($reviewId, $rating, $reviewText)) {
+                echo json_encode(['success' => true, 'message' => 'Review updated successfully']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to update review']);
             }
-
-            $reviewId = (int)$_POST['review_id'];
-            $response = $reviewController->reportReview($reviewId);
             break;
-
+            
+        case 'delete':
+            $reviewId = filter_input(INPUT_POST, 'review_id', FILTER_VALIDATE_INT);
+            
+            if (!$reviewId) {
+                echo json_encode(['success' => false, 'message' => 'Invalid review ID']);
+                exit;
+            }
+            
+            if ($reviewController->deleteReview($reviewId)) {
+                echo json_encode(['success' => true, 'message' => 'Review deleted successfully']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to delete review']);
+            }
+            break;
+            
         default:
-            $response = ['success' => false, 'message' => 'Invalid action'];
-            break;
+            echo json_encode(['success' => false, 'message' => 'Invalid action']);
     }
-
-    // Return JSON response
-    echo json_encode($response);
-    exit();
+} catch (Exception $e) {
+    error_log("Error in process_review.php: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'An error occurred while processing your request']);
 }
-
-// If we reach here, there was an error
-$_SESSION['error_message'] = $response['message'];
-header('Location: ' . BASE_URL . 'public/reviews/create.php');
-exit();

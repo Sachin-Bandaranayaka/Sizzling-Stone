@@ -36,7 +36,7 @@ if (!defined('SITE_NAME')) {
 }
 
 // Database Configuration
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'localhost');  // Using default port
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'sizzling_stone');

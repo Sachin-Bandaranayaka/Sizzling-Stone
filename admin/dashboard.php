@@ -260,13 +260,14 @@ $stats = $dashboardController->getDashboardStats();
                         <tbody>
                             <?php foreach ($stats['recent_reviews'] as $review): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($review['username']); ?></td>
+                                <td><?php echo htmlspecialchars($review['username'] ?? 'Anonymous'); ?></td>
+                                <td><?php echo $review['rating']; ?></td>
                                 <td>
-                                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                                        <i class="fas fa-star<?php echo $i <= $review['rating'] ? ' text-warning' : ' text-muted'; ?>"></i>
-                                    <?php endfor; ?>
+                                    <?php 
+                                        $reviewText = $review['review_text'] ?? '';
+                                        echo strlen($reviewText) > 100 ? htmlspecialchars(substr($reviewText, 0, 100)) . '...' : htmlspecialchars($reviewText); 
+                                    ?>
                                 </td>
-                                <td><?php echo htmlspecialchars(substr($review['comment'], 0, 100)) . (strlen($review['comment']) > 100 ? '...' : ''); ?></td>
                                 <td><?php echo date('M d, Y', strtotime($review['created_at'])); ?></td>
                             </tr>
                             <?php endforeach; ?>

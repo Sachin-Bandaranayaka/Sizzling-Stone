@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', async function() {
             const reviewId = this.dataset.reviewId;
             const currentRating = this.dataset.rating;
-            const currentComment = this.dataset.comment;
+            const currentReviewText = this.dataset.reviewText;
             
             const { value: formValues } = await Swal.fire({
                 title: 'Edit Review',
@@ -60,16 +60,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             `).join('')}
                         </div>
                     </div>
-                    <textarea id="edit_comment" class="swal2-textarea" placeholder="Your review">${currentComment}</textarea>`,
+                    <textarea id="edit_review_text" class="swal2-textarea" placeholder="Your review">${currentReviewText}</textarea>`,
                 focusConfirm: false,
                 preConfirm: () => {
                     const rating = document.querySelector('input[name="rating"]:checked')?.value;
-                    const comment = document.getElementById('edit_comment').value;
-                    if (!rating || !comment.trim()) {
+                    const reviewText = document.getElementById('edit_review_text').value;
+                    if (!rating || !reviewText.trim()) {
                         Swal.showValidationMessage('Please fill in all fields');
                         return false;
                     }
-                    return { rating, comment }
+                    return { rating, reviewText }
                 }
             });
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: `action=edit&review_id=${reviewId}&rating=${formValues.rating}&comment=${encodeURIComponent(formValues.comment)}`
+                        body: `action=edit&review_id=${reviewId}&rating=${formValues.rating}&review_text=${encodeURIComponent(formValues.reviewText)}`
                     });
                     
                     const result = await response.json();
@@ -123,8 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Yes, delete it!'
             });
 
@@ -138,30 +138,30 @@ document.addEventListener('DOMContentLoaded', function() {
                         body: `action=delete&review_id=${reviewId}`
                     });
                     
-                    const result = await response.json();
+                    const data = await response.json();
                     
-                    if (result.success) {
-                        Swal.fire({
-                            title: 'Deleted!',
-                            text: result.message || 'Your review has been deleted.',
-                            icon: 'success'
-                        }).then(() => {
+                    if (data.success) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your review has been deleted.',
+                            'success'
+                        ).then(() => {
                             location.reload();
                         });
                     } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: result.message || 'An error occurred while deleting your review.',
-                            icon: 'error'
-                        });
+                        Swal.fire(
+                            'Error!',
+                            data.message || 'Failed to delete review.',
+                            'error'
+                        );
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'An error occurred while deleting your review.',
-                        icon: 'error'
-                    });
+                    Swal.fire(
+                        'Error!',
+                        'An error occurred while deleting the review.',
+                        'error'
+                    );
                 }
             }
         });

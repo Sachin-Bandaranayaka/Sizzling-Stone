@@ -621,3 +621,129 @@ Stack trace:
 [10-Jan-2025 09:52:17 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
 [10-Jan-2025 09:52:17 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
 [10-Jan-2025 09:52:17 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:53:48 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 09:53:48 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 09:56:03 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Class "Database" not found in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReviewController.php:10
+Stack trace:
+#0 C:\xampp\htdocs\Sizzling-Stone\public\reviews.php(9): ReviewController->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReviewController.php on line 10
+[10-Jan-2025 09:58:36 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 09:58:36 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 09:58:36 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 09:58:36 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 09:58:36 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:36 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 09:58:41 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type bool in C:\xampp\htdocs\Sizzling-Stone\admin\process_review.php on line 22
+[10-Jan-2025 09:58:41 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type bool in C:\xampp\htdocs\Sizzling-Stone\admin\process_review.php on line 25
+[10-Jan-2025 09:58:54 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type bool in C:\xampp\htdocs\Sizzling-Stone\admin\process_review.php on line 22
+[10-Jan-2025 09:58:54 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type bool in C:\xampp\htdocs\Sizzling-Stone\admin\process_review.php on line 25
+[10-Jan-2025 09:59:05 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 09:59:05 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 09:59:17 Asia/Kolkata] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\Sizzling-Stone\public\reviews\process.php on line 23
+[10-Jan-2025 10:01:59 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 10:01:59 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 10:01:59 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 10:01:59 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 10:01:59 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:01:59 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 10:02:05 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 10:02:05 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Warning:  Undefined array key "comment" in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:02:05 Asia/Kolkata] PHP Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\dashboard.php on line 269
+[10-Jan-2025 10:03:29 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 10:03:29 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 10:03:29 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 10:03:36 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 10:03:36 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 10:03:36 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 10:04:02 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 10:04:02 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 12:09:42 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:09:42 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:09:42 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 17:39:42 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php:40
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 40
+[10-Jan-2025 12:09:56 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:09:56 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:09:56 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 12:13:09 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:13:09 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:13:09 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 12:14:07 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:14:07 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:14:07 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Undefined variable $config in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 47
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Trying to access array offset on null in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 47
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Undefined variable $config in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 47
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Trying to access array offset on null in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 47
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Undefined variable $config in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 48
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Trying to access array offset on null in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 48
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Undefined variable $config in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 48
+[10-Jan-2025 17:44:07 Asia/Kolkata] PHP Warning:  Trying to access array offset on null in C:\xampp\htdocs\Sizzling-Stone\database\init_database.php on line 48
+[10-Jan-2025 12:15:09 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:15:09 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:15:09 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 12:16:46 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:16:46 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:16:46 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 12:17:24 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 23
+[10-Jan-2025 12:17:24 UTC] PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 24
+[10-Jan-2025 12:17:24 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\Sizzling-Stone\config\config.php on line 25
+[10-Jan-2025 18:04:02 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 18:04:02 Asia/Kolkata] Login successful. User ID: 7, Role: user

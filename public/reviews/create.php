@@ -172,8 +172,8 @@ $pageTitle = 'Write a Review';
                     </div>
 
                     <div class="form-group">
-                        <label for="comment">Your Review</label>
-                        <textarea id="comment" name="comment" class="form-control" required
+                        <label for="review_text">Your Review</label>
+                        <textarea id="review_text" name="review_text" class="form-control" required
                                   placeholder="Tell us about your dining experience..."></textarea>
                     </div>
 
