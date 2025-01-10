@@ -6,109 +6,139 @@ class Review {
     public $review_id;
     public $user_id;
     public $rating;
-    public $comment;
-    public $is_reported;
+    public $review_text;
+    public $is_approved;
     public $created_at;
+    public $updated_at;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
     public function getAll() {
-        $query = "SELECT r.review_id, r.user_id, r.rating, r.comment, r.created_at, r.is_reported,
-                        u.username as customer_name 
-                FROM " . $this->table_name . " r
-                LEFT JOIN users u ON r.user_id = u.user_id
-                ORDER BY r.created_at DESC";
+        $query = "SELECT r.*, u.username 
+                 FROM " . $this->table_name . " r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC";
 
         try {
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            return $stmt; 
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Debug
+            if (empty($result)) {
+                error_log("No reviews found in database");
+                $checkQuery = "SELECT COUNT(*) as count FROM " . $this->table_name;
+                $checkStmt = $this->conn->query($checkQuery);
+                $count = $checkStmt->fetch(PDO::FETCH_ASSOC)['count'];
+                error_log("Total reviews in database: " . $count);
+            }
+            
+            return $result;
         } catch (PDOException $e) {
             error_log("Error in Review::getAll(): " . $e->getMessage());
-            return false;
+            return [];
         }
     }
 
     public function create() {
         $query = "INSERT INTO " . $this->table_name . "
-                (user_id, rating, comment)
+                (user_id, rating, review_text, is_approved)
                 VALUES
-                (:user_id, :rating, :comment)";
+                (:user_id, :rating, :review_text, :is_approved)";
 
         try {
             $stmt = $this->conn->prepare($query);
 
             // Sanitize input
-            $this->comment = htmlspecialchars(strip_tags($this->comment));
+            $this->review_text = htmlspecialchars(strip_tags($this->review_text));
+
+            // Set default values
+            $this->is_approved = $this->is_approved ?? false;
 
             // Bind parameters
             $stmt->bindParam(":user_id", $this->user_id);
             $stmt->bindParam(":rating", $this->rating);
-            $stmt->bindParam(":comment", $this->comment);
+            $stmt->bindParam(":review_text", $this->review_text);
+            $stmt->bindParam(":is_approved", $this->is_approved, PDO::PARAM_BOOL);
 
             return $stmt->execute();
-            
         } catch (PDOException $e) {
             error_log("Error in Review::create(): " . $e->getMessage());
             return false;
         }
     }
 
-    public function update($id, $rating, $comment) {
+    public function update($reviewId, $rating, $review_text) {
         $query = "UPDATE " . $this->table_name . "
                 SET rating = :rating,
-                    comment = :comment
-                WHERE review_id = :id";
+                    review_text = :review_text,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE review_id = :review_id";
 
         try {
             $stmt = $this->conn->prepare($query);
 
             // Sanitize input
-            $comment = htmlspecialchars(strip_tags($comment));
+            $review_text = htmlspecialchars(strip_tags($review_text));
 
             // Bind parameters
+            $stmt->bindParam(":review_id", $reviewId);
             $stmt->bindParam(":rating", $rating);
-            $stmt->bindParam(":comment", $comment);
-            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":review_text", $review_text);
 
             return $stmt->execute();
-            
         } catch (PDOException $e) {
             error_log("Error in Review::update(): " . $e->getMessage());
             return false;
         }
     }
 
-    public function delete($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE review_id = :id";
+    public function delete($reviewId) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE review_id = :review_id";
 
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":review_id", $reviewId);
             return $stmt->execute();
-            
         } catch (PDOException $e) {
             error_log("Error in Review::delete(): " . $e->getMessage());
             return false;
         }
     }
 
+    public function toggleApproval($reviewId) {
+        $query = "UPDATE " . $this->table_name . "
+                SET is_approved = NOT is_approved,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE review_id = :review_id";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":review_id", $reviewId);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error in Review::toggleApproval(): " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function getByUserId($userId) {
-        $query = "SELECT * FROM " . $this->table_name . "
-                WHERE user_id = :user_id
-                ORDER BY created_at DESC";
+        $query = "SELECT r.*, u.username 
+                 FROM " . $this->table_name . " r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 WHERE r.user_id = :user_id
+                 ORDER BY r.created_at DESC";
 
         try {
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":user_id", $userId);
             $stmt->execute();
-            return $stmt;
-            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error in Review::getByUserId(): " . $e->getMessage());
-            return false;
+            return [];
         }
     }
 

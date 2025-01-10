@@ -15,14 +15,11 @@ class ReviewController {
         return $this->review->getAll();
     }
 
-    public function getReportedReviews() {
-        return $this->review->getReportedReviews();
-    }
-
     public function createReview($data) {
         $this->review->user_id = $data['user_id'];
         $this->review->rating = $data['rating'];
-        $this->review->comment = $data['comment'];
+        $this->review->review_text = $data['review_text'];
+        $this->review->is_approved = false;
 
         if($this->review->create()) {
             return ['success' => true, 'message' => 'Review created successfully'];
@@ -30,8 +27,8 @@ class ReviewController {
         return ['success' => false, 'message' => 'Unable to create review'];
     }
 
-    public function updateReview($reviewId, $rating, $comment) {
-        if($this->review->update($reviewId, $rating, $comment)) {
+    public function updateReview($reviewId, $rating, $review_text) {
+        if($this->review->update($reviewId, $rating, $review_text)) {
             return ['success' => true, 'message' => 'Review updated successfully'];
         }
         return ['success' => false, 'message' => 'Unable to update review'];
@@ -42,6 +39,13 @@ class ReviewController {
             return ['success' => true, 'message' => 'Review deleted successfully'];
         }
         return ['success' => false, 'message' => 'Unable to delete review'];
+    }
+
+    public function toggleApproval($reviewId) {
+        if($this->review->toggleApproval($reviewId)) {
+            return ['success' => true, 'message' => 'Review approval status updated successfully'];
+        }
+        return ['success' => false, 'message' => 'Unable to update review approval status'];
     }
 
     public function getUserReviews($userId) {
@@ -57,13 +61,6 @@ class ReviewController {
             return ['success' => true, 'message' => 'Review reported successfully'];
         }
         return ['success' => false, 'message' => 'Unable to report review'];
-    }
-
-    public function approveReview($reviewId) {
-        if($this->review->approveReview($reviewId)) {
-            return ['success' => true, 'message' => 'Review approved successfully'];
-        }
-        return ['success' => false, 'message' => 'Unable to approve review'];
     }
 
     public function getReviewById($reviewId) {

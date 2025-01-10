@@ -15,7 +15,6 @@ $reviews = $reviewController->getAllReviews();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Reviews - Admin Dashboard</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/style.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/admin.css">
     <style>
         .admin-container {
             padding: 2rem;
@@ -29,7 +28,7 @@ $reviews = $reviewController->getAllReviews();
 
         .admin-header h1 {
             color: #1f2937;
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
         }
 
@@ -37,10 +36,9 @@ $reviews = $reviewController->getAllReviews();
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
-            margin-top: 1rem;
         }
 
         .reviews-table th,
@@ -51,23 +49,22 @@ $reviews = $reviewController->getAllReviews();
         }
 
         .reviews-table th {
-            background: #f9fafb;
+            background: #f3f4f6;
             font-weight: 600;
-            color: #4b5563;
+            color: #374151;
         }
 
-        .reviews-table tr:hover {
-            background: #f9fafb;
+        .reviews-table tr:last-child td {
+            border-bottom: none;
         }
 
         .rating {
-            display: flex;
-            gap: 0.25rem;
             color: #fbbf24;
+            font-size: 1.25rem;
         }
 
         .review-content {
-            max-width: 300px;
+            max-width: 400px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -80,41 +77,50 @@ $reviews = $reviewController->getAllReviews();
 
         .action-btn {
             padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
             border: none;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-delete {
-            background: #dc2626;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background: #b91c1c;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
         }
 
         .btn-view {
-            background: #2563eb;
+            background: #3b82f6;
             color: white;
         }
 
         .btn-view:hover {
-            background: #1d4ed8;
+            background: #2563eb;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: #6b7280;
+        .btn-approve {
+            background: #10b981;
+            color: white;
         }
 
-        .review-modal {
+        .btn-approve:hover {
+            background: #059669;
+        }
+
+        .btn-unapprove {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-unapprove:hover {
+            background: #d97706;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -122,9 +128,8 @@ $reviews = $reviewController->getAllReviews();
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
             align-items: center;
-            z-index: 1000;
+            justify-content: center;
         }
 
         .modal-content {
@@ -133,8 +138,6 @@ $reviews = $reviewController->getAllReviews();
             border-radius: 8px;
             max-width: 600px;
             width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
         }
 
         .modal-header {
@@ -144,7 +147,7 @@ $reviews = $reviewController->getAllReviews();
             margin-bottom: 1rem;
         }
 
-        .close-modal {
+        .modal-close {
             background: none;
             border: none;
             font-size: 1.5rem;
@@ -152,24 +155,42 @@ $reviews = $reviewController->getAllReviews();
             color: #6b7280;
         }
 
-        .close-modal:hover {
-            color: #1f2937;
+        .modal-close:hover {
+            color: #374151;
         }
 
-        @media (max-width: 768px) {
-            .reviews-table {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .action-btn {
-                width: 100%;
-                text-align: center;
-            }
+        .review-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .review-details p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+            font-style: italic;
         }
     </style>
 </head>
@@ -204,40 +225,50 @@ $reviews = $reviewController->getAllReviews();
             <table class="reviews-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Customer</th>
+                        <th>User</th>
                         <th>Rating</th>
                         <th>Review</th>
                         <th>Date</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($reviews as $review): ?>
                         <tr>
-                            <td>#<?php echo htmlspecialchars($review['review_id']); ?></td>
-                            <td><?php echo htmlspecialchars($review['customer_name']); ?></td>
+                            <td>
+                                <?php echo htmlspecialchars($review['username'] ?? 'Unknown User'); ?>
+                            </td>
                             <td>
                                 <div class="rating">
                                     <?php for($i = 1; $i <= 5; $i++): ?>
-                                        <span class="star"><?php echo $i <= $review['rating'] ? '★' : '☆'; ?></span>
+                                        <span class="star"><?php echo $i <= ($review['rating'] ?? 0) ? '★' : '☆'; ?></span>
                                     <?php endfor; ?>
                                 </div>
                             </td>
                             <td class="review-content">
-                                <?php echo htmlspecialchars($review['review_text']); ?>
+                                <?php echo htmlspecialchars($review['review_text'] ?? 'No review text'); ?>
                             </td>
-                            <td><?php echo date('M d, Y', strtotime($review['created_at'])); ?></td>
+                            <td><?php echo isset($review['created_at']) ? date('M d, Y', strtotime($review['created_at'])) : 'Unknown date'; ?></td>
+                            <td>
+                                <?php echo isset($review['is_approved']) && $review['is_approved'] ? 'Approved' : 'Pending'; ?>
+                            </td>
                             <td class="action-buttons">
                                 <button class="action-btn btn-view" onclick="viewReview(<?php echo htmlspecialchars(json_encode($review)); ?>)">
                                     View
                                 </button>
                                 <form action="process_review.php" method="POST" style="display: inline;">
-                                    <input type="hidden" name="review_id" value="<?php echo $review['review_id']; ?>">
-                                    <input type="hidden" name="action" value="delete">
-                                    <button type="submit" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this review?')">
-                                        Delete
+                                    <input type="hidden" name="action" value="<?php echo isset($review['is_approved']) && $review['is_approved'] ? 'unapprove' : 'approve'; ?>">
+                                    <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($review['review_id']); ?>">
+                                    <button type="submit" class="action-btn <?php echo isset($review['is_approved']) && $review['is_approved'] ? 'btn-unapprove' : 'btn-approve'; ?>">
+                                        <?php echo isset($review['is_approved']) && $review['is_approved'] ? 'Unapprove' : 'Approve'; ?>
                                     </button>
+                                </form>
+                                <form action="process_review.php" method="POST" style="display: inline;" 
+                                      onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($review['review_id']); ?>">
+                                    <button type="submit" class="action-btn btn-delete">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -245,20 +276,20 @@ $reviews = $reviewController->getAllReviews();
                 </tbody>
             </table>
         <?php else: ?>
-            <div class="empty-state">
-                <p>No reviews found.</p>
-            </div>
+            <p class="no-reviews">No reviews found.</p>
         <?php endif; ?>
     </main>
 
     <!-- Review Modal -->
-    <div id="reviewModal" class="review-modal">
+    <div id="reviewModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Review Details</h2>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div id="reviewDetails"></div>
+            <div id="reviewDetails" class="review-details">
+                <!-- Review details will be populated here -->
+            </div>
         </div>
     </div>
 
@@ -270,29 +301,21 @@ $reviews = $reviewController->getAllReviews();
             const detailsDiv = document.getElementById('reviewDetails');
             
             // Format the review details
-            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-            const date = new Date(review.created_at).toLocaleDateString('en-US', {
+            const rating = '★'.repeat(review.rating || 0) + '☆'.repeat(5 - (review.rating || 0));
+            const date = review.created_at ? new Date(review.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
-            });
-            
+            }) : 'Unknown date';
+
             detailsDiv.innerHTML = `
-                <div style="margin-bottom: 1rem;">
-                    <strong>Customer:</strong> ${review.customer_name}
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Rating:</strong> <span style="color: #fbbf24;">${stars}</span>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Date:</strong> ${date}
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Review:</strong>
-                    <p style="white-space: pre-wrap;">${review.review_text}</p>
-                </div>
+                <p><strong>User:</strong> ${review.username || 'Unknown User'}</p>
+                <p><strong>Rating:</strong> <span style="color: #fbbf24">${rating}</span></p>
+                <p><strong>Review:</strong> ${review.review_text || 'No review text'}</p>
+                <p><strong>Date:</strong> ${date}</p>
+                <p><strong>Status:</strong> ${review.is_approved ? 'Approved' : 'Pending'}</p>
             `;
-            
+
             modal.style.display = 'flex';
         }
 

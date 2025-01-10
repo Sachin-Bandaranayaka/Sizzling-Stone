@@ -48,3 +48,55 @@ SELECT 'admin', '$2y$10$YourHashedPasswordHere', 'admin@sizzlingstone.com', 'Adm
 WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE username = 'admin'
 );
+
+-- Create some sample users if they don't exist
+INSERT INTO users (username, password, email, name, role, is_active)
+SELECT 'john_doe', '$2y$10$YourHashedPasswordHere', 'john@example.com', 'John Doe', 'user', 1
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'john_doe');
+
+INSERT INTO users (username, password, email, name, role, is_active)
+SELECT 'jane_smith', '$2y$10$YourHashedPasswordHere', 'jane@example.com', 'Jane Smith', 'user', 1
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'jane_smith');
+
+-- Drop existing reviews table if exists
+DROP TABLE IF EXISTS reviews;
+
+-- Create reviews table
+CREATE TABLE IF NOT EXISTS reviews (
+    review_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    review_text TEXT NOT NULL,
+    is_approved BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Insert sample reviews
+INSERT INTO reviews (user_id, rating, review_text, is_approved, created_at)
+SELECT 
+    (SELECT user_id FROM users WHERE username = 'john_doe'),
+    5,
+    'Amazing experience! The food was absolutely delicious, especially the signature dishes. The service was impeccable, and the atmosphere was perfect for a special evening out.',
+    TRUE,
+    DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 2 DAY)
+WHERE NOT EXISTS (SELECT 1 FROM reviews WHERE review_id = 1);
+
+INSERT INTO reviews (user_id, rating, review_text, is_approved, created_at)
+SELECT 
+    (SELECT user_id FROM users WHERE username = 'jane_smith'),
+    4,
+    'Great food and excellent service! The appetizers were fantastic, and the main course was cooked to perfection. Will definitely come back again.',
+    TRUE,
+    DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)
+WHERE NOT EXISTS (SELECT 1 FROM reviews WHERE review_id = 2);
+
+INSERT INTO reviews (user_id, rating, review_text, is_approved, created_at)
+SELECT 
+    (SELECT user_id FROM users WHERE username = 'john_doe'),
+    3,
+    'Decent experience overall. The food was good but the service was a bit slow during peak hours. The ambiance makes up for it though.',
+    FALSE,
+    CURRENT_TIMESTAMP
+WHERE NOT EXISTS (SELECT 1 FROM reviews WHERE review_id = 3);
