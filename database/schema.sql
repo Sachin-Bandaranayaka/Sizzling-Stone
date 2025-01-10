@@ -27,3 +27,24 @@ INSERT INTO menu_categories (name, description) VALUES
 ('Desserts', 'Sweet treats to end your meal'),
 ('Beverages', 'Refreshing drinks and beverages'),
 ('Specials', 'Chef\'s special dishes');
+
+-- Create users table
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100),
+    phone VARCHAR(20),
+    role ENUM('user', 'admin') DEFAULT 'user',
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create default admin user if not exists
+INSERT INTO users (username, password, email, name, role, is_active)
+SELECT 'admin', '$2y$10$YourHashedPasswordHere', 'admin@sizzlingstone.com', 'Administrator', 'admin', 1
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE username = 'admin'
+);

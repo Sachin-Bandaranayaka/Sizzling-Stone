@@ -9,6 +9,8 @@ class User {
     public $email;
     public $phone;
     public $role;
+    public $name;
+    public $is_active;
     public $created_at;
 
     public function __construct($db) {
@@ -17,9 +19,9 @@ class User {
 
     public function create() {
         $query = "INSERT INTO " . $this->table_name . "
-                (username, password, email, phone, role, created_at)
+                (username, password, email, phone, role, name, is_active, created_at)
                 VALUES
-                (:username, :password, :email, :phone, :role, :created_at)";
+                (:username, :password, :email, :phone, :role, :name, :is_active, :created_at)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -29,6 +31,8 @@ class User {
         $this->phone = htmlspecialchars(strip_tags($this->phone));
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
         $this->role = htmlspecialchars(strip_tags($this->role));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->is_active = (int)$this->is_active;
         $this->created_at = date('Y-m-d H:i:s');
 
         $stmt->bindParam(":username", $this->username);
@@ -36,6 +40,8 @@ class User {
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":phone", $this->phone);
         $stmt->bindParam(":role", $this->role);
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":is_active", $this->is_active);
         $stmt->bindParam(":created_at", $this->created_at);
 
         if($stmt->execute()) {
@@ -74,12 +80,20 @@ class User {
     }
 
     public function getUserById($id) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE user_id = :id LIMIT 1";
+        $query = "SELECT user_id, username, email, phone, role, name, is_active, created_at 
+                 FROM " . $this->table_name . " 
+                 WHERE user_id = :id LIMIT 1";
+        
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $id);
-        $stmt->execute();
         
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching user: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function getById($userId) {
@@ -92,19 +106,36 @@ class User {
 
     public function update() {
         $query = "UPDATE " . $this->table_name . "
-                SET username = :username,
-                    email = :email,
-                    phone = :phone
+                SET name = :name,
+                    phone = :phone,
+                    role = :role,
+                    is_active = :is_active
                 WHERE user_id = :user_id";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":email", $this->email);
+        // Sanitize input
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->phone = htmlspecialchars(strip_tags($this->phone));
+        $this->role = htmlspecialchars(strip_tags($this->role));
+        $this->is_active = (int)$this->is_active;
+
+        // Bind parameters
+        $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":phone", $this->phone);
+        $stmt->bindParam(":role", $this->role);
+        $stmt->bindParam(":is_active", $this->is_active);
         $stmt->bindParam(":user_id", $this->user_id);
 
-        return $stmt->execute();
+        try {
+            if($stmt->execute()) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            error_log("Error updating user: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function getRecentOrders($userId, $limit = 5) {
@@ -149,10 +180,34 @@ class User {
     }
 
     public function getAllUsers() {
-        $query = "SELECT user_id, username, email, role, created_at FROM " . $this->table_name . " ORDER BY created_at DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            // First, get the list of available columns
+            $columnsQuery = "SHOW COLUMNS FROM " . $this->table_name;
+            $columnsStmt = $this->conn->query($columnsQuery);
+            $columns = $columnsStmt->fetchAll(PDO::FETCH_COLUMN);
+
+            // Build the SELECT query based on available columns
+            $selectColumns = ['user_id', 'username', 'email', 'role', 'created_at'];
+            
+            // Add optional columns if they exist
+            if (in_array('name', $columns)) {
+                $selectColumns[] = 'name';
+            }
+            if (in_array('is_active', $columns)) {
+                $selectColumns[] = 'is_active';
+            }
+            if (in_array('phone', $columns)) {
+                $selectColumns[] = 'phone';
+            }
+
+            $query = "SELECT " . implode(', ', $selectColumns) . " FROM " . $this->table_name . " ORDER BY created_at DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error in getAllUsers: " . $e->getMessage());
+            return [];
+        }
     }
 
     public function delete($userId) {
@@ -171,7 +226,7 @@ class User {
     }
 
     public function getRecentUsers($limit = 5) {
-        $query = "SELECT user_id, username, email, created_at 
+        $query = "SELECT user_id, username, email, name, is_active, created_at 
                  FROM " . $this->table_name . " 
                  ORDER BY created_at DESC 
                  LIMIT :limit";

@@ -16,24 +16,25 @@ class UserController {
     }
 
     public function getUserById($userId) {
-        return $this->user->getById($userId);
+        return $this->user->getUserById($userId);
     }
 
     public function updateUser($data) {
         $this->user->user_id = $data['user_id'];
-        $this->user->username = $data['username'];
-        $this->user->email = $data['email'];
+        $this->user->name = $data['name'];
         $this->user->phone = $data['phone'];
+        $this->user->role = $data['role'];
+        $this->user->is_active = $data['is_active'];
 
         if ($this->user->update()) {
             return [
                 'success' => true,
-                'message' => 'Profile updated successfully'
+                'message' => 'User updated successfully'
             ];
         }
         return [
             'success' => false,
-            'message' => 'Failed to update profile'
+            'message' => 'Failed to update user'
         ];
     }
 
