@@ -56,17 +56,10 @@ if (isset($_SESSION['user_id'])) {
                         <input type="password" id="password" name="password" class="form-control" required>
                     </div>
 
-                    <div class="form-group form-check">
-                        <input type="checkbox" id="remember" name="remember" class="form-check-input">
-                        <label for="remember" class="form-check-label">Remember me</label>
-                    </div>
-                    
                     <button type="submit" class="btn btn-primary">Sign In</button>
 
                     <div class="auth-links">
                         <div class="auth-links-row">
-                            <a href="<?php echo BASE_URL; ?>public/auth/forgot-password.php">Forgot Password?</a>
-                            <span class="auth-separator">•</span>
                             <a href="<?php echo BASE_URL; ?>public/auth/register.php">Create Account</a>
                         </div>
                     </div>

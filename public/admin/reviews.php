@@ -113,13 +113,12 @@ $pageTitle = $status === 'reported' ? 'Reported Reviews' : 'All Reviews';
                     </thead>
                     <tbody>
                         <?php 
-                        $hasReviews = false;
-                        while ($review = $reviews->fetch(PDO::FETCH_ASSOC)):
+                        $hasReviews = !empty($reviews);
+                        foreach ($reviews as $review):
                             // Skip if filtering by reported status
                             if ($status === 'reported' && !$review['is_reported']) {
                                 continue;
                             }
-                            $hasReviews = true;
                         ?>
                             <tr>
                                 <td><?php echo $review['review_id']; ?></td>
@@ -138,12 +137,14 @@ $pageTitle = $status === 'reported' ? 'Reported Reviews' : 'All Reviews';
                                 <td>
                                     <?php if($review['is_reported']): ?>
                                         <span class="badge badge-danger">Reported</span>
+                                    <?php elseif($review['is_approved']): ?>
+                                        <span class="badge badge-success">Approved</span>
                                     <?php else: ?>
-                                        <span class="badge badge-success">Active</span>
+                                        <span class="badge badge-warning">Pending</span>
                                     <?php endif; ?>
                                 </td>
                                 <td class="actions">
-                                    <?php if($review['is_reported']): ?>
+                                    <?php if(!$review['is_approved']): ?>
                                         <button class="btn btn-success btn-sm" 
                                                 onclick="updateReviewStatus(<?php echo $review['review_id']; ?>, 'approve')">
                                             Approve
@@ -155,7 +156,7 @@ $pageTitle = $status === 'reported' ? 'Reported Reviews' : 'All Reviews';
                                     </button>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
 
                         <?php if (!$hasReviews): ?>
                             <tr>

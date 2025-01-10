@@ -16,33 +16,66 @@ class Review {
     }
 
     public function getAll() {
-        $query = "SELECT r.*, u.username 
+        error_log("Fetching all reviews...");
+        
+        // Modified query to show all reviews, regardless of approval status
+        $query = "SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
                  FROM " . $this->table_name . " r
-                 LEFT JOIN users u ON r.user_id = u.user_id
+                 JOIN users u ON r.user_id = u.user_id
                  ORDER BY r.created_at DESC";
 
         try {
+            error_log("Executing query: " . $query);
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            // Debug
+            error_log("Found " . count($result) . " reviews");
+            
             if (empty($result)) {
                 error_log("No reviews found in database");
                 $checkQuery = "SELECT COUNT(*) as count FROM " . $this->table_name;
                 $checkStmt = $this->conn->query($checkQuery);
                 $count = $checkStmt->fetch(PDO::FETCH_ASSOC)['count'];
                 error_log("Total reviews in database: " . $count);
+                
+                // Check if the table exists
+                $tableCheckQuery = "SHOW TABLES LIKE '" . $this->table_name . "'";
+                $tableCheckStmt = $this->conn->query($tableCheckQuery);
+                $tableExists = $tableCheckStmt->rowCount() > 0;
+                error_log("Reviews table exists: " . ($tableExists ? 'Yes' : 'No'));
+                
+                if ($tableExists) {
+                    // Check table structure
+                    $describeQuery = "DESCRIBE " . $this->table_name;
+                    $describeStmt = $this->conn->query($describeQuery);
+                    $columns = $describeStmt->fetchAll(PDO::FETCH_ASSOC);
+                    error_log("Table structure: " . print_r($columns, true));
+                }
+            } else {
+                error_log("First review in result: " . print_r($result[0], true));
             }
             
             return $result;
         } catch (PDOException $e) {
             error_log("Error in Review::getAll(): " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
             return [];
         }
     }
 
     public function create() {
+        error_log("Starting review creation with data: " . print_r([
+            'user_id' => $this->user_id,
+            'rating' => $this->rating,
+            'review_text' => $this->review_text,
+            'is_approved' => $this->is_approved
+        ], true));
+
         $query = "INSERT INTO " . $this->table_name . "
                 (user_id, rating, review_text, is_approved)
                 VALUES
@@ -57,15 +90,32 @@ class Review {
             // Set default values
             $this->is_approved = $this->is_approved ?? false;
 
+            error_log("Executing query: " . $query);
+            error_log("With parameters: " . print_r([
+                'user_id' => $this->user_id,
+                'rating' => $this->rating,
+                'review_text' => $this->review_text,
+                'is_approved' => $this->is_approved
+            ], true));
+
             // Bind parameters
             $stmt->bindParam(":user_id", $this->user_id);
             $stmt->bindParam(":rating", $this->rating);
             $stmt->bindParam(":review_text", $this->review_text);
             $stmt->bindParam(":is_approved", $this->is_approved, PDO::PARAM_BOOL);
 
-            return $stmt->execute();
+            $result = $stmt->execute();
+            
+            if (!$result) {
+                error_log("Failed to execute review creation. Error info: " . print_r($stmt->errorInfo(), true));
+            } else {
+                error_log("Review created successfully with ID: " . $this->conn->lastInsertId());
+            }
+            
+            return $result;
         } catch (PDOException $e) {
             error_log("Error in Review::create(): " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
             return false;
         }
     }
@@ -211,16 +261,19 @@ class Review {
 
     public function getReviewById($reviewId) {
         $query = "SELECT r.*, u.username 
-                FROM " . $this->table_name . " r
-                LEFT JOIN users u ON r.user_id = u.user_id
-                WHERE r.review_id = :review_id
-                LIMIT 1";
+                 FROM " . $this->table_name . " r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 WHERE r.review_id = :review_id";
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":review_id", $reviewId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $stmt;
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":review_id", $reviewId);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error in Review::getReviewById(): " . $e->getMessage());
+            return null;
+        }
     }
 
     public function getTotalReviews() {

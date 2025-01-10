@@ -42,6 +42,9 @@
         .nav-links a:hover {
             color: #007bff;
         }
+        .nav-links a.active {
+            color: #007bff;
+        }
         .logout-link {
             color: #dc3545 !important;
         }
@@ -68,28 +71,28 @@
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                 <a href="<?php echo BASE_URL; ?>admin/dashboard.php" class="logo">Admin Dashboard</a>
                 <div class="nav-links">
-                    <a href="<?php echo BASE_URL; ?>admin/dashboard.php">Dashboard</a>
-                    <a href="<?php echo BASE_URL; ?>admin/orders.php">Orders</a>
-                    <a href="<?php echo BASE_URL; ?>admin/reservations.php">Reservations</a>
-                    <a href="<?php echo BASE_URL; ?>admin/menu.php">Menu</a>
-                    <a href="<?php echo BASE_URL; ?>admin/users.php">Users</a>
-                    <a href="<?php echo BASE_URL; ?>admin/reviews.php">Reviews</a>
+                    <a href="<?php echo BASE_URL; ?>admin/dashboard.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/dashboard.php') !== false ? 'active' : ''; ?>">Dashboard</a>
+                    <a href="<?php echo BASE_URL; ?>admin/orders.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/orders.php') !== false ? 'active' : ''; ?>">Orders</a>
+                    <a href="<?php echo BASE_URL; ?>admin/reservations.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reservations.php') !== false ? 'active' : ''; ?>">Reservations</a>
+                    <a href="<?php echo BASE_URL; ?>admin/menu.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/menu.php') !== false ? 'active' : ''; ?>">Menu</a>
+                    <a href="<?php echo BASE_URL; ?>admin/users.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/users.php') !== false ? 'active' : ''; ?>">Users</a>
+                    <a href="<?php echo BASE_URL; ?>admin/reviews.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reviews.php') !== false ? 'active' : ''; ?>">Reviews</a>
                     <a href="<?php echo BASE_URL; ?>public/auth/logout.php" class="logout-link">Logout</a>
                 </div>
             <?php else: ?>
                 <a href="<?php echo BASE_URL; ?>" class="logo">Sizzling Stone</a>
                 <div class="nav-links">
-                    <a href="<?php echo BASE_URL; ?>">Home</a>
-                    <a href="<?php echo BASE_URL; ?>public/menu.php">Menu</a>
-                    <a href="<?php echo BASE_URL; ?>public/reservation/create.php">Reservations</a>
+                    <a href="<?php echo BASE_URL; ?>" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/public/index.php') !== false || $_SERVER['REQUEST_URI'] === BASE_URL ? 'active' : ''; ?>">Home</a>
+                    <a href="<?php echo BASE_URL; ?>public/menu.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/menu.php') !== false ? 'active' : ''; ?>">Menu</a>
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="<?php echo BASE_URL; ?>public/orders">My Orders</a>
-                        <a href="<?php echo BASE_URL; ?>public/reviews/create.php">Write Review</a>
-                        <a href="<?php echo BASE_URL; ?>public/profile.php">Profile</a>
+                        <a href="<?php echo BASE_URL; ?>public/reservation/create.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/reservation/') !== false ? 'active' : ''; ?>">Reservations</a>
+                        <a href="<?php echo BASE_URL; ?>public/orders/index.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/orders/') !== false ? 'active' : ''; ?>">My Orders</a>
+                        <a href="<?php echo BASE_URL; ?>public/reviews/create.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/reviews/') !== false ? 'active' : ''; ?>">Write Review</a>
+                        <a href="<?php echo BASE_URL; ?>public/profile.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/profile.php') !== false ? 'active' : ''; ?>">Profile</a>
                         <a href="<?php echo BASE_URL; ?>public/auth/logout.php" class="logout-link">Logout</a>
                     <?php else: ?>
-                        <a href="<?php echo BASE_URL; ?>public/auth/login.php">Login</a>
-                        <a href="<?php echo BASE_URL; ?>public/auth/register.php">Register</a>
+                        <a href="<?php echo BASE_URL; ?>public/auth/login.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/auth/login.php') !== false ? 'active' : ''; ?>">Login</a>
+                        <a href="<?php echo BASE_URL; ?>public/auth/register.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/auth/register.php') !== false ? 'active' : ''; ?>">Register</a>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>

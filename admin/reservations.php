@@ -211,21 +211,21 @@ $reservations = $reservationController->getAllReservations();
                 <tbody>
                     <?php foreach ($reservations as $reservation): ?>
                         <tr>
-                            <td>#<?php echo htmlspecialchars($reservation['reservation_id']); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['customer_name']); ?></td>
-                            <td><?php echo date('M d, Y', strtotime($reservation['reservation_date'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($reservation['reservation_time'])); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['party_size']); ?></td>
+                            <td>#<?php echo htmlspecialchars($reservation['reservation_id'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($reservation['customer_name'] ?? 'Guest'); ?></td>
+                            <td><?php echo isset($reservation['reservation_date']) ? date('M d, Y', strtotime($reservation['reservation_date'])) : 'N/A'; ?></td>
+                            <td><?php echo isset($reservation['reservation_time']) ? date('h:i A', strtotime($reservation['reservation_time'])) : 'N/A'; ?></td>
+                            <td><?php echo htmlspecialchars($reservation['party_size'] ?? '0'); ?></td>
                             <td>
-                                <span class="status-badge status-<?php echo strtolower($reservation['status']); ?>">
-                                    <?php echo ucfirst($reservation['status']); ?>
+                                <span class="status-badge status-<?php echo strtolower($reservation['status'] ?? 'pending'); ?>">
+                                    <?php echo ucfirst($reservation['status'] ?? 'pending'); ?>
                                 </span>
                             </td>
-                            <td><?php echo htmlspecialchars($reservation['special_requests'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($reservation['special_requests'] ?? 'No special requests'); ?></td>
                             <td class="action-buttons">
-                                <?php if (strtolower($reservation['status']) === 'pending'): ?>
+                                <?php if (strtolower($reservation['status'] ?? 'pending') === 'pending'): ?>
                                     <form action="process_reservation.php" method="POST" style="display: inline;">
-                                        <input type="hidden" name="reservation_id" value="<?php echo $reservation['reservation_id']; ?>">
+                                        <input type="hidden" name="reservation_id" value="<?php echo $reservation['reservation_id'] ?? ''; ?>">
                                         <input type="hidden" name="action" value="confirm">
                                         <button type="submit" class="action-btn btn-confirm" onclick="return confirm('Are you sure you want to confirm this reservation?')">
                                             Confirm
@@ -233,9 +233,9 @@ $reservations = $reservationController->getAllReservations();
                                     </form>
                                 <?php endif; ?>
                                 
-                                <?php if (strtolower($reservation['status']) !== 'cancelled'): ?>
+                                <?php if (strtolower($reservation['status'] ?? 'pending') !== 'cancelled'): ?>
                                     <form action="process_reservation.php" method="POST" style="display: inline;">
-                                        <input type="hidden" name="reservation_id" value="<?php echo $reservation['reservation_id']; ?>">
+                                        <input type="hidden" name="reservation_id" value="<?php echo $reservation['reservation_id'] ?? ''; ?>">
                                         <input type="hidden" name="action" value="cancel">
                                         <button type="submit" class="action-btn btn-cancel" onclick="return confirm('Are you sure you want to cancel this reservation?')">
                                             Cancel

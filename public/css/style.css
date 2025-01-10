@@ -19,42 +19,60 @@ body {
 
 /* Header Styles */
 .header {
-    background-color: #fff;
+    background: #333;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
+    padding: 0.5rem 2rem;
 }
 
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    padding: 1rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 0;
 }
 
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
+    color: #fff;
     text-decoration: none;
+    margin-right: auto;
 }
 
 .nav-links {
     display: flex;
     gap: 2rem;
+    align-items: center;
 }
 
 .nav-links a {
-    color: #333;
+    color: #ccc;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
+    padding: 0.5rem 1rem;
 }
 
 .nav-links a:hover {
-    color: #007bff;
+    color: #fff;
+}
+
+.nav-links a.active {
+    color: #fff;
+}
+
+.nav-links a[href*="logout"] {
+    color: #ff4444;
+}
+
+.nav-links a[href*="logout"]:hover {
+    color: #ff6666;
 }
 
 /* Hero Section */

@@ -161,7 +161,7 @@ $pageTitle = 'Write a Review';
                     <p>Share your dining experience at Sizzling Stone</p>
                 </div>
 
-                <form id="reviewForm" action="<?php echo BASE_URL; ?>public/reviews/process.php" method="POST">
+                <form id="reviewForm" action="process.php" method="POST">
                     <input type="hidden" name="action" value="create">
                     
                     <div class="rating-container">
@@ -188,10 +188,36 @@ $pageTitle = 'Write a Review';
     <?php include __DIR__ . '/../../app/views/includes/footer.php'; ?>
 
     <script>
-        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
+
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('process.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                    window.location.href = '<?php echo BASE_URL; ?>public/reviews.php';
+                } else {
+                    alert(result.message || 'Failed to submit review. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Review';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while submitting your review. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
+            }
         });
     </script>
 </body>

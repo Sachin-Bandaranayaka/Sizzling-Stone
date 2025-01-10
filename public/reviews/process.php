@@ -71,6 +71,28 @@ try {
             }
             break;
             
+        case 'update_status':
+            // Check if user is admin
+            if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+                echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
+                exit;
+            }
+            
+            $reviewId = filter_input(INPUT_POST, 'review_id', FILTER_VALIDATE_INT);
+            $status = $_POST['status'] ?? '';
+            
+            if (!$reviewId || !in_array($status, ['approve'])) {
+                echo json_encode(['success' => false, 'message' => 'Invalid input']);
+                exit;
+            }
+            
+            if ($status === 'approve' && $reviewController->approveReview($reviewId)) {
+                echo json_encode(['success' => true, 'message' => 'Review approved successfully']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to update review status']);
+            }
+            break;
+            
         default:
             echo json_encode(['success' => false, 'message' => 'Invalid action']);
     }

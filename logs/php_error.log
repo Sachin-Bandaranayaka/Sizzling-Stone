@@ -1189,3 +1189,1548 @@ Stack trace:
 [10-Jan-2025 18:32:06 Asia/Kolkata] Admin access granted for user: admin
 [10-Jan-2025 18:32:19 Asia/Kolkata] User found - ID: 7, Role: user
 [10-Jan-2025 18:32:19 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 20:13:18 Asia/Kolkata] Reservation request received. Method: POST
+[10-Jan-2025 20:13:18 Asia/Kolkata] POST data: Array
+(
+    [date] => 2025-01-16
+    [time] => 11:30
+    [guests] => 1
+)
+
+[10-Jan-2025 20:13:18 Asia/Kolkata] Session data: Array
+(
+    [user_id] => 7
+    [username] => sachin1104
+    [role] => user
+)
+
+[10-Jan-2025 20:13:18 Asia/Kolkata] Processing reservation with data: Array
+(
+    [user_id] => 7
+    [reservation_time] => 2025-01-16 11:30
+    [guests] => 1
+)
+
+[10-Jan-2025 20:13:18 Asia/Kolkata] PHP Warning:  Undefined array key "reservation_date" in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReservationController.php on line 28
+[10-Jan-2025 20:13:18 Asia/Kolkata] PHP Deprecated:  Creation of dynamic property Reservation::$reservation_date is deprecated in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReservationController.php on line 28
+[10-Jan-2025 20:13:18 Asia/Kolkata] PHP Warning:  Undefined array key "party_size" in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReservationController.php on line 30
+[10-Jan-2025 20:13:18 Asia/Kolkata] PHP Deprecated:  Creation of dynamic property Reservation::$party_size is deprecated in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReservationController.php on line 30
+[10-Jan-2025 20:13:18 Asia/Kolkata] PHP Deprecated:  Creation of dynamic property Reservation::$special_requests is deprecated in C:\xampp\htdocs\Sizzling-Stone\app\controllers\ReservationController.php on line 31
+[10-Jan-2025 20:13:18 Asia/Kolkata] Reservation creation result: Array
+(
+    [success] => 1
+    [message] => Reservation created successfully
+)
+
+[10-Jan-2025 20:13:40 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:13:40 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:13:40 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:13:40 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:13:40 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:13:40 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:13:40 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:13:41 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\reservations.php on line 218
+[10-Jan-2025 20:13:58 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:13:58 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:13:58 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:17:05 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\Sizzling-Stone\admin\reservations.php on line 218
+[10-Jan-2025 20:18:14 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:18:14 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:18:14 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:19:15 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:19:15 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:19:15 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:19:25 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:19:25 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:19:25 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:19:40 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:19:40 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:19:40 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:23:25 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 20:23:25 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 20:25:21 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:25:21 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:25:21 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:25:21 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:25:21 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:25:27 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 20:25:27 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 20:29:29 Asia/Kolkata] Raw POST data: Array
+(
+    [action] => create
+    [cart] => {"items":[{"item_id":8,"quantity":1,"unit_price":18.99}],"total":18.99}
+    [special_instructions] => 
+    [order_type] => take-away
+)
+
+[10-Jan-2025 20:29:29 Asia/Kolkata] Cart data before decode: {"items":[{"item_id":8,"quantity":1,"unit_price":18.99}],"total":18.99}
+[10-Jan-2025 20:29:29 Asia/Kolkata] Decoded cart data: Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 8
+                    [quantity] => 1
+                    [unit_price] => 18.99
+                )
+
+        )
+
+    [total] => 18.99
+)
+
+[10-Jan-2025 20:29:29 Asia/Kolkata] Order data being sent to controller: Array
+(
+    [user_id] => 7
+    [total_amount] => 18.99
+    [special_instructions] => 
+    [order_type] => take-away
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 8
+                    [quantity] => 1
+                    [unit_price] => 18.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 20:29:29 Asia/Kolkata] Starting order creation with data: Array
+(
+    [user_id] => 7
+    [total_amount] => 18.99
+    [special_instructions] => 
+    [order_type] => take-away
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [item_id] => 8
+                    [quantity] => 1
+                    [unit_price] => 18.99
+                )
+
+        )
+
+)
+
+[10-Jan-2025 20:29:29 Asia/Kolkata] Executing order query: INSERT INTO orders
+                    (user_id, total_amount, special_instructions, status, order_type, payment_status)
+                    VALUES
+                    (:user_id, :total_amount, :special_instructions, 'pending', :order_type, 'unpaid')
+[10-Jan-2025 20:29:29 Asia/Kolkata] Bound parameters: Array
+(
+    [user_id] => 7
+    [total_amount] => 18.99
+    [special_instructions] => 
+    [order_type] => take-away
+)
+
+[10-Jan-2025 20:29:29 Asia/Kolkata] Created order with ID: 10
+[10-Jan-2025 20:29:29 Asia/Kolkata] Preparing order items query: INSERT INTO order_items 
+                          (order_id, item_id, quantity, unit_price)
+                          VALUES 
+                          (:order_id, :item_id, :quantity, :unit_price)
+[10-Jan-2025 20:29:29 Asia/Kolkata] Processing item: Array
+(
+    [item_id] => 8
+    [quantity] => 1
+    [unit_price] => 18.99
+)
+
+[10-Jan-2025 20:29:29 Asia/Kolkata] Successfully added all items to order
+[10-Jan-2025 20:29:29 Asia/Kolkata] Transaction committed successfully
+[10-Jan-2025 20:29:29 Asia/Kolkata] Controller response: Array
+(
+    [success] => 1
+    [message] => Order created successfully
+    [order_id] => 10
+)
+
+[10-Jan-2025 20:34:44 Asia/Kolkata] Starting review creation with data: Array
+(
+    [user_id] => 7
+    [rating] => 4
+    [review_text] => ghhkfkfkjfkfgkf
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:34:44 Asia/Kolkata] Executing query: INSERT INTO reviews
+                (user_id, rating, review_text, is_approved)
+                VALUES
+                (:user_id, :rating, :review_text, :is_approved)
+[10-Jan-2025 20:34:44 Asia/Kolkata] With parameters: Array
+(
+    [user_id] => 7
+    [rating] => 4
+    [review_text] => ghhkfkfkjfkfgkf
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:34:44 Asia/Kolkata] Review created successfully with ID: 10
+[10-Jan-2025 20:35:38 Asia/Kolkata] Starting review creation with data: Array
+(
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => khvhjiv
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:35:38 Asia/Kolkata] Executing query: INSERT INTO reviews
+                (user_id, rating, review_text, is_approved)
+                VALUES
+                (:user_id, :rating, :review_text, :is_approved)
+[10-Jan-2025 20:35:38 Asia/Kolkata] With parameters: Array
+(
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => khvhjiv
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:35:38 Asia/Kolkata] Review created successfully with ID: 11
+[10-Jan-2025 20:35:47 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:35:47 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:35:47 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:35:47 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:35:47 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:37:20 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type bool in C:\xampp\htdocs\Sizzling-Stone\admin\process_review.php on line 22
+[10-Jan-2025 20:37:20 Asia/Kolkata] PHP Warning:  Trying to access array offset on value of type bool in C:\xampp\htdocs\Sizzling-Stone\admin\process_review.php on line 25
+[10-Jan-2025 20:39:24 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 20:39:24 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 20:39:27 Asia/Kolkata] Starting review creation with data: Array
+(
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:39:27 Asia/Kolkata] Executing query: INSERT INTO reviews
+                (user_id, rating, review_text, is_approved)
+                VALUES
+                (:user_id, :rating, :review_text, :is_approved)
+[10-Jan-2025 20:39:27 Asia/Kolkata] With parameters: Array
+(
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:39:27 Asia/Kolkata] Review created successfully with ID: 12
+[10-Jan-2025 20:39:44 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:39:44 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:39:44 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:39:44 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:39:44 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:42:03 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:03 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:03 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:03 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:03 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:03 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:03 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:03 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:03 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:03 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:03 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:03 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:04 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:04 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:04 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:04 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:05 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:05 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:05 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:05 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:06 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:06 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:06 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:06 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:09 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:42:09 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:42:09 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:42:10 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:42:10 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:42:10 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:42:10 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:42:17 Asia/Kolkata] Login failed for username: admin
+[10-Jan-2025 20:42:37 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:42:37 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:42:37 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:42:37 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:42:37 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:43:30 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:43:30 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 LEFT JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:43:30 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:43:30 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:43:37 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:43:37 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:43:37 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:44:19 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:19 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:19 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:19 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:21 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:21 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:21 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:21 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:21 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:21 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:21 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:21 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:22 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:22 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:23 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:23 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:23 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:23 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:23 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:23 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:23 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:23 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:23 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:23 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:23 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:23 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:23 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:23 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:23 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:23 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:23 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:23 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:23 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:23 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:27 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:27 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:27 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:27 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:32 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:44:32 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:44:32 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:44:32 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:44:32 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:44:34 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:34 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:34 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:34 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:44:50 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:44:50 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:44:50 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:44:53 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:44:53 Asia/Kolkata] Executing query: SELECT r.*, u.username 
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:44:53 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:44:53 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+)
+
+[10-Jan-2025 20:48:05 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:05 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:05 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:05 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:06 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:06 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:06 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:06 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:06 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:06 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:06 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:06 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:06 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:06 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:06 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:06 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:09 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:09 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:09 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:09 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:12 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:12 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:12 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:12 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:15 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 20:48:15 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 20:48:15 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:15 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:15 Asia/Kolkata] Found 10 reviews
+[10-Jan-2025 20:48:15 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 12
+    [user_id] => 7
+    [rating] => 3
+    [review_text] => fgjcdgjgdcj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:39:27
+    [updated_at] => 2025-01-10 20:39:27
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:21 Asia/Kolkata] Starting review creation with data: Array
+(
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:48:21 Asia/Kolkata] Executing query: INSERT INTO reviews
+                (user_id, rating, review_text, is_approved)
+                VALUES
+                (:user_id, :rating, :review_text, :is_approved)
+[10-Jan-2025 20:48:21 Asia/Kolkata] With parameters: Array
+(
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 
+)
+
+[10-Jan-2025 20:48:21 Asia/Kolkata] Review created successfully with ID: 13
+[10-Jan-2025 20:48:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:22 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:22 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:48:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:22 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:22 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:48:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:24 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:24 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:24 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:48:24 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:28 Asia/Kolkata] User found - ID: 1, Role: admin
+[10-Jan-2025 20:48:28 Asia/Kolkata] Login successful. User ID: 1, Role: admin
+[10-Jan-2025 20:48:28 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:48:28 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:48:28 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:48:29 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:48:29 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:48:29 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:48:29 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:48:46 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:48:46 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:48:46 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:50:37 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:37 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:37 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:37 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:40 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:40 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:40 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:40 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:41 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:41 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:41 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:41 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:42 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:42 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:42 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:42 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:42 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:42 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:42 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:42 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:42 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:42 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:42 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:42 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:42 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:42 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:42 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:42 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:42 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:42 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:42 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:42 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:43 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:43 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:43 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:43 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:43 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:43 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:43 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:43 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:43 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:43 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:43 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:43 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:43 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:50:43 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:50:43 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:50:43 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:50:45 Asia/Kolkata] Admin Dashboard Access - User ID: 1
+[10-Jan-2025 20:50:45 Asia/Kolkata] Admin Dashboard Access - Role: admin
+[10-Jan-2025 20:50:45 Asia/Kolkata] Admin access granted for user: admin
+[10-Jan-2025 20:54:15 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:15 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:15 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:15 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 0
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:48:21
+    [username] => sachin1104
+    [status] => Pending
+)
+
+[10-Jan-2025 20:54:20 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:20 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:20 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:20 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:21 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:21 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:21 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:21 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:22 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:22 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:22 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:22 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:23 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:23 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:23 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:23 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:25 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:25 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:25 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:25 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:25 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:25 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:25 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:25 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:28 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:28 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:28 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:28 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:33 Asia/Kolkata] User found - ID: 7, Role: user
+[10-Jan-2025 20:54:33 Asia/Kolkata] Login successful. User ID: 7, Role: user
+[10-Jan-2025 20:54:33 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:33 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:33 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:33 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:37 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:37 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:37 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:37 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+
+[10-Jan-2025 20:54:37 Asia/Kolkata] Fetching all reviews...
+[10-Jan-2025 20:54:37 Asia/Kolkata] Executing query: SELECT r.*, u.username, 
+                        CASE 
+                            WHEN r.is_approved = 1 THEN 'Approved'
+                            ELSE 'Pending'
+                        END as status
+                 FROM reviews r
+                 JOIN users u ON r.user_id = u.user_id
+                 ORDER BY r.created_at DESC
+[10-Jan-2025 20:54:37 Asia/Kolkata] Found 11 reviews
+[10-Jan-2025 20:54:37 Asia/Kolkata] First review in result: Array
+(
+    [review_id] => 13
+    [user_id] => 7
+    [rating] => 5
+    [review_text] => dfgjdj
+    [is_approved] => 1
+    [created_at] => 2025-01-10 20:48:21
+    [updated_at] => 2025-01-10 20:54:20
+    [username] => sachin1104
+    [status] => Approved
+)
+

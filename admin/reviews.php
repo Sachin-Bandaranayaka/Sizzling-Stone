@@ -257,13 +257,23 @@ $reviews = $reviewController->getAllReviews();
                                 <button class="action-btn btn-view" onclick="viewReview(<?php echo htmlspecialchars(json_encode($review)); ?>)">
                                     View
                                 </button>
-                                <form action="process_review.php" method="POST" style="display: inline;">
-                                    <input type="hidden" name="action" value="<?php echo isset($review['is_approved']) && $review['is_approved'] ? 'unapprove' : 'approve'; ?>">
-                                    <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($review['review_id']); ?>">
-                                    <button type="submit" class="action-btn <?php echo isset($review['is_approved']) && $review['is_approved'] ? 'btn-unapprove' : 'btn-approve'; ?>">
-                                        <?php echo isset($review['is_approved']) && $review['is_approved'] ? 'Unapprove' : 'Approve'; ?>
-                                    </button>
-                                </form>
+                                <?php if (isset($review['is_approved']) && $review['is_approved']): ?>
+                                    <form action="process_review.php" method="POST" style="display: inline;">
+                                        <input type="hidden" name="action" value="unapprove">
+                                        <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($review['review_id']); ?>">
+                                        <button type="submit" class="action-btn btn-unapprove">
+                                            Unapprove
+                                        </button>
+                                    </form>
+                                <?php else: ?>
+                                    <form action="process_review.php" method="POST" style="display: inline;">
+                                        <input type="hidden" name="action" value="approve">
+                                        <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($review['review_id']); ?>">
+                                        <button type="submit" class="action-btn btn-approve">
+                                            Approve
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
                                 <form action="process_review.php" method="POST" style="display: inline;" 
                                       onsubmit="return confirm('Are you sure you want to delete this review?');">
                                     <input type="hidden" name="action" value="delete">

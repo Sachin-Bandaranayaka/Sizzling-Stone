@@ -18,8 +18,10 @@ class ReviewController {
     public function getAllReviews() {
         try {
             $reviews = $this->reviewModel->getAll();
-            // For public page, only return approved reviews
-            if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+            // Check for admin role instead of is_admin flag
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+                return $reviews;
+            } else {
                 $reviews = array_filter($reviews, function($review) {
                     return $review['is_approved'] == 1;
                 });
@@ -104,12 +106,35 @@ class ReviewController {
         }
     }
 
+    public function approveReview($reviewId) {
+        try {
+            return $this->reviewModel->update($reviewId, ['is_approved' => true]);
+        } catch (Exception $e) {
+            error_log("Error in ReviewController::approveReview: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function toggleApproval($reviewId) {
         try {
-            return $this->reviewModel->toggleApproval($reviewId);
+            if ($this->reviewModel->toggleApproval($reviewId)) {
+                $review = $this->reviewModel->getReviewById($reviewId);
+                $status = $review['is_approved'] ? 'approved' : 'unapproved';
+                return [
+                    'success' => true,
+                    'message' => "Review has been {$status} successfully"
+                ];
+            }
+            return [
+                'success' => false,
+                'message' => 'Failed to update review status'
+            ];
         } catch (Exception $e) {
             error_log("Error in ReviewController::toggleApproval: " . $e->getMessage());
-            return false;
+            return [
+                'success' => false,
+                'message' => 'An error occurred while updating the review status'
+            ];
         }
     }
 
